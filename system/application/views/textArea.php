@@ -1,0 +1,3 @@
+<textarea id="wpTextbox1" name="wpTextbox1" cols="80" rows="10" readonly="readonly" style="margin:15px;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula urna, consectetur eget convallis in, semper vel est. Praesent id dapibus eros. Pellentesque pretium dignissim felis a fringilla. Donec viverra euismod tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec sed arcu lectus. Proin sit amet mauris risus. In hac habitasse platea dictumst. In hac habitasse platea dictumst. Suspendisse potenti. Donec a erat augue. Aliquam fermentum orci a massa tincidunt feugiat. Etiam scelerisque odio at nunc dignissim at tempus enim sodales. Morbi sed arcu nisl, non elementum elit.
+</textarea>

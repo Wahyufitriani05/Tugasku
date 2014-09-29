@@ -1,0 +1,5 @@
+Tugas Akhir ini bertujuan untuk membuat aplikasi monitoring traffic dengan menggunakan pemantauan berupa laporan yang dikirimkan oleh para pengguna aplikasi ini. laporan tersebut kemudian akan di broadcast ke sesama pengguna aplikasi yang sama. sehingga, antara pengguna satu dengan yang lain dapat saling memberi informasi.
+
+aplikasi ini dilengkapi dengan gps untuk mendapatkan koordinat lokasi pelapor. dari data-data yang dilaporkan, akan di generasi lokasi-lokasi kemacetan yang sedang terjadi. selain itu, aplikasi ini dapat melakukan re-routing ke tujuan dengan mempertimbangkan data-data kemacetan yang ada.
+
+aplikasi ini akan diimplementasikan ke dalam android based device dengan menggunakan google maps 

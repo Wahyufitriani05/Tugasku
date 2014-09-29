@@ -1,0 +1,7 @@
+Membuat plugin pada LMS moodle untuk mendeteksi adanya kemiripan tugas yang diupload oleh peserta mata kuliah.
+Metode deteksi adalah menggunakan metode winnowing.
+Untuk info lebih lanjut silahkan hubungi bu Henning / Bu Diana.
+
+Regards,
+
+Henning T.C.

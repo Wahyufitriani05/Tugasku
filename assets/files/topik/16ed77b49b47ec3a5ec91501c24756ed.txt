@@ -1,0 +1,7 @@
+Tahapan TA sbb: 1. download dan pelajari Moodle 2.0; 2. integrasikan dg facebook, foursquare dan Google+
+
+Kasusnya: belajar memasak yg sehat (healthy cooking), dr Facebook pengguna bisa sharing recipe dan cara masak.
+
+Bisa juga pengguna sharing lokasi kuliner dari Foursquare. Gunakan juga kemampuan Google+.
+
+Ada banyak contoh di internet yg sudah mengembangkan, tetapi belum menggunakan Mood
