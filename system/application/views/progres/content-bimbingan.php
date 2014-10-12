@@ -61,6 +61,11 @@
         ?>
             </div>
         </div>
+        <div class='separator'></div>
+        <div class='detail'>
+            <div class='element'><h2>Progres Bimbingan</h2></div>
+            
+            <div class='element wide'>
         <?php
         echo "<div class='separator'></div>";
         $this->load->view("progres/subContent-progresBaru");
@@ -70,7 +75,11 @@
         echo "<span id='bimbingan'>";
             $this->load->view("progres/bimbingan");
         echo "</span>";
+        
         ?>
+            </div>
+        </div>
+        
         
     </div>
 </div>
