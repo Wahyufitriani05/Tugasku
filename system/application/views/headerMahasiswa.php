@@ -1,5 +1,6 @@
 <div id="header">
     <div id="header-content" class="container_12">
+        <link rel="icon" href="<?php echo base_url(); ?>assets/icons/favicon.ico" type="image/gif"/>
         <!-- Logo Web -->
         <!--<a id="header-logo" href="#"><img src="<?=base_url()?>assets/skins/bento/header-logo.png" width="46" height="26" alt="Header Logo" /></a>-->
         <a id="header-logo" href="<?php echo base_url();?>"><img src="<?=base_url()?>assets/images/images_book logo2.gif" width="86" height="30" alt="Header Logo" /></a>

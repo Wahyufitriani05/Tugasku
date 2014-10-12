@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://monta.if.its.ac.id";
+$config['base_url']	= "http://localhost/tugasku";
 
 /*
 |--------------------------------------------------------------------------

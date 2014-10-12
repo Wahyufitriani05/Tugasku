@@ -1,7 +1,7 @@
-//var site_url = "http://localhost/montaTC/index.php/";
-//var base_download_url="http://localhost/montaTC/assets/"
-var site_url = "http://monta.if.its.ac.id/index.php/";
-var base_download_url="http://monta.if.its.ac.id/assets/"
+var site_url = "http://localhost/tugasku/index.php/";
+var base_download_url="http://localhost/tugasku/assets/"
+//var site_url = "http://monta.if.its.ac.id/index.php/";
+//var base_download_url="http://monta.if.its.ac.id/assets/"
 var global_navigation_data = [
 {
 

@@ -20,6 +20,7 @@ echo $this->lib_js->thickbox();
 
     $rowClass = array(0 => 'rowA', 1 => 'rowB');
     $i = 1;
+    
     foreach ($list_proposal as $prop) {
         echo "<tr class='".$rowClass[($i%2)]."'>";
         echo "<td>$i</td>";

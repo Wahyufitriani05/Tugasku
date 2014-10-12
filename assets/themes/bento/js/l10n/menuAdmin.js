@@ -1,5 +1,5 @@
-//var site_url = "http://localhost/montaTC/index.php/";
-var site_url = "http://monta.if.its.ac.id/index.php/";
+var site_url = "http://localhost/tugasku/index.php/";
+//var site_url = "http://monta.if.its.ac.id/index.php/";
 
 var global_navigation_data = [
 
