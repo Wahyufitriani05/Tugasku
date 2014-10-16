@@ -10,8 +10,9 @@ if(isset($bimbingan) && !empty($bimbingan)) {
         echo "<tr>";
             echo "<th width='20'>No</th>";
             echo "<th width='120'>Waktu</th>";
-            echo "<th>Topik</th>";
+            echo "<th>Topik</th>";            
             echo "<th width=250>Pembimbing</th>";
+            echo "<th>Komentar</th>";
             echo "<th width='80'>Edit / Hapus</th>";
         echo "</tr>";
         $index_bimbingan=1;
@@ -34,6 +35,10 @@ if(isset($bimbingan) && !empty($bimbingan)) {
             echo "</td>";
             echo "<td><p>$row->ISI_PROGRESS</p></td>";
             echo "<td>$row->PEMBIMBING</td>";
+            if($row->ISI_KOMENTAR==NULL)
+                echo "<td>--</td>";
+            else
+                echo "<td>$row->ISI_KOMENTAR</td>";
             echo "<td class='center'>";
                 if($this->session->userdata('nip') == $row->NIP || $row->NIP == '000000000') {
                     echo "<a class='thickbox' title='Update Bimbingan' href='".site_url("progres/updateBimbingan/$row->ID_PROPOSAL/$row->ID_PROGRESS?TB_iframe=true&height=300&width=640")."'><img title='edit' alt='edit' src='".base_url()."assets/images/edit-icon.jpg'></a>";

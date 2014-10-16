@@ -28,12 +28,21 @@ echo "<script type='text/javascript'>
                 <div class='element mini'>:</div>
                 <div class='element wide'><?php echo $this->session->userdata('nip')." - ".$nama_dosen;?></div>
             </div>
-        <?php } ?>
+        <?php } ?>        
         <div class='detail'>
             <div class='element'><b>Topik Bimbingan</b></div>
             <div class='element mini'>:</div>
             <div class='element wide'><textarea class='textarea medium' name='editor1' id='editor1' cols='50'><?php echo $detail_bimbingan->ISI_PROGRESS?></textarea> </div>
         </div>
+        
+        <?php if($this->lib_user->is_dosen() == true && isset($nama_dosen)) { ?>
+        <div class='detail'>
+            <div class='element' style="margin-top:10px;"><b>Komentar</b></div>
+            <div class='element mini' style="margin-top:10px;">:</div>
+            <div class='element wide' style="margin-top:10px;"><textarea class='textarea medium' name='komentar1' id='komentar1' cols='50' ><?php echo $detail_bimbingan->ISI_KOMENTAR?></textarea> </div>
+        </div>
+        <?php }?>
+
         <div class='detail'>
             <div class='element'>&nbsp;</div>
             <div class='element wide' style='margin:1em; text-align:right'>

@@ -298,7 +298,8 @@ class Progres extends MY_Controller
             $data_update_bimbingan = array(
                 'nip' => $this->db->escape_like_str($nip),
                 'tgl_progress' => $this->db->escape_like_str($this->input->post('tgl_updateProgres')),
-                'isi_progress' => $this->db->escape_like_str($this->input->post('editor1'))
+                'isi_progress' => $this->db->escape_like_str($this->input->post('editor1')),
+                'isi_komentar' => $this->db->escape_like_str($this->input->post('komentar1'))
             );
             // update database
             $this->mprogres->update($data_update_bimbingan, $id_progress);
