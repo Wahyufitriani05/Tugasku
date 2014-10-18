@@ -1,3 +1,13 @@
+<script>
+	function printContent(el){
+		var restorepage = document.body.innerHTML;
+		var printcontent = document.getElementById(el).innerHTML;
+		document.body.innerHTML = printcontent;
+		window.print();
+		document.body.innerHTML = restorepage;
+	}
+	</script> 
+
 <div id="some-content" class="box box-shadow clearfix">
     <div class="alpha omega">
         <h1><?php echo (isset($title) ? $title : ""); ?></h1>
@@ -65,7 +75,7 @@
         <div class='detail'>
             <div class='element'><h2>Progres Bimbingan</h2></div>
             
-            <div class='element wide'>
+            <div class='element wide' id='cetak_kartuBimbingan'>
         <?php
         echo "<div class='separator'></div>";
         $this->load->view("progres/subContent-progresBaru");
@@ -77,6 +87,9 @@
         echo "</span>";
         
         ?>
+		
+		<button onclick="printContent('cetak_kartuBimbingan')" >Print</button>
+		
             </div>
         </div>
         
