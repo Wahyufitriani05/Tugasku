@@ -88,7 +88,7 @@
         
         ?>
 		
-		<button onclick="printContent('some-content')" >Print</button>
+		
 		
             </div>
         </div>
