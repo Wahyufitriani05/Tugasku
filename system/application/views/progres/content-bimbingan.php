@@ -75,7 +75,7 @@
         <div class='detail'>
             <div class='element'><h2>Progres Bimbingan</h2></div>
             
-            <div class='element wide' id='cetak_kartuBimbingan'>
+            <div class='element wide' >
         <?php
         echo "<div class='separator'></div>";
         $this->load->view("progres/subContent-progresBaru");
@@ -88,7 +88,7 @@
         
         ?>
 		
-		<button onclick="printContent('cetak_kartuBimbingan')" >Print</button>
+		<button onclick="printContent('some-content')" >Print</button>
 		
             </div>
         </div>
