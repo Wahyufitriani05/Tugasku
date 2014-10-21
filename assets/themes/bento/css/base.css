@@ -138,7 +138,8 @@ a img { border: none; }*/
 /* == Basic Element Settings ============================================== */
 html,
 body {
-  background: #f6f6f6;
+ /* background: #f6f6f6;*/
+ background: #DBEADC;
   color: #444;
   font: 16px "Lucida Grande", "Trebuchet MS", Arial, Verdana, sans-serif;
   height: 99%;
@@ -152,25 +153,25 @@ h1 {font-size: 1.7em; margin-bottom: 1.2em;}
 h2 {font-size: 1.5em; margin-bottom: 1.1em;}
 h3 {font-size: 1.2em; margin-bottom: 1.0em;}
 h4, h5, h6 {font-size: 1.1em; margin-bottom: 0.9em;}
-a {color: #690; text-decoration: none; cursor: pointer;}
+a {color: #3923D6; text-decoration: none; cursor: pointer;}
 a:visited {}
 a:hover, a:focus, a:active {color: #39c; text-decoration: underline;}
 p, ul, ol {margin: 1em 0;}
 h1, h2, h3, h4, h5, h6, p, ul, ol, table, pre, blockquote, .box small { margin-left: 15px; margin-right: 15px;}
-h1, h2, h3, h4, h5, h6 { color: #690; margin-top: 0.5em; margin-bottom: 1.2em;}
+h1, h2, h3, h4, h5, h6 { color: #59955C; margin-top: 0.5em; margin-bottom: 1.2em;}
 p {line-height: 150%;}
 p img { padding: 0; max-width: 100%;}
 ul, ol { list-style: disc inside; padding: 0 1em;}
 ul li, ol li { margin: 0.5em 0;}
 ul ul, ol ul, ul ol , ol ol { margin-top: 0em; margin-bottom: 0em;}
 ol { list-style-type: decimal;}
-input, button, textarea, pre { border: 1px solid #666; background-color: #eee; color: #333; padding: 2px 3px;}
-input:focus, textarea:focus { border-color: #690; background-color: #f6f6f6;}
+input, button, textarea, pre { border: 1px solid #23819C; background-color: #eee; color: #333; padding: 2px 3px;}
+input:focus, textarea:focus { border-color: #2966B8; background-color: #f6f6f6;}
 textarea {padding: 5px 3px;}
 img { border: 0;}
 small { font-size: 10px;}
 .box p small, p small {font-size: inherit; margin: 0;}
-option:nth-child(even) { background-color: #eee;}
+option:nth-child(even) { background-color: #E1FFFE;}
 table { width: inherit; max-width: 95%;}
 label { font-weight: normal;}
 hr { background-color: #999; border: 0 none; color: #999; height: 1px; margin: 2em  15px;}
@@ -195,14 +196,14 @@ tr{
 
 
 tr.rowA{
-    background-color:#EEEEFF;
+    background-color:#DBF0F7;
 }
 
 tr.rowB{
 }
 
 tr.rowA:hover td, tr.rowB:hover td{
-    background-color: #ddffcc;
+    background-color: #A6DEEE;
 }
 
 th {
@@ -308,7 +309,9 @@ blockquote {
 }
 #header,
 #global-navigation li.selected {
-  background: #666 url('images/gradient-dark-nav.png') repeat-x scroll bottom left;
+  /*background: #666 url('images/gradient-dark-nav.png') repeat-x scroll bottom left;*/
+  /*warna di header atas */
+  background: #23819C url('images/gradient-dark-nav.png') repeat-x scroll bottom left;
 }
 
 
@@ -323,7 +326,9 @@ blockquote {
   }
   #header ul#global-navigation,
   #header ul#global-navigation li {
-    border-color: #4e4e4e;
+   /* border-color: #4e4e4e; */
+   /* garis pemisah di header */
+   border-color: #5EAE9E; 
     border-style: solid;
     margin: 0;
   }
@@ -345,7 +350,9 @@ blockquote {
       }
       #header ul#global-navigation li a:hover,
       #header ul#global-navigation li a:focus {
-        color: #690;
+	  /* warna saat memilih header */
+      /*  color: #690;*/
+	  color: #67C7E2;
       }
   #header li#global-favorites {
     float: right !important;
@@ -446,7 +453,8 @@ blockquote {
   right: 0;
   padding-bottom: 10px;
   color: #f6f6f6;
-  background: #333 url('images/gradient-darker.png') repeat-x scroll bottom left;
+  /*background: #333 url('images/gradient-darker.png') repeat-x scroll bottom left;*/
+  background: #2FAACE url('images/gradient-darker.png') repeat-x scroll bottom left;
   -moz-border-radius-bottomleft: 5px;
   -moz-border-radius-bottomright: 5px;
   -webkit-border-bottom-left-radius: 3px;
@@ -477,7 +485,7 @@ blockquote {
   }
     #login-form input:focus {
       color: #39c;
-      border-color: #39c;
+      border-color: #75D6FF;
       -webkit-box-shadow: 0 1px 3px #222;
       -moz-box-shadow: 0 1px 3px #222;
       box-shadow: 0 1px 3px #222;
@@ -489,7 +497,7 @@ blockquote {
     box-shadow: 0 1px 1px #111;
     color: #eee;
     cursor: pointer;
-    background: #9f3 url('images/gradient-dark-nav.png') repeat-x scroll 0 -15px;
+    background: #1F88A7 url('images/gradient-dark-nav.png') repeat-x scroll 0 -15px;
     font-weight: bold;
     text-shadow: 0 0px 3px #333;
     width: 225px;
@@ -556,8 +564,8 @@ blockquote {
     padding: 0.5em;
   } 
   #footer-legal {
-    border-top: 1px dotted #999;
-    color: #999;
+    border-top: 1px dotted #1F88A7;
+    color: #0000CE;
     font-size: 12;
     margin-top: 25px;
     padding-top: 5px;
@@ -603,7 +611,7 @@ blockquote {
 .box {
   border-width: 1px;
   border-style: solid;
-  border-color: #ddd #ccc #bbb;
+  border-color: #4A9586 #4A9586 #4A9586;
   background-color: #fefefe;
   padding: 15px 0;
 }
@@ -648,7 +656,7 @@ blockquote {
     ul.navigation li {
     }
    .navigation a {
-      color: #666;
+      color: #23819C;
       text-decoration: none;
       
       display: block;
@@ -656,7 +664,7 @@ blockquote {
     .navigation a:hover,
     .navigation a:focus {
       background: transparent url('images/right_btn.png') no-repeat scroll bottom right;
-      color: #39c;
+      color: #7BCAE1;
     }
   div.navigation h1 {
     font-size: 1.2em;
@@ -795,7 +803,7 @@ p.large {
 .box-header,
 .box-subheader,
 .box-footer {
-  color: #333;
+  color: #0000CE;
   padding: 3px 0;
   margin-left: 0!important; /* like 960gs .aplha */
   margin-right: 0!important; /* like 960gs .omega */
@@ -809,7 +817,7 @@ p.large {
 .box-subheader,
 .box-footer,
 .header-tabs li.selected {
-  background: #fff url('images/gradient-light-short.png') repeat-x scroll 0 -20px;
+  background: #C0E0DA url('images/gradient-light-short.png') repeat-x scroll 0 -20px;
 }
 
 .box-header a,
@@ -836,7 +844,7 @@ p.large {
   -khtml-border-top-left-radius: 5px;
   -khtml-border-top-right-radius: 5px;
   margin-bottom: 15px!important;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #23819C;
 }
 
 h2.box-header,
@@ -1118,33 +1126,33 @@ input[type="submit"] {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
-  border-color: #999;
-  background: #DDD url('images/gradient-medium-short.png') repeat-x scroll 0 0;
-  color: #555;
+  border-color: #29AFD6;
+  background: #8ED6EA url('images/gradient-medium-short.png') repeat-x scroll 0 0;
+  color: #000000;
 }
 
   .button:hover,
   button:hover,
   input[type="submit"]:hover {
-    background-color: #eee;
-    border-color: #666;
-    color: #069;
+    background-color: #44B4D5;
+    border-color: #29AFD6;
+    color: #000000;
     cursor: pointer;
   }
 
 .main .button,
 .main button,
 .main input[type="submit"] {
-  background: #9c0 url('images/gradient-light-short-green.png') repeat-x scroll 0 -5px;
-  color: #fcfcfc;
+  background: #8ED6EA url('images/gradient-light-short-green.png') repeat-x scroll 0 -5px;
+  color: #000000;
 }
 
   .main .button:hover,
   .main button:hover,
   .main input[type="submit"]:hover {
-    border-color: #069;
+    border-color: #29AFD6;
     cursor: pointer;
-    color: #fff;
+    color: #000000;
   }
 
 .button,
@@ -1154,33 +1162,33 @@ input[type="button"] {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
-  border-color: #999;
-  background: #DDD url('images/gradient-medium-short.png') repeat-x scroll 0 0;
-  color: #555;
+  border-color: #29AFD6;
+  background: #8ED6EA url('images/gradient-medium-short.png') repeat-x scroll 0 0;
+  color: #000000;
 }
 
   .button:hover,
   button:hover,
   input[type="button"]:hover {
     background-color: #eee;
-    border-color: #666;
-    color: #069;
+    border-color: #29AFD6;
+    color: #000000;
     cursor: pointer;
   }
 
 .main .button,
 .main button,
 .main input[type="button"] {
-  background: #9c0 url('images/gradient-light-short-green.png') repeat-x scroll 0 -5px;
-  color: #fcfcfc;
+  background: #8ED6EA url('images/gradient-light-short-green.png') repeat-x scroll 0 -5px;
+  color: #000000;
 }
 
   .main .button:hover,
   .main button:hover,
   .main input[type="button"]:hover {
-    border-color: #069;
+    border-color: #29AFD6;
     cursor: pointer;
-    color: #fff;
+    color: #000000;
   }
 
 /* == Mockup Styles ======================================================== */
