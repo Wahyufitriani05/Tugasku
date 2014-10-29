@@ -80,7 +80,14 @@ class Ruang extends Controller
         $this->form_validation->set_error_delimiters('<div class="warning">', '</div>');
         if ($this->form_validation->run()) 
         {
-            $id_jdw_ruang = $this->mruang->getNewID($id_sidangTA);
+            $id_jdw_ruang = 1;
+            $cek = $id_sidangTA;
+            while ($id_jdw_ruang==1)
+            {
+                $id_jdw_ruang = $this->mruang->getNewID($cek);
+                $cek--;
+            }
+            
             $data_entry_ruangsidang = array(
                 'ID_JDW_RUANG' => $id_jdw_ruang,
                 'DESKRIPSI' => $this->db->escape_like_str($this->input->post('ruang_sidang')),
