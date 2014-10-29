@@ -39,11 +39,12 @@
                             echo "</td>";
                         }
                     } else {
-                        echo "<td class='center' colspan=4 style='background-color:pink'> Ada Sidang </td>";
+                        //penggantian lebar colspan
+                        echo "<td class='center' colspan=".count($kbk)." style='background-color:pink'> Ada Sidang </td>";
                     }
                     
                 } else {
-                    echo "<td class='center' colspan=4 style='background-color:#FFFF99'> Tidak Ada Jadwal </td>";
+                    echo "<td class='center' colspan=".count($kbk)." style='background-color:#FFFF99'> Tidak Ada Jadwal </td>";
                 }
             }
             echo "</tr>";

@@ -1,5 +1,4 @@
 <?php
-
 class jadwalMahasiswa extends Controller 
 {
     function jadwalMahasiswa() 
@@ -197,7 +196,8 @@ class jadwalMahasiswa extends Controller
 
         foreach ($data['list_proposal'] as $row) {
 
-            $row->NAMA_KBK = $this->mdosen->detailKBK($row->ID_KBK)->NAMA_KBK;
+            //dipertanyakan
+            //$row->NAMA_KBK = $this->mdosen->detailKBK($row->ID_KBK)->NAMA_KBK;
 
             $jdw_mhs_tmp = $this->mjadwalmahasiswa->jadwalSidangTA(0, $row->ID_PROPOSAL, $id_sidangTA);
 

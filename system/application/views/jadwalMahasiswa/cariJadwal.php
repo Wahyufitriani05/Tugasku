@@ -17,13 +17,17 @@
         <td><?php echo $slot->DESKRIPSI?></td>
         <td>
             <?php
-            
+
             if(isset ($slot->JADWAL_AVAIL)) {
                 
                 foreach ($slot->JADWAL_AVAIL as $jadwal_avail) {
+                    
+                    //tambahan agar jadwal avalaible sesuai KBK
+                    if($jadwal_avail->ID_KBK == $parameter['IDKBK']) {
                     ?>
             <a class='thickbox' title='PILIH PENGUJI' href='<?php echo site_url("jadwalMahasiswa/pilihPenguji/".$parameter['SIDANGTA']."/".$parameter['NIP1']."/".$parameter['NIP2']."/".$parameter['IDPROPOSAL']."/".$parameter['IDKBK']."/$slot->TREEID/$jadwal_avail->ID_JDW_RUANG_AVAIL?TB_iframe=true&height=250&width=350")?>'><?php echo "$jadwal_avail->DESKRIPSI</br>";// ($jadwal_avail->NAMA_KBK / $jadwal_avail->STATUS)"?></a>&nbsp;
                     <?php
+                    }
                 }
             }
             ?>
