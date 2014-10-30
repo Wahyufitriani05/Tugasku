@@ -8,6 +8,7 @@
             <li id="item-sidang"><a href="#">Sidang TA</a></li>
             <li><a href="<?php echo site_url('progres/tugasakhir/bimbingan')?>">Progres TA</a></li>
             <li><a href="<?php echo site_url('berita/lihatBerita')?>">Berita</a></li>
+            <li id="item-penjadwalan"><a href="#">Penjadwalan</a></li>
             <li id="item-lamastudi"><a href="#">Lama Pengerjaan TA</a></li>
         </ul>
     </div>

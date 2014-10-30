@@ -44,6 +44,15 @@ class mjadwaldosenavail extends Model
         $this->db->delete("jadwal_availability");
     }
     
+    function hapusPerSlotHariDosen($id_sidangTA, $parent_treeid, $NIP)
+    {
+        $this->db->where('SIDANGTA', $id_sidangTA);
+        $this->db->like('ID_SLOT', $parent_treeid, 'after');  // TREEID like '$parent_id%'
+        $this->db->where('STATUS', 0);
+        $this->db->where('NIP', $NIP);
+        $this->db->delete("jadwal_availability");
+    }
+    
     function hapusPerSlotWaktu($id_sidangTA, $treeid) 
     {
         $this->db->where('SIDANGTA', $id_sidangTA);

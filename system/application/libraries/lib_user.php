@@ -70,6 +70,24 @@ class Lib_user
         }
     }
     
+    function cek_admin_dosen($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh dosen dan admin") 
+    {
+        
+        if($this->session_ci->userdata('type') == 'dosen'  || $this->session_ci->userdata('type') == 'admin')
+        {
+            
+        }
+        else
+        {
+            $this->lib_alert->warning($message);
+            if($redirect_page == "error/index/") {
+                redirect("error/index/".$dialog);
+            } else {
+                redirect($redirect_page);
+            }
+        }
+    }
+    
     function cek_dosen($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh dosen") 
     {
         if($this->session_ci->userdata('type') != 'dosen') 

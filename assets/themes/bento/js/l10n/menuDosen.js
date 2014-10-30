@@ -152,7 +152,29 @@ var global_navigation_data = [
 
     ]
 
-}
+},
 
+{
+
+    "id": "penjadwalan",
+
+    "items":
+
+        [
+
+          {
+
+            "link": base_url+"jadwalDosen/dosenAvailability",
+
+            "image": "events",
+
+            "title": "Penjadwalan Dosen",
+
+            "desc": "Pengaturan Jadwal Dosen untuk Sidang TA"
+
+          }
+        ]
+}
 ];
+
 

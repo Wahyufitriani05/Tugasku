@@ -18,7 +18,7 @@ class JadwalDosen extends Controller
 
     function dosenAvailability() 
     {
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_dosen();
         
         if($this->input->post('sidangTA')) {
             $id_sidangTA = $this->input->post('sidangTA');
@@ -95,7 +95,7 @@ class JadwalDosen extends Controller
     // update waktu luang dosen
     function updateJadwalDosen($id_sidangTA="", $parent_treeid="") 
     {
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_dosen();
         
         $this->msidang->cekSidangTA($id_sidangTA, false);
         $this->mslot->cekTreeID($parent_treeid, false);
@@ -114,7 +114,12 @@ class JadwalDosen extends Controller
             }
         }
 
-        $this->mjadwaldosenavail->hapusPerSlotHari($id_sidangTA, $parent_treeid);
+        //penjadwlan untuk dosen avalaibility 
+        if($this->session->userdata['type']=='dosen')            
+            $this->mjadwaldosenavail->hapusPerSlotHariDosen($id_sidangTA, $parent_treeid, $this->session->userdata['nip']);
+        else
+            $this->mjadwaldosenavail->hapusPerSlotHari($id_sidangTA, $parent_treeid);
+        
         foreach ($_POST as $key => $value) {
             if ($value=="on") {
                 $z = explode("_",$key);
