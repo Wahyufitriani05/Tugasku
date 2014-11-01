@@ -199,9 +199,12 @@ class JadwalDosen extends Controller
             foreach($arrayslotwaktu as $slotwaktu) {                            
                 if($array[$dosen->NIP][$slotwaktu->TREEID]==0)
                 {
-                    if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) > 0)
-                    {                          
-                        $this->mjadwaldosenavail->hapusPerSlotWaktuDosen($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP);
+                    if(($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
+                    {
+                        if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) > 0)
+                        {                          
+                            $this->mjadwaldosenavail->hapusPerSlotWaktuDosen($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP);
+                        }
                     }
                 }
             }               
