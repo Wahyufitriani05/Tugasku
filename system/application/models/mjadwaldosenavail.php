@@ -29,7 +29,19 @@ class mjadwaldosenavail extends Model
     {
         $this->db->update("jadwal_availability", array('STATUS' => 0), array('ID_JDW_AVAIL' => $id_jdw_avail));
     }
-
+    
+    // get detail avail dg parameter sidang TA dan TreeID dan NIP
+    function getDetailAvail($id_sidangTA, $id_slot, $NIP) 
+    {
+        $this->db->select("*");
+        $this->db->from("jadwal_availability");
+        $this->db->where("SIDANGTA", $this->db->escape_like_str($id_sidangTA));
+        $this->db->where("ID_SLOT", $this->db->escape_like_str($id_slot));
+        $this->db->where("NIP", $this->db->escape_like_str($NIP));
+        $query = $this->db->get();
+        return $query->row();
+    }
+    
     function resetPerSlotHari($id_sidangTA, $parent_treeid) 
     {
         $sql = "UPDATE jadwal_availability SET STATUS='0' WHERE SIDANGTA='$id_sidangTA' AND ID_SLOT LIKE '$parent_treeid%'";
@@ -58,6 +70,15 @@ class mjadwaldosenavail extends Model
         $this->db->where('SIDANGTA', $id_sidangTA);
         $this->db->like('ID_SLOT', $treeid);  // TREEID like '$treeid'
         $this->db->where('STATUS', 0);
+        $this->db->delete("jadwal_availability");
+    }
+    
+    function hapusPerSlotWaktuDosen($id_sidangTA, $treeid, $NIP) 
+    {
+        $this->db->where('SIDANGTA', $id_sidangTA);
+        $this->db->like('ID_SLOT', $treeid);  // TREEID like '$treeid'
+        $this->db->where('STATUS', 0);
+        $this->db->where('NIP', $NIP);
         $this->db->delete("jadwal_availability");
     }
     

@@ -201,7 +201,7 @@ class Slot extends Controller
                     'TREEID' => $new_treeid,
                     'TGL' => $tgl->TGL,
                     'WAKTU' => $this->db->escape_like_str($this->input->post('waktu')),
-                    'DESKRIPSI' => $this->db->escape_like_str($this->input->post('waktu'))." - ".$batas_waktu,
+                    'DESKRIPSI' => $this->db->escape_like_str($this->input->post('waktu'))."-".$batas_waktu,
                     'SIDANGTA' => $this->db->escape_like_str($id_sidangTA),
                     'ID_KBK' => '0'
                 );
@@ -210,6 +210,19 @@ class Slot extends Controller
                 $this->setSemuaRuangAvailable($id_sidangTA, $new_treeid);
                 $this->setDefaultRuangKBKAssignment($id_sidangTA, $new_treeid, "0");
                 $this->lib_alert->success("Penambahan slot waktu pada jam ".$this->input->post('waktu')." - $batas_waktu berhasil");
+                
+                //tambahan avalaible dosen
+                $data['dosen'] = $this->mdosen->listDosen();
+                foreach ($data['dosen'] as $dosen) {
+                    $data_jadwal_baru = array(
+                        'NIP' => $dosen->NIP,
+                        'ID_SLOT' => $new_treeid,
+                        'SIDANGTA' => $this->db->escape_like_str($id_sidangTA) // default STATUS 0
+                    );
+                    // tambahkan data ke Database
+                    $this->mjadwaldosenavail->add($data_jadwal_baru);
+                }                                
+                
                 redirect("slot/slotWaktuAjaxRequest/$id_sidangTA/$parent_treeid/".$this->mslot->getLastIDSlot($id_sidangTA, $new_treeid));
             }
         } else {
@@ -239,7 +252,7 @@ class Slot extends Controller
                 $data_update_slotwaktu = array(
                     'WAKTU' => $waktu,
                     'TGL' => $tgl->TGL, 
-                    'DESKRIPSI' => $this->db->escape_like_str($waktu)." - ".$batas_waktu
+                    'DESKRIPSI' => $this->db->escape_like_str($waktu)."-".$batas_waktu
                 );
                 // update data ke Database
                 $this->mslot->update($data_update_slotwaktu, $id_slot);
@@ -309,6 +322,8 @@ class Slot extends Controller
         $this->msidang->cekSidangTA($id_sidangTA, true);
         $this->mslot->cekTreeID($parent_treeid, true);
 
+        
+        //slot waktu dari jam 8 hingga jam 5
         $slotwaktu = array(
                         '08:00',
                         '09:00',
@@ -319,12 +334,12 @@ class Slot extends Controller
                         '14:00',
                         '15:00',
                         '16:00',
-                        '17:00',
-                        '18:00',
-                        '19:00',
-                        '20:00'
                         );
         $tgl = $this->mslot->getDetailSlot($id_sidangTA, $parent_treeid);
+        
+        //automatic avalaible dosen
+        $treeid = array();
+        
         for($i=0; $i<sizeof($slotwaktu); $i++) {
             $arr_waktu = explode(":", $slotwaktu[$i], 2);
             if(count($arr_waktu) < 2) {
@@ -332,9 +347,10 @@ class Slot extends Controller
             } else {
                 $batas_waktu = $arr_waktu[0]+1 .":". $arr_waktu[1];
             }
+            $treeid[$i] = $this->mslot->newTreeID($id_sidangTA, $parent_treeid);
             $data_entry_slotwaktu = array(
                 'ID_SLOT' => $this->mslot->newIDSlot(),
-                'TREEID' => $this->mslot->newTreeID($id_sidangTA, $parent_treeid),
+                'TREEID' => $treeid[$i],
                 'WAKTU' => $slotwaktu[$i],
                 'TGL' => $tgl->TGL,
                 'DESKRIPSI' => $slotwaktu[$i]."-".$batas_waktu,
@@ -343,8 +359,13 @@ class Slot extends Controller
             );
             // tambahkan data ke Database
             $this->mslot->add($data_entry_slotwaktu);
-        }
+            
+                  
+        }        
         $this->lib_alert->success("Penambahan slot waktu berhasil.");
+        
+        
+        
         redirect("slot/slotWaktuAjaxRequest/$id_sidangTA/$parent_treeid");
     }
     
@@ -361,7 +382,7 @@ class Slot extends Controller
             $data_jadwal_baru = array(
                 'ID_JDW_RUANG' => $row->ID_JDW_RUANG,
                 'ID_SLOT' => $treeid,
-                'SIDANGTA' => $id_sidangTA // default STATUS 0
+                'SIDANGTA' => $id_sidangTA // default STATUS 0,                
             );
             if($this->mjadwalruangavail->cek($data_jadwal_baru) == false)
                 $this->mjadwalruangavail->addJadwalRuangAvail($data_jadwal_baru);

@@ -41,7 +41,7 @@
                         echo "<td class='center'><input type=checkbox id='$row_dosen->NIP' name=AVAIL_" . $row_waktu2->TREEID . "_" . $row_dosen->NIP . " CHECKED ></td>";
                     }
                 } else {
-                    echo "<td class='center'><input type=checkbox id='$row_dosen->NIP' name=AVAIL_" . $row_waktu2->TREEID . "_" . $row_dosen->NIP . "></td>";
+                    echo "<td class='center'><input type=checkbox id='$row_dosen->NIP' name=NOTAVAIL_" . $row_waktu2->TREEID . "_" . $row_dosen->NIP . "></td>";
                 }
             }
             echo "</tr>";        

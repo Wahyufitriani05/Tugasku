@@ -92,6 +92,41 @@ class JadwalDosen extends Controller
         redirect("jadwalDosen/dosenAvailability/$detail->SIDANGTA/".substr($detail->ID_SLOT, 0, 4));
     }
 
+    // dosen availability all
+    function penjadwalanAutomatis($id_sidangTA="", $parent_treeid="")
+    {
+        $this->lib_user->cek_admin();
+        
+        $this->msidang->cekSidangTA($id_sidangTA, false);
+        $this->mslot->cekTreeID($parent_treeid, false);
+        
+        $arrayslotwaktu = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
+        $arraydosen = $this->mdosen->listDosen();
+                
+        $j = 0;
+        foreach($arrayslotwaktu as $slotwaktu) { 
+            if($j>200) break;
+            foreach ($arraydosen as $dosen) {                
+                if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) == 0)
+                {
+                    if(($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
+                    {
+                        $data_jadwal_baru = array(
+                            'NIP' => $dosen->NIP,
+                            'ID_SLOT' => $slotwaktu->TREEID,
+                            'SIDANGTA' => $id_sidangTA // default STATUS 0
+                        );
+                        // tambahkan data ke Database
+                        $this->mjadwaldosenavail->add($data_jadwal_baru);
+                        $j++;
+                    }
+                }
+            }   
+        }
+        
+        redirect("jadwalDosen/dosenAvailability/$id_sidangTA/$parent_treeid");
+    }
+    
     // update waktu luang dosen
     function updateJadwalDosen($id_sidangTA="", $parent_treeid="") 
     {
@@ -114,27 +149,62 @@ class JadwalDosen extends Controller
             }
         }
 
-        //penjadwlan untuk dosen avalaibility 
+        /*
+        //penjadwalan untuk dosen avalaibility 
         if($this->session->userdata['type']=='dosen')            
             $this->mjadwaldosenavail->hapusPerSlotHariDosen($id_sidangTA, $parent_treeid, $this->session->userdata['nip']);
         else
             $this->mjadwaldosenavail->hapusPerSlotHari($id_sidangTA, $parent_treeid);
+        */
+
         
-        foreach ($_POST as $key => $value) {
+        
+        $arrayslotwaktu = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
+        $arraydosen = $this->mdosen->listDosen();
+           
+        $array = array();
+        
+        foreach ($arraydosen as $dosen) {
+            $array[$dosen->NIP] = array();
+            foreach($arrayslotwaktu as $slotwaktu) {                            
+                $array[$dosen->NIP][$slotwaktu->TREEID] = 0;                  
+            }               
+        }
+        
+        
+        foreach ($_POST as $key => $value) {            
             if ($value=="on") {
-                $z = explode("_",$key);
+                $z = explode("_",$key);                
                 if ($z[0]=="AVAIL") {
                     $treeid = $z[1];
-                    $nip = $z[2];
-                    $data_jadwal_baru = array(
-                        'NIP' => $nip,
-                        'ID_SLOT' => $treeid,
-                        'SIDANGTA' => $id_sidangTA // default STATUS 0
-                    );
-                    // tambahkan data ke Database
-                    $this->mjadwaldosenavail->add($data_jadwal_baru);
+                    $nip = $z[2];                    
+                    $array[$nip][$treeid] = 1;
+                    if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $treeid, $nip)) == 0)
+                    {                        
+                        $data_jadwal_baru = array(
+                            'NIP' => $nip,
+                            'ID_SLOT' => $treeid,
+                            'SIDANGTA' => $id_sidangTA // default STATUS 0
+                        );
+                        // tambahkan data ke Database
+                        $this->mjadwaldosenavail->add($data_jadwal_baru);
+                    }
+                }                
+            }            
+        }
+        
+        
+        foreach ($arraydosen as $dosen) {
+            
+            foreach($arrayslotwaktu as $slotwaktu) {                            
+                if($array[$dosen->NIP][$slotwaktu->TREEID]==0)
+                {
+                    if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) > 0)
+                    {                          
+                        $this->mjadwaldosenavail->hapusPerSlotWaktuDosen($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP);
+                    }
                 }
-            }
+            }               
         }
         redirect("jadwalDosen/dosenAvailability/$id_sidangTA/".substr($treeid, 0, 4));
     }
