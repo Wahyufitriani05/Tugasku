@@ -278,7 +278,7 @@ class msidang extends Model
     function getListProposalMajuSidangProp_Darurat($id_kbk, $id_sid_prop="", $offset="", $jumlah_per_page="", $tgl_sidprop="") 
     {
         $mdosen = $this->model_load_model('mdosen');
-        $sql = "SELECT pr.ID_PROPOSAL , pr.SPROP, pr.JUDUL_TA, pr.NRP, mhs.NAMA_LENGKAP_MAHASISWA, pr.STATUS, ds1.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds2.NAMA_LENGKAP_DOSEN as PEMBIMBING2
+        $sql = "SELECT pr.ID_PROPOSAL , pr.SPROP, pr.JUDUL_TA, pr.NRP, mhs.NAMA_LENGKAP_MAHASISWA, pr.STATUS, pr.REVISI_PROPOSAL, ds1.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds2.NAMA_LENGKAP_DOSEN as PEMBIMBING2
                 FROM proposal pr, mahasiswa mhs, dosen ds1, dosen ds2
                 WHERE  mhs.NRP = pr.NRP
                 AND ds1.NIP = pr.PEMBIMBING1

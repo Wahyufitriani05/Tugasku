@@ -10,6 +10,10 @@
     echo "<th width=150>PEMBIMBING 1</th>";
     echo "<th width=150>PEMBIMBING 2</th>";
     echo "<th width=120>STATUS</th>";
+    if($this->lib_user->is_admin())
+    {
+        echo "<th>Keterangan Revisi</th>";
+    }
     echo "</tr>";
     $i=1;
     foreach ($listTA as $row) {
@@ -78,6 +82,14 @@
             } else {
                 echo $this->lib_tugas_akhir->nama_status($row->STATUS);
             }
+        
+        if($this->lib_user->is_admin())
+        {
+            if($row->STATUS == 11)
+                echo "<td>$row->REVISI_PROPOSAL</td>";
+            else
+                echo "<td>-</td>";
+        }
         echo "<span id='flag_$row->ID_PROPOSAL'></span></td>";
         echo "</tr>";
         $i++;
