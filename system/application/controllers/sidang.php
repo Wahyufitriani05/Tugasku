@@ -169,7 +169,10 @@ class Sidang extends MY_Controller
     }
     
     // pengubahan Status Proposal
-    function ubahStatusProposal($id_proposal="", $status='') 
+
+
+
+    function ubahStatusProposal($id_proposal="", $status='',$revisi_proposal='') 
     {
         if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true)
         {
@@ -179,7 +182,8 @@ class Sidang extends MY_Controller
                 {
                     $data = array(
                         'STATUS' => $status,
-                        'TGL_SIDANG_PROP' => date("Y-m-d")
+                        'TGL_SIDANG_PROP' => date("Y-m-d"),
+                        'REVISI_PROPOSAL' => $revisi_proposal
                     );
                     $this->mproposal->update($data, $id_proposal);
                     // tampilkan icon penanda update sukses
@@ -337,6 +341,12 @@ class Sidang extends MY_Controller
         }
     }
 	
+    function entryRevisiProposal()
+    {
+        # code...
+        $this->load->view('sidang/entrySidangProposal');
+    }
+
     // tambah SidProp
     function entrySidangProposal() 
     {

@@ -15,11 +15,40 @@
     foreach ($listTA as $row) {
         echo "<script type='text/javascript'>
             $(document).ready(function() {";
-                echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change','function'=>$this->pquery->remote_function(array(
-                    'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"'),
+                echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change',
+                    'function'=> 'filter($("#status_'.$row->ID_PROPOSAL.'").val(), "revisi_'.$row->ID_PROPOSAL.'", "button_'.$row->ID_PROPOSAL.'")'
+                ));
+        echo "
+            function filter(status, idtext, idbutton)
+            {
+                if(status == 11)
+                {
+                    document.getElementById(idtext).style.display = 'inline';
+                    document.getElementById(idbutton).style.display = 'inline';
+                }
+                else
+                {
+                    document.getElementById(idtext).style.display = 'none'; 
+                    document.getElementById(idbutton).style.display = 'none';";
+                    echo $this->pquery->remote_function(array(
+                    'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"/'),
                     'update'=>"#flag_$row->ID_PROPOSAL"
-                ))));
-        echo "});
+                    ));
+                echo "
+                }
+            }
+            $('#button_$row->ID_PROPOSAL').click(function(){";
+            echo $this->pquery->remote_function(array(
+                    'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"/"+$("#revisi_'.$row->ID_PROPOSAL.'").val()+"'),
+                    'update'=>"#flag_$row->ID_PROPOSAL"
+                    ));        
+            echo 
+            "
+            document.getElementById('revisi_$row->ID_PROPOSAL').style.display = 'none'; 
+            document.getElementById('button_$row->ID_PROPOSAL').style.display = 'none';
+            });
+        });
+
         </script>";
        
         if($i%2==0)
@@ -43,6 +72,9 @@
                                 echo "<option value='".$row_s['id']."'>".$row_s['nama']."</option>";
                         }
                 echo "</select>";
+                echo "<input id='revisi_$row->ID_PROPOSAL' type='text' name='isi_revisi' placeholder='Isi Keterangan Revisi' style='margin-top:2px;display:none'/>";
+                echo "<button id='button_$row->ID_PROPOSAL' style='margin-top:2px;display:none'>Submit</button>";
+
             } else {
                 echo $this->lib_tugas_akhir->nama_status($row->STATUS);
             }
