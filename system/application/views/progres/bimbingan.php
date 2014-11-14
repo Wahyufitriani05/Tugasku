@@ -13,7 +13,10 @@ if(isset($bimbingan) && !empty($bimbingan)) {
             echo "<th>Topik</th>";            
             echo "<th width=250>Pembimbing</th>";
             echo "<th>Komentar</th>";
+            if(@$print) { }
+            else {
             echo "<th width='80'>Edit / Hapus</th>";
+            }
         echo "</tr>";
         $index_bimbingan=1;
         foreach ($bimbingan as $row) {
@@ -39,6 +42,9 @@ if(isset($bimbingan) && !empty($bimbingan)) {
                 echo "<td>--</td>";
             else
                 echo "<td>$row->ISI_KOMENTAR</td>";
+            
+            if(@$print) { }
+            else {
             echo "<td class='center'>";
                 if($this->session->userdata('nip') == $row->NIP || $row->NIP == '000000000') {
                     echo "<a class='thickbox' title='Update Bimbingan' href='".site_url("progres/updateBimbingan/$row->ID_PROPOSAL/$row->ID_PROGRESS?TB_iframe=true&height=300&width=640")."'><img title='edit' alt='edit' src='".base_url()."assets/images/edit-icon.jpg'></a>";
@@ -46,6 +52,7 @@ if(isset($bimbingan) && !empty($bimbingan)) {
                     echo "<a onclick=\"return confirm('Anda yakin untuk menghapus?')\" href='".site_url("progres/hapusBimbingan/$row->ID_PROPOSAL/$row->ID_PROGRESS")."'><img title='hapus' alt='hapus' src='".base_url()."assets/images/delete-icon.jpg'></a>";
                 }
             echo "</td>";
+            }
             echo "</tr>";
             $index_bimbingan++;
         }
