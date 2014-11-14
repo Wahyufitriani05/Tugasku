@@ -13,7 +13,7 @@
     <table border='0' cellspacing='0' style='background: none;'>
         <tr style='white-space:nowrap;'><td>
             <span title="Quality page" class="fr-icon-download"></span>&nbsp;            
-            <a class="" onclick ="printContent('some-content')" title="<b>CETAK</b>" href="#"><b>Cetak Kartu Bimbingan</b></a>
+            <a class="" onclick ="" title="<b>CETAK</b>" href="printProgres"><b>Cetak Kartu Bimbingan</b></a>
         </td></tr>
     </table>
     </div>

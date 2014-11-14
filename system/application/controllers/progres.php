@@ -201,6 +201,28 @@ class Progres extends MY_Controller
         $data['id_updated_progres'] = $this->session->flashdata("id_updated_progres");
         $this->load->view('template', $data);
     }
+    
+    function printProgres($id_new_progres="") 
+    {
+        // autentikasi
+        $this->lib_user->cek_mahasiswa("", "progres/tugasakhir/", "Halaman <strong>'Progres TA Mahasiswa'</strong> hanya bisa dilihat oleh mahasiswa yang bersangkutan");
+        // set title, menu, view
+        $data['title'] = "Progres Tugas Akhir Mahasiswa"; 	
+        //$data['js_menu'] = $this->lib_user->get_javascript_menu(); 					
+        //$data['header'] = $this->lib_user->get_header(); 					
+        $data['content'] = "progres/printBimbingan";	
+        // get ID proposal sesuai NRP mahasiswa
+        $id_proposal = $this->mproposal->getProposalSaya($this->session->userdata('id'))->row()->id_proposal;
+        // detail TA
+        $data['detailTA'] = $this->mproposal->getDetail($id_proposal);
+        $data['proposal']=$this->mproposal->getProposalFiles($id_proposal);
+        // list bimbingan/progres
+        $data['bimbingan'] = $this->mprogres->getList($id_proposal);
+        $data['id_new_progres'] = $this->session->flashdata("id_new_progres");
+        $data['id_updated_progres'] = $this->session->flashdata("id_updated_progres");
+        $data['print'] = "YES";
+        $this->load->view('template_plain', $data);
+    }
 	
     function bimbinganBaru($id_proposal="") 
     {
