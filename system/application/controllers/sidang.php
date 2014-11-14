@@ -172,7 +172,7 @@ class Sidang extends MY_Controller
 
 
 
-    function ubahStatusProposal($id_proposal="", $status='',$revisi_proposal='') 
+    function ubahStatusProposal($id_proposal="", $status='') 
     {
         if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true)
         {
@@ -182,8 +182,7 @@ class Sidang extends MY_Controller
                 {
                     $data = array(
                         'STATUS' => $status,
-                        'TGL_SIDANG_PROP' => date("Y-m-d"),
-                        'REVISI_PROPOSAL' => $revisi_proposal
+                        'TGL_SIDANG_PROP' => date("Y-m-d")
                     );
                     $this->mproposal->update($data, $id_proposal);
                     // tampilkan icon penanda update sukses
