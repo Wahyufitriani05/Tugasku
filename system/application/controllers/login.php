@@ -52,14 +52,14 @@ class Login extends Controller {
             $data['js_menu'] = "menuAdmin";
             $data['header'] = "headerAdmin";
         }
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
         {
             $data['js_menu'] = "menuKBK";
             $data['header'] = "headerAdmin";
         }
 
         //cek apakah benar status login admin
-        if($type!="mahasiswa" && $type!="dosen" && $type!="admin" && $type!="NCC" && $type!="KCV" && $type!="SE")redirect('berita/lihatBerita','refresh');
+        if($type!="mahasiswa" && $type!="dosen" && $type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
 
         $this->form_validation->set_rules('password_lama', 'Password Lama', 'required');
         $this->form_validation->set_rules('password_baru', 'Password Baru', 'required|min_length[5]');
@@ -113,7 +113,8 @@ class Login extends Controller {
         $this->form_validation->set_rules('password', 'Password', 'required');
         if ($this->form_validation->run() != TRUE)
         {
-            $this->load->view('template');
+            $data['js_menu'] = "menuGuest";
+            $this->load->view('template',$data);
         }
         else{
             $this->load->model('mlogin');
@@ -151,9 +152,39 @@ class Login extends Controller {
                         $data['js_menu'] = "menuKBK";
                         $data['header'] = "headerAdmin";
                     }
-                    else if($row->inisial_dosen=="SE"){
-                        $this->session->set_userdata('type', 'SE');
-                        $this->session->set_userdata('nama', 'AdminSE');
+                    else if($row->inisial_dosen=="RPL"){
+                        $this->session->set_userdata('type', 'RPL');
+                        $this->session->set_userdata('nama', 'AdminRPL');
+                        $data['js_menu'] = "menuKBK";
+                        $data['header'] = "headerAdmin";
+                    }
+                    else if($row->inisial_dosen=="AJK"){
+                        $this->session->set_userdata('type', 'AJK');
+                        $this->session->set_userdata('nama', 'AdminAJK');
+                        $data['js_menu'] = "menuKBK";
+                        $data['header'] = "headerAdmin";
+                    }
+                    else if($row->inisial_dosen=="MI"){
+                        $this->session->set_userdata('type', 'MI');
+                        $this->session->set_userdata('nama', 'AdminMI');
+                        $data['js_menu'] = "menuKBK";
+                        $data['header'] = "headerAdmin";
+                    }
+                    else if($row->inisial_dosen=="DTK"){
+                        $this->session->set_userdata('type', 'DTK');
+                        $this->session->set_userdata('nama', 'AdminDTK');
+                        $data['js_menu'] = "menuKBK";
+                        $data['header'] = "headerAdmin";
+                    }
+                    else if($row->inisial_dosen=="AP"){
+                        $this->session->set_userdata('type', 'AP');
+                        $this->session->set_userdata('nama', 'AdminAP');
+                        $data['js_menu'] = "menuKBK";
+                        $data['header'] = "headerAdmin";
+                    }
+                    else if($row->inisial_dosen=="IGS"){
+                        $this->session->set_userdata('type', 'IGS');
+                        $this->session->set_userdata('nama', 'AdminIGS');
                         $data['js_menu'] = "menuKBK";
                         $data['header'] = "headerAdmin";
                     }

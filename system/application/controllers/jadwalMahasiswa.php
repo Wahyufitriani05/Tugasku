@@ -347,7 +347,7 @@ class jadwalMahasiswa extends Controller
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -411,7 +411,29 @@ class jadwalMahasiswa extends Controller
     function statusTA()
     {
 
-        $this->lib_user->cek_admin();
+        $this->load->library('session');
+
+        $dialog = false;
+
+        $redirect_page="error/index/";
+
+        $message="Halaman ini hanya bisa dilihat oleh Administrator atau Admin KBK";
+
+        if (!$this->lib_user->is_admin() && !$this->lib_user->is_admin_kbk()) {
+
+            $this->lib_alert->warning($message);
+
+            if($redirect_page == "error/index/") {
+
+                redirect("error/index/".$dialog);
+
+            } else {
+
+                redirect($redirect_page);
+
+            }
+
+        }
 
         $id_kbk = $this->filterKBK();
 
@@ -421,7 +443,18 @@ class jadwalMahasiswa extends Controller
 
         $data['list_sidangTA'] = $this->msidang->jadwalSidangTA();
 
-        $data['kbk'] = $this->mdosen->listKBK();
+        $nama_kbk = $this->session->userdata('type');
+
+        if ($this->session->userdata('type') == 'admin') {
+            $data['kbk'] = $this->mdosen->listKBK("");
+        }
+
+        else {
+            if ($id_kbk == -1) {
+                $id_kbk = $this->mdosen->getKBK($nama_kbk)[0]->id_kbk;
+            }
+            $data['kbk'] = $this->mdosen->listKBK("",$id_kbk);
+        }
 
         // set page information
 
@@ -434,8 +467,6 @@ class jadwalMahasiswa extends Controller
         //$data['leftSide'] = 'leftSidePenjadwalan';
 
         $data['content'] = "jadwalMahasiswa/content-statusTA";
-
-
 
         $this->load->view('template', $data);
 

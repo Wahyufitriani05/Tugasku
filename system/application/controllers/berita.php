@@ -78,7 +78,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -134,7 +134,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -232,7 +232,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -338,7 +338,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -422,7 +422,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -436,7 +436,7 @@ class Berita extends Controller {
 
         //cek apakah benar status login admin
 
-        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="SE")redirect('berita/lihatBerita','refresh');
+        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
 
 
 
@@ -571,7 +571,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -585,7 +585,7 @@ class Berita extends Controller {
 
         //cek apakah benar status login admin
 
-        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="SE")redirect('berita/lihatBerita','refresh');
+        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
 
 
 
@@ -705,8 +705,7 @@ class Berita extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='SE')
-
+        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
         {
 
             $data['js_menu'] = "menuKBK";
@@ -719,7 +718,7 @@ class Berita extends Controller {
 
         //cek apakah benar status login admin
 
-        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="SE")redirect('berita/lihatBerita','refresh');
+        if($type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
 	  $id_berita=$this->uri->segment(3, 0);
 	  $this->load->model('mberita');
 	  $this->mberita->hapusBerita($id_berita);

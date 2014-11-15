@@ -57,7 +57,7 @@ class Lib_user
     
     function cek_admin_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
     {
-        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'SE') 
+        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
         {}
         else
         {
@@ -124,7 +124,7 @@ class Lib_user
 
     function is_admin_kbk() 
     {
-        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'SE') 
+        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
             return TRUE;
         else
             return FALSE;

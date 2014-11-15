@@ -51,8 +51,13 @@ class mdosen extends Model {
         $this->db->query($query);
     }
 
-    function getKBK(){
-        $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 order by nama_kbk asc";
+    function getKBK($nama_kbk = NULL){
+        if (empty($nama_kbk)) {
+            $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 order by nama_kbk asc";
+        }
+        else {
+            $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 and nama_kbk = '". $nama_kbk ."'order by nama_kbk asc";
+        }
         $data = $this->db->query($query);
         //print_r($data->result()); die;
         return $data->result();

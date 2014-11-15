@@ -5,29 +5,29 @@
             <?php $this->load->view("jadwalMahasiswa/filter-jadwalSidangTA");?>
         </div>
         <form name='majuSidang' action='<?php echo site_url("jadwalMahasiswa/updateJadwalPesertaSidang/$id_sidangTA")?>' method='POST'>
-        <div style="margin: 1em;">
+            <div style="margin: 1em;">
+                <?php
+                // $this->load->view("jadwalMahasiswa/subContent-updatePesertaSidang");
+                echo "<div class='separator'></div>";
+                ?>
+            </div>
+            <style>
+            #scrollwide {
+            height: 400px;
+            overflow: auto;
+            width: 1150px;
+            white-space: nowrap;
+            }
+            </style>
             <?php
-           // $this->load->view("jadwalMahasiswa/subContent-updatePesertaSidang");
-            echo "<div class='separator'></div>";
+            if(!empty($list_proposal)) {
+                echo "<div id='scrollwide'>";
+                echo "<table id='majuSidang' class='table1' style='width:96%; margin-top:20px; border:1px solid #aaa;' border='1' cellpadding='2' cellspacing='3'>";
+                    echo $this->load->view("jadwalMahasiswa/jadwalSidangTA");
+                echo "</table>";
+                echo "</div>";
+            }
             ?>
-        </div>
-        <style>
-        #scrollwide {
-        height: 400px;
-        overflow: auto;
-        width: 1150px;
-        white-space: nowrap;
-        }
-        </style>
-        <?php
-        if(!empty($list_proposal)) {
-            echo "<div id='scrollwide'>";
-            echo "<table id='majuSidang' class='table1' style='width:96%; margin-top:20px; border:1px solid #aaa;' border='1' cellpadding='2' cellspacing='3'>";
-                echo $this->load->view("jadwalMahasiswa/jadwalSidangTA");
-            echo "</table>";
-            echo "</div>";
-        }
-        ?>
         </form>
     </div>
 </div>
