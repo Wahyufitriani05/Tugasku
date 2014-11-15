@@ -259,9 +259,9 @@ class jadwalMahasiswa extends Controller
 
         $nip = $this->filterDosen();
 
-        
 
         $id_sidangTA = $this->msidang->getIDSidangTAAktif();
+
 
         $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA, $id_kbk, $nip);        
 
@@ -269,8 +269,11 @@ class jadwalMahasiswa extends Controller
 
         $ada_jadwal = array();
 
+        // print_r($data['list_proposal']);
+
         foreach ($data['list_proposal'] as $row) {
 
+            
             $row->NAMA_KBK = $this->mdosen->detailKBK($row->ID_KBK)->NAMA_KBK;
 
             $jdw_mhs_tmp = $this->mjadwalmahasiswa->jadwalSidangTA(1, $row->ID_PROPOSAL, $id_sidangTA, 6, $nip);

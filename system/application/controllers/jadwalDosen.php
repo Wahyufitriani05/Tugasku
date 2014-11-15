@@ -18,8 +18,11 @@ class JadwalDosen extends Controller
 
     function dosenAvailability() 
     {
-        $this->lib_user->cek_admin_dosen();
-        
+        //$this->lib_user->cek_admin_dosen();
+        $this->lib_user->cek_admin_plus_kbk();
+        $nip_login = $this->session->userdata('nip');
+        $rmk = $this->mdosen->listKBK($nip_login);
+
         if($this->input->post('sidangTA')) {
             $id_sidangTA = $this->input->post('sidangTA');
             if($this->input->post('parent_treeid') != $this->input->post('current_parent_treeid'))
@@ -37,7 +40,12 @@ class JadwalDosen extends Controller
         $this->mslot->cekTreeID($parent_treeid, false);
 
         // set jadwal dan dosen
-        $data['dosen'] = $this->mdosen->listDosen();
+        if($this->session->userdata('type') == 'admin')
+            $data['dosen'] = $this->mdosen->listDosen();
+        else
+            $data['dosen'] = $this->mdosen->listDosen($rmk[0]->ID_KBK);
+
+
         $data['slot_waktu'] = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
         //var_dump($data['slot_waktu']);
         $status_jadwal = array();

@@ -53,6 +53,11 @@
             <div class='element mini'>:</div>
             <div class='element wide'><?php echo $this->lib_tugas_akhir->nama_status($detailTA->status); ?></div>
         </div>
+        <div class='detail'>
+            <div class='element'>KETERANGAN REVISI</div>
+            <div class='element mini'>:</div>
+            <div class='element wide'><?php if($detailTA->status == 11) echo $detailTA->revisi_proposal; else echo "-"; ?></div>
+        </div>
         <?php
         if(isset($proposal)) 
         {

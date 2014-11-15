@@ -169,6 +169,9 @@ class Sidang extends MY_Controller
     }
     
     // pengubahan Status Proposal
+
+
+
     function ubahStatusProposal($id_proposal="", $status='') 
     {
         if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true)
@@ -337,6 +340,12 @@ class Sidang extends MY_Controller
         }
     }
 	
+    function entryRevisiProposal()
+    {
+        # code...
+        $this->load->view('sidang/entrySidangProposal');
+    }
+
     // tambah SidProp
     function entrySidangProposal() 
     {

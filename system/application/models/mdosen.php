@@ -89,7 +89,7 @@ class mdosen extends Model {
     }
 
     function getListDosen($offset, $per_page){
-        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
+        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
         $data = $this->db->query($query);
         return $data->result();
     }
@@ -246,16 +246,19 @@ class mdosen extends Model {
         return $query->result();
     }
 
-    function listDosen() 
+    function listDosen($rmk='') 
     {
         $this->db->select("*");
         $this->db->from("dosen");
-        $this->db->not_like('NIP', '0000', 'after'); // kecuali NIP berawalan 00000 (admin, admin kbk)
-        $this->db->not_like('NIP', '051100009'); // kecuali NIP 
-        $this->db->not_like('NIP', '000011111'); // kecuali NIP 
-        $this->db->not_like('NIP', '051100006'); // kecuali NIP 
-        $this->db->not_like('NIP', '051100001'); // kecuali NIP 
-        $this->db->order_by('NAMA_DOSEN', 'ASC');
+        $this->db->join('kbk_dosen','dosen.NIP = kbk_dosen.NIP');
+        $this->db->not_like('dosen.NIP', '0000', 'after'); // kecuali NIP berawalan 00000 (admin, admin kbk)
+        $this->db->not_like('dosen.NIP', '051100009'); // kecuali NIP 
+        $this->db->not_like('dosen.NIP', '000011111'); // kecuali NIP 
+        $this->db->not_like('dosen.NIP', '051100006'); // kecuali NIP 
+        $this->db->not_like('dosen.NIP', '051100001'); // kecuali NIP 
+        $this->db->order_by('dosen.NAMA_DOSEN', 'ASC');
+        if($rmk != '')
+            $this->db->where('kbk_dosen.ID_KBK',$rmk);
         $query = $this->db->get();
         return $query->result();
     }

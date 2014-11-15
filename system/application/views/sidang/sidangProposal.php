@@ -10,16 +10,23 @@
     echo "<th width=150>PEMBIMBING 1</th>";
     echo "<th width=150>PEMBIMBING 2</th>";
     echo "<th width=120>STATUS</th>";
+    if($this->lib_user->is_admin())
+    {
+        echo "<th>Keterangan Revisi</th>";
+    }
     echo "</tr>";
     $i=1;
     foreach ($listTA as $row) {
         echo "<script type='text/javascript'>
             $(document).ready(function() {";
-                echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change','function'=>$this->pquery->remote_function(array(
-                    'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"'),
+                echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change',
+                    'function'=> $this->pquery->remote_function(array(
+                    'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"/'),
                     'update'=>"#flag_$row->ID_PROPOSAL"
-                ))));
-        echo "});
+                    ))));
+        echo "
+        });
+
         </script>";
        
         if($i%2==0)
@@ -43,9 +50,18 @@
                                 echo "<option value='".$row_s['id']."'>".$row_s['nama']."</option>";
                         }
                 echo "</select>";
+
             } else {
                 echo $this->lib_tugas_akhir->nama_status($row->STATUS);
             }
+        
+        if($this->lib_user->is_admin())
+        {
+            if($row->STATUS == 11)
+                echo "<td>$row->REVISI_PROPOSAL</td>";
+            else
+                echo "<td>-</td>";
+        }
         echo "<span id='flag_$row->ID_PROPOSAL'></span></td>";
         echo "</tr>";
         $i++;

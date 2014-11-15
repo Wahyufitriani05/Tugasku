@@ -298,7 +298,7 @@ class mproposal extends Model
     function getDetail($id_proposal) 
     {
         $sql = "
-            SELECT pr.tgl_sidang_ta_asli, l.tanggal_yudisium, pr.tgl_sidang_ta, (TO_DAYS(l.tanggal_yudisium) - TO_DAYS(substr(pr.tgl_sidang_ta,1,10))) /30 as lama_yudisium, (TO_DAYS(pr.tgl_sidang_ta_asli) - TO_DAYS(substr(pr.tgl_sidang_ta,1,10))) /30 as lama_sidang, pr.id_proposal, pr.judul_ta, pr.abstraksi, pr.status, kbk.nama_kbk, mhs.nrp, mhs.nama_lengkap_mahasiswa, ds1.nama_lengkap_dosen as pembimbing1, ds2.nama_lengkap_dosen as pembimbing2
+            SELECT pr.tgl_sidang_ta_asli, l.tanggal_yudisium, pr.tgl_sidang_ta, (TO_DAYS(l.tanggal_yudisium) - TO_DAYS(substr(pr.tgl_sidang_ta,1,10))) /30 as lama_yudisium, (TO_DAYS(pr.tgl_sidang_ta_asli) - TO_DAYS(substr(pr.tgl_sidang_ta,1,10))) /30 as lama_sidang, pr.id_proposal, pr.judul_ta, pr.abstraksi, pr.status, pr.revisi_proposal, kbk.nama_kbk, mhs.nrp, mhs.nama_lengkap_mahasiswa, ds1.nama_lengkap_dosen as pembimbing1, ds2.nama_lengkap_dosen as pembimbing2
             FROM proposal pr 
             JOIN mahasiswa mhs ON mhs.nrp = pr.nrp 
             JOIN kbk kbk ON kbk.id_kbk = pr.id_kbk 

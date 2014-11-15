@@ -213,6 +213,18 @@ var global_navigation_data = [
 
             "desc": "Pengaturan Jadwal Sidang Proposal"
 
+          },
+
+          {
+
+            "link": site_url+"jadwalMahasiswa/statusTA",
+
+            "image": "events",
+
+            "title": "Status TA",
+
+            "desc": "Penentuan Status TA"
+
           }
 
         ]
