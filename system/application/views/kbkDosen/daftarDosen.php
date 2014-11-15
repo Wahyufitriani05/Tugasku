@@ -8,6 +8,7 @@
     <tr>
         <th width="15">NIP</th>
 		<th>Nama</th>
+        <th>Status</th>
                 <?php
                     $count_kbk=0;
                     $nama_kbk= array();
@@ -55,6 +56,13 @@
                     else echo $row->nip2010;
                     echo "</td>
                         <td>$row->nama_lengkap_dosen</td>";
+                        if($row->status_dosen == 0)
+                        echo 
+                        "<td>Tidak Aktif</td>";
+                        else
+                        echo 
+                        "<td>Aktif</td>";
+                            
                 }
 
                 //state kbk tiap dosen
