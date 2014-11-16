@@ -176,7 +176,16 @@ class mjadwalmahasiswa extends Model
     
     function listProposalMajuSidang2ShowAll($id_sidangTA, $id_kbk="-1", $nip="-1") 
     {
+      $tambahan = NULL;
+
+      if ($id_kbk != "-1") {
+
+        $tambahan = " AND `proposal`.`ID_KBK` = " . $id_kbk . " ";
+
+      }
+      
         $sql = "
+
             select q.ID_KBK as ID_KBK_ASLI, q.ID_PROPOSAL as ID_PROPOSAL_ASLI, q.*, r.* from (
               SELECT `proposal`.*, `kbk`.`NAMA_KBK`, `ds1`.`INISIAL_DOSEN` as INISIAL_PEMBIMBING1, `ds1`.`NAMA_LENGKAP_DOSEN` as NAMA_PEMBIMBING1, `ds1`.`NIP2010` as NIP2010_PEMBIMBING1, `ds2`.`INISIAL_DOSEN` as INISIAL_PEMBIMBING2, `ds2`.`NAMA_LENGKAP_DOSEN` as NAMA_PEMBIMBING2, `ds2`.`NIP2010` as NIP2010_PEMBIMBING2, `mahasiswa`.`NAMA_LENGKAP_MAHASISWA` 
               FROM (`proposal`, `kbk`, `dosen` ds1, `dosen` ds2, `mahasiswa`) 
@@ -184,7 +193,8 @@ class mjadwalmahasiswa extends Model
               AND `proposal`.`PEMBIMBING1` = ds1.NIP 
               AND `proposal`.`PEMBIMBING2` = ds2.NIP 
               AND `proposal`.`ID_KBK` = kbk.ID_KBK 
-              AND `proposal`.`STATUS` = 3 
+              AND `proposal`.`STATUS` = 31
+              $tambahan
               AND `STA` = '$id_sidangTA' 
               ORDER BY `ID_KBK` ASC, `proposal`.`PEMBIMBING1` ASC, `proposal`.`PEMBIMBING2` ASC
             )q left join

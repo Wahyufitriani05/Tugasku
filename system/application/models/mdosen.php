@@ -56,7 +56,7 @@ class mdosen extends Model {
             $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 order by nama_kbk asc";
         }
         else {
-            $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 and nama_kbk = '". $nama_kbk ."'order by nama_kbk asc";
+            $query="select id_kbk, nama_kbk, keterangan_kbk, status_kbk from kbk where id_kbk!=0 and nama_kbk = '". $nama_kbk ."' limit 1";
         }
         $data = $this->db->query($query);
         //print_r($data->result()); die;

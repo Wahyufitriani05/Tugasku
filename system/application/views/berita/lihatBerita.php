@@ -55,7 +55,7 @@ foreach($berita as $row){
                         </table>
                     </div>";
 				$tipe_user=$this->session->userdata('type');
-				if($tipe_user=="admin" || $tipe_user=="NCC" || $tipe_user=="KCV" || $tipe_user=="SE")
+				if($tipe_user=="admin" || $tipe_user=="KBJ" || $tipe_user=="KCV" || $tipe_user=="RPL" || $tipe_user=="AJK" || $tipe_user=="MI" || $tipe_user=="DTK" || $tipe_user=="AP" || $tipe_user=="AP" || $tipe_user=="IGS")
 				{
 					//tombol ubah Berita
 					echo "

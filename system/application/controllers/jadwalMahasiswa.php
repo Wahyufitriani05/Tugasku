@@ -162,7 +162,33 @@ class jadwalMahasiswa extends Controller
 
     function pesertaSidang(){
 
-        $this->lib_user->cek_admin();
+        $this->load->library('session');
+
+        $dialog = false;
+
+        $redirect_page="error/index/";
+
+        $message="Halaman ini hanya bisa dilihat oleh Administrator atau Admin KBK";
+
+        if (!$this->lib_user->is_admin() && !$this->lib_user->is_admin_kbk()) {
+
+            $this->lib_alert->warning($message);
+
+            if($redirect_page == "error/index/") {
+
+                redirect("error/index/".$dialog);
+
+            } else {
+
+                redirect($redirect_page);
+
+            }
+
+        }
+
+        if (!$this->lib_user->is_admin() && $this->lib_user->is_admin_kbk()) {
+            $id_kbk = $this->mdosen->getKBK($this->session->userdata('type'))[0]->id_kbk;
+        }
 
         // pengambilan value FILTER SIDANG TA
 
@@ -182,11 +208,9 @@ class jadwalMahasiswa extends Controller
 
 
 
-        $this->msidang->cekSidangTA($id_sidangTA, "redirect");
+        $syalala = $this->msidang->cekSidangTA($id_sidangTA, "redirect");
 
-
-
-        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalMajuSidang2ShowAll($id_sidangTA);
+        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalMajuSidang2ShowAll($id_sidangTA, $id_kbk);
 
         //var_dump($data['list_proposal']);
 
@@ -350,7 +374,7 @@ class jadwalMahasiswa extends Controller
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 

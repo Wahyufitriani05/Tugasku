@@ -225,8 +225,19 @@ var global_navigation_data = [
 
             "desc": "Penentuan Status TA"
 
-          }
+          },
 
+          {
+
+            "link": site_url+"jadwalMahasiswa/pesertaSidang",
+
+            "image": "events",
+
+            "title": "Penjadwalan Jadwal Mahasiswa",
+
+            "desc": "Pengaturan Jadwal Mahasiswa yang akan maju sidang"
+
+          }
         ]
 
 },

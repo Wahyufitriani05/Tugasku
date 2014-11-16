@@ -28,7 +28,7 @@ class mproposal extends Model
 
     function getListDosenPembimbing(){
         //$query="select nama_lengkap_dosen, nip, nip2010 from dosen where status_dosen!='0' order by nama_lengkap_dosen asc";
-        $query="select nama_lengkap_dosen, nip, nip2010 from dosen where inisial_dosen!='adm' and inisial_dosen!='ncc' and inisial_dosen!='kcv' and inisial_dosen!='se' and nip!='0000' order by nama_lengkap_dosen asc";
+        $query="select nama_lengkap_dosen, nip, nip2010 from dosen where inisial_dosen!='adm' and inisial_dosen!='kbj' and inisial_dosen!='kcv' and inisial_dosen!='rpl' and inisial_dosen!='ajk' and inisial_dosen!='mi' and inisial_dosen!='dtk' and inisial_dosen!='ap' and inisial_dosen!='igs' and nip!='0000' order by nama_lengkap_dosen asc";
         $data=$this->db->query($query);
         return $data->result();
     }

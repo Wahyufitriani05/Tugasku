@@ -43,9 +43,15 @@ class Sidang extends MY_Controller
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "sidang/content-sidangProposal";
         
-        $arr_kbk['NCC'] = 1;
+        $arr_kbk['KBJ'] = 1;
         $arr_kbk['KCV'] = 2;
-        $arr_kbk['SE'] = 3;
+        $arr_kbk['RPL'] = 3;
+        $arr_kbk['AJK'] = 4;
+        $arr_kbk['MI'] = 5;
+        $arr_kbk['DTK'] = 6;
+        $arr_kbk['AP'] = 7;
+        $arr_kbk['IGS'] = 8;
+
         if($this->lib_user->is_admin_kbk() == true) 
         {
             $id_kbk = $arr_kbk[$this->session->userdata('type')];
@@ -112,9 +118,15 @@ class Sidang extends MY_Controller
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "sidang/content-pendaftaranSidangProposal";
         
-        $arr_kbk['NCC'] = 1;
+        $arr_kbk['KBJ'] = 1;
         $arr_kbk['KCV'] = 2;
-        $arr_kbk['SE'] = 3;
+        $arr_kbk['RPL'] = 3;
+        $arr_kbk['AJK'] = 4;
+        $arr_kbk['MI'] = 5;
+        $arr_kbk['DTK'] = 6;
+        $arr_kbk['AP'] = 7;
+        $arr_kbk['IGS'] = 8;
+
         if($this->lib_user->is_admin_kbk() == true) 
         {
             $id_kbk = $arr_kbk[$this->session->userdata('type')];
@@ -231,9 +243,15 @@ class Sidang extends MY_Controller
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "sidang/content-jadwalSidangProposal";
         
-        $arr_kbk['NCC'] = 1;
+        $arr_kbk['KBJ'] = 1;
         $arr_kbk['KCV'] = 2;
-        $arr_kbk['SE'] = 3;
+        $arr_kbk['RPL'] = 3;
+        $arr_kbk['AJK'] = 4;
+        $arr_kbk['MI'] = 5;
+        $arr_kbk['DTK'] = 6;
+        $arr_kbk['AP'] = 7;
+        $arr_kbk['IGS'] = 8;
+
         if($this->lib_user->is_admin_kbk() == true) 
         {
             $id_kbk = $arr_kbk[$this->session->userdata('type')];
@@ -357,9 +375,15 @@ class Sidang extends MY_Controller
             redirect ("error/index/".true);
         }
         
-        $arr_kbk['NCC'] = 1;
+        $arr_kbk['KBJ'] = 1;
         $arr_kbk['KCV'] = 2;
-        $arr_kbk['SE'] = 3;
+        $arr_kbk['RPL'] = 3;
+        $arr_kbk['AJK'] = 4;
+        $arr_kbk['MI'] = 5;
+        $arr_kbk['DTK'] = 6;
+        $arr_kbk['AP'] = 7;
+        $arr_kbk['IGS'] = 8;
+        
         if($this->lib_user->is_admin_kbk() == true) 
         {
             $id_kbk = $arr_kbk[$this->session->userdata('type')];

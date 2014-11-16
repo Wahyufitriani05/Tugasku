@@ -17,7 +17,7 @@ class Lib_user
     {
         if($this->session_ci->userdata('type') == 'admin' ) 
             $js_menu = 'menuAdmin';
-        elseif($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'SE') 
+        elseif($this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
             $js_menu = 'menuKBK';
         elseif ($this->session_ci->userdata('type') == 'dosen') 
             $js_menu = 'menuDosen';
@@ -31,7 +31,7 @@ class Lib_user
     function get_header() {
         if($this->session_ci->userdata('type') == 'admin' ) 
             $header = 'headerAdmin';
-        elseif($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'SE') 
+        elseif($this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
             $header = 'headerAdmin';
         elseif ($this->session_ci->userdata('type') == 'dosen') 
             $header = 'headerDosen';
@@ -57,7 +57,7 @@ class Lib_user
 
     function cek_admin_plus_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
     {
-        if($this->session_ci->userdata('type') == 'admin' || $this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'SE') 
+        if($this->session_ci->userdata('type') == 'admin' || $this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
         {}
         else
         {
@@ -72,7 +72,7 @@ class Lib_user
     
     function cek_admin_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
     {
-        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
+        if($this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
         {}
         else
         {
@@ -139,7 +139,7 @@ class Lib_user
 
     function is_admin_kbk() 
     {
-        if($this->session_ci->userdata('type') == 'NCC' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
+        if($this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
             return TRUE;
         else
             return FALSE;

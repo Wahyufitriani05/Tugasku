@@ -2,7 +2,7 @@
     <div class='detail' style="width:120px; float: left">
         <div class='element'>
             <select onchange="document.forms['filter-form'].submit();" name="kbk" style="min-width: 150px; height: 20px;">
-                <option value="-1"> - Pilih KBK - </option>
+                <option value="-1"> - Pilih RMK - </option>
                 <?php
                 foreach ($kbk as $row_k) {
                     if($row_k->ID_KBK == $this->session->userdata('kbk') && $this->session->userdata('kbk') != '')

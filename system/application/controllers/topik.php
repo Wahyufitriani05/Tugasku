@@ -72,7 +72,7 @@ class Topik extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -208,7 +208,7 @@ class Topik extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -324,7 +324,7 @@ class Topik extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
         {
 
             $data['js_menu'] = "menuKBK";
@@ -431,7 +431,7 @@ class Topik extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
         {
 
             $data['js_menu'] = "menuKBK";
@@ -442,7 +442,7 @@ class Topik extends Controller {
 
 
 
-        if($type!="dosen" && $type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS"){
+        if($type!="dosen" && $type!="admin" && $type!="KBJ" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS"){
 
             redirect('topik/lihatTopik', 'refresh');
 
@@ -502,7 +502,7 @@ class Topik extends Controller {
 
         if(isset($this->session->userdata['type']))$type=$this->session->userdata['type'];
 
-        if($type!='dosen' && $type!='admin'&& $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
+        if($type!='dosen' && $type!='admin'&& $type!="KBJ" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
 
         {
 
@@ -540,7 +540,7 @@ class Topik extends Controller {
 
         }
 
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
 
         {
 
@@ -652,7 +652,7 @@ class Topik extends Controller {
 
         if(isset($this->session->userdata['type']))$type=$this->session->userdata['type'];
 
-        if($type!='dosen' && $type!='admin' && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
+        if($type!='dosen' && $type!='admin' && $type!="KBJ" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
 
         {
 
@@ -715,7 +715,7 @@ class Topik extends Controller {
 
         if(isset($this->session->userdata['type']))$type=$this->session->userdata['type'];
 
-        if($type!='dosen' && $type!='admin' && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
+        if($type!='dosen' && $type!='admin' && $type!="KBJ" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")
 
         {
 

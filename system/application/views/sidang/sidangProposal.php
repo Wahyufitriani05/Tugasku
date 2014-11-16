@@ -41,7 +41,7 @@
         echo "<td>$row->PEMBIMBING1</td>";
         echo "<td>$row->PEMBIMBING2</td>";
         echo "<td>";
-            if($this->lib_user->is_admin() || $this->session->userdata('type')=='NCC' || $this->session->userdata('type')=='KCV' || $this->session->userdata('type')=='SE') {
+            if($this->lib_user->is_admin() || $this->session->userdata('type')=='KBJ' || $this->session->userdata('type')=='KCV' || $this->session->userdata('type')=='RPL' || $this->session->userdata('type')=='AJK' || $this->session->userdata('type')=='MI' || $this->session->userdata('type')=='DTK' || $this->session->userdata('type')=='AP' || $this->session->userdata('type')=='IGS') {
                 echo "<select id='status_$row->ID_PROPOSAL' name='status' style='min-width: 150px; height: 20px;'>";
                         foreach ($status as $row_s) {
                             if($row_s['id']==$row->STATUS)

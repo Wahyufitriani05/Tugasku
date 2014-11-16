@@ -52,14 +52,14 @@ class Login extends Controller {
             $data['js_menu'] = "menuAdmin";
             $data['header'] = "headerAdmin";
         }
-        else if($type=='NCC' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
+        else if($type=='KBJ' || $type=='KCV' || $type=='RPL' || $type=='AJK' || $type=='MI' || $type=='DTK' || $type=='AP' || $type=='IGS')
         {
             $data['js_menu'] = "menuKBK";
             $data['header'] = "headerAdmin";
         }
 
         //cek apakah benar status login admin
-        if($type!="mahasiswa" && $type!="dosen" && $type!="admin" && $type!="NCC" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
+        if($type!="mahasiswa" && $type!="dosen" && $type!="admin" && $type!="KBJ" && $type!="KCV" && $type!="RPL" && $type!="AJK" && $type!="MI" && $type!="DTK" && $type!="AP" && $type!="IGS")redirect('berita/lihatBerita','refresh');
 
         $this->form_validation->set_rules('password_lama', 'Password Lama', 'required');
         $this->form_validation->set_rules('password_baru', 'Password Baru', 'required|min_length[5]');
@@ -140,8 +140,8 @@ class Login extends Controller {
                         $data['js_menu'] = "menuAdmin";
                         $data['header'] = "headerAdmin";
                     }
-                    else if($row->inisial_dosen=="NCC"){
-                        $this->session->set_userdata('type', 'NCC');
+                    else if($row->inisial_dosen=="KBJ"){
+                        $this->session->set_userdata('type', 'KBJ');
                         $this->session->set_userdata('nama', 'AdminNCC');
                         $data['js_menu'] = "menuKBK";
                         $data['header'] = "headerAdmin";

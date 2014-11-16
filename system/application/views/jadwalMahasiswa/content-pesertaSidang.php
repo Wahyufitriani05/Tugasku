@@ -7,7 +7,7 @@
             ?>
         </div>
         <form name='majuSidang' action='<?php echo site_url("jadwalMahasiswa/updateJadwalPesertaSidang/$id_sidangTA")?>' method='POST'>
-        <div style="margin: 1em;">
+        <div style="margin: 1em 1em 2.3em;">
             <?php
             $this->load->view("jadwalMahasiswa/subContent-updatePesertaSidang");
             echo "<div class='separator'></div>";
@@ -17,14 +17,14 @@
         #scrollwide {
         height: 400px;
         overflow: auto;
-        width: 1150px;
+        width: 100%;
         white-space: nowrap;
         }
         </style>
         <?php
         if(!empty($list_proposal)) {
             echo "<div id='scrollwide'>";
-            echo "<table id='majuSidang' class='table1' style='width:96%; margin-top:20px; border:1px solid #aaa;' border='1' cellpadding='2' cellspacing='3'>";
+            echo "<table id='majuSidang' class='table1' style='width:96%; margin: 0px; border:1px solid #aaa;' border='1' cellpadding='2' cellspacing='3'>";
                 echo $this->load->view("jadwalMahasiswa/pesertaSidang");
             echo "</table>";
             echo "</div>";

@@ -478,7 +478,7 @@ class Proposal extends Controller {
 
         //cek apakah benar status login admin
 
-        if($type!="mahasiswa" && $type!='admin' && $type!='NCC' && $type!='KCV' && $type!='SE')redirect('berita/lihatBerita','refresh');
+        if($type!="mahasiswa" && $type!='admin' && $type!='KBJ' && $type!='KCV' && $type!='SE')redirect('berita/lihatBerita','refresh');
 		if($this->uri->segment(3, 0)==0) redirect('berita/lihatBerita','refresh');
         $this->load->model('mproposal');
 

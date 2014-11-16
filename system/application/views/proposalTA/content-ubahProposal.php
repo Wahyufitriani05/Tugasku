@@ -48,7 +48,7 @@ foreach($proposal as $row){
 ?>
 <?php 
 $location="proposal/ubahProposal/";
-if($this->session->userdata('type')=="admin" || $this->session->userdata('type')=="NCC" || $this->session->userdata('type')=="KCV" || $this->session->userdata('type')=="SE")$location.=$this->uri->segment(3, 0)."/".$this->uri->segment(4, 0);
+if($this->session->userdata('type')=="admin" || $this->session->userdata('type')=="KBJ" || $this->session->userdata('type')=="KCV" || $this->session->userdata('type')=="RPL" || $this->session->userdata('type')=="AJK" || $this->session->userdata('type')=="MI" || $this->session->userdata('type')=="DTK" || $this->session->userdata('type')=="AP" || $this->session->userdata('type')=="IGS")$location.=$this->uri->segment(3, 0)."/".$this->uri->segment(4, 0);
 else if($this->session->userdata('type')=="mahasiswa")$location.=$this->uri->segment(3, 0);
 echo form_open_multipart($location);?>
     <table width="100%">
