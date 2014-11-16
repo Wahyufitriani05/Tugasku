@@ -187,7 +187,12 @@ class jadwalMahasiswa extends Controller
         }
 
         if (!$this->lib_user->is_admin() && $this->lib_user->is_admin_kbk()) {
-            $id_kbk = $this->mdosen->getKBK($this->session->userdata('type'))[0]->id_kbk;
+            $id = $this->mdosen->getKBK($this->session->userdata('type'));
+            $id_kbk = $id[0]->id_kbk;
+        }
+
+        elseif ($this->lib_user->is_admin() && !$this->lib_user->is_admin_kbk()) {
+            $id_kbk = "-1";
         }
 
         // pengambilan value FILTER SIDANG TA

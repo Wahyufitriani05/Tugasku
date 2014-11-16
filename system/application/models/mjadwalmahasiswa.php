@@ -193,7 +193,7 @@ class mjadwalmahasiswa extends Model
               AND `proposal`.`PEMBIMBING1` = ds1.NIP 
               AND `proposal`.`PEMBIMBING2` = ds2.NIP 
               AND `proposal`.`ID_KBK` = kbk.ID_KBK 
-              AND `proposal`.`STATUS` = 31
+              AND `proposal`.`STATUS` = 3
               $tambahan
               AND `STA` = '$id_sidangTA' 
               ORDER BY `ID_KBK` ASC, `proposal`.`PEMBIMBING1` ASC, `proposal`.`PEMBIMBING2` ASC

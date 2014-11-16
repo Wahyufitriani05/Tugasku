@@ -362,7 +362,7 @@ class Sidang extends MY_Controller
     {
         $data['id_proposal'] = $id_proposal;
         $data['revisi'] = $this->mproposal->getRevisiProposal($id_proposal);
-        $this->load->view('sidang/entrySidangProposal',$data);
+        $this->load->view('sidang/entryRevisiProposal',$data);
     }
 
     function updateRevisiProposal()
