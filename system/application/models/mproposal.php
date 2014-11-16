@@ -325,7 +325,6 @@ class mproposal extends Model
         if ($query->num_rows() > 0) {
             $array = $query->first_row('array');
             return $array['REVISI_PROPOSAL'];
-            // return $query->row_array()['REVISI_PROPOSAL'];
         }
         else {
             return NULL;
