@@ -1421,7 +1421,7 @@ class jadwalMahasiswa extends Controller
 
     function confirmed($jadwalmhs) {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $statusku = $jadwalmhs['STATUS'];
 
@@ -1757,7 +1757,7 @@ class jadwalMahasiswa extends Controller
 
     function cariJadwal($id_sidangTA="",$nip_pemb1="",$nip_pemb2="",$id_prop="",$id_kbk=""){
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         //var_dump($nip_pemb2);
 
@@ -1817,7 +1817,7 @@ class jadwalMahasiswa extends Controller
 
     function pilihPenguji($id_sidangTA="",$nip_pemb1="",$nip_pemb2="",$id_prop="",$id_kbk="", $treeid="", $id_jdw_ruang_avail="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk();
 
         $this->form_validation->set_rules('idproposal', 'idproposal', 'required');
 

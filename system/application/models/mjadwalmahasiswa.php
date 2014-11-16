@@ -400,6 +400,7 @@ class mjadwalmahasiswa extends Model
                 AND KD.ID_KBK = '$id_kbk'
                 AND JA.SIDANGTA = '$id_sidangTA'
                 AND JA.ID_SLOT = '$treeid'
+                AND D.STATUS_DOSEN = 2 
                 ORDER BY JA.ID_SLOT, KD.NIP";
         $query = $this->db->query($sql);
         return $query->result();
@@ -415,6 +416,7 @@ class mjadwalmahasiswa extends Model
                 AND JA.SIDANGTA = '$id_sidangTA'
                 AND JA.ID_SLOT = '$treeid'
                 AND JA.STATUS = '0'
+                AND D.STATUS_DOSEN = 2 
                 AND (
                 KD.NIP <> '$nip1'
                 AND KD.NIP <> '$nip2'
@@ -433,6 +435,9 @@ class mjadwalmahasiswa extends Model
             $this->db->where_not_in("NIP", array("$dosenTerpakai->NIP1","$dosenTerpakai->NIP2","$dosenTerpakai->NIP3","$dosenTerpakai->NIP4"));
         $this->db->not_like('NIP', '00000', 'after');
         $this->db->order_by('NIP', 'ASC');
+        
+        $this->db->where("STATUS_DOSEN",2);
+        
         $query = $this->db->get();
         return $query->result();
     }
