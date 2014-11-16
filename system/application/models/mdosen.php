@@ -265,6 +265,7 @@ class mdosen extends Model {
         $this->db->not_like('dosen.NIP', '051100006'); // kecuali NIP 
         $this->db->not_like('dosen.NIP', '051100001'); // kecuali NIP 
         $this->db->order_by('dosen.NAMA_DOSEN', 'ASC');
+        $this->db->where('dosen.status_dosen',2);
         if($rmk != '')
         {            
             $this->db->where('kbk_dosen.ID_KBK',$rmk);
