@@ -22,7 +22,7 @@
                 echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change',
                     'function'=> $this->pquery->remote_function(array(
                     'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"/'),
-                    'update'=>"#flag_$row->ID_PROPOSAL"
+                    'update'=>"#flag2_$row->ID_PROPOSAL"
                     ))));
         echo "
         });
@@ -58,7 +58,7 @@
         if($this->lib_user->is_admin() or $this->lib_user->is_admin_kbk())
         {
             if($row->STATUS == 11)
-                echo "<td><a class='thickbox' title='Detail Revisi' href='".site_url("sidang/entryRevisiProposal/$row->ID_PROPOSAL?TB_iframe=true&height=215&width=640")."'>Detail Revisi</a></td>";
+                echo "<td><a id='flag2_$row->ID_PROPOSAL' class='thickbox' title='Detail Revisi' href='".site_url("sidang/entryRevisiProposal/$row->ID_PROPOSAL?TB_iframe=true&height=215&width=640")."'>Detail Revisi</a></td>";
             else
                 echo "<td>-</td>";
         }

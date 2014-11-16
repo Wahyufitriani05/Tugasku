@@ -323,7 +323,9 @@ class mproposal extends Model
     {
         $query = $this->db->get_where('proposal', array('id_proposal' => $id_proposal));
         if ($query->num_rows() > 0) {
-            return $query->first_row('array')['REVISI_PROPOSAL'];
+            $array = $query->first_row('array');
+            return $array['REVISI_PROPOSAL'];
+            // return $query->row_array()['REVISI_PROPOSAL'];
         }
         else {
             return NULL;

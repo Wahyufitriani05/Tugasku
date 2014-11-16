@@ -478,7 +478,8 @@ class jadwalMahasiswa extends Controller
 
         else {
             if ($id_kbk == -1) {
-                $id_kbk = $this->mdosen->getKBK($nama_kbk)[0]->id_kbk;
+                $id = $this->mdosen->getKBK($nama_kbk);
+                $id_kbk = $id[0]->id_kbk;
             }
             $data['kbk'] = $this->mdosen->listKBK("",$id_kbk);
         }
