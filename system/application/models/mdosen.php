@@ -255,7 +255,8 @@ class mdosen extends Model {
 
     function listDosen($rmk='') 
     {
-        $this->db->select("*");
+        
+        $this->db->select("dosen.*");
         $this->db->from("dosen");
         $this->db->join('kbk_dosen','dosen.NIP = kbk_dosen.NIP');
         $this->db->not_like('dosen.NIP', '0000', 'after'); // kecuali NIP berawalan 00000 (admin, admin kbk)
@@ -265,7 +266,13 @@ class mdosen extends Model {
         $this->db->not_like('dosen.NIP', '051100001'); // kecuali NIP 
         $this->db->order_by('dosen.NAMA_DOSEN', 'ASC');
         if($rmk != '')
+        {            
             $this->db->where('kbk_dosen.ID_KBK',$rmk);
+        }
+        else
+        {
+            $this->db->distinct();
+        }
         $query = $this->db->get();
         return $query->result();
     }
