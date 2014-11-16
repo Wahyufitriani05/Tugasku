@@ -10,12 +10,6 @@
                 $tanda = " ";
             echo "<option $tanda value='".$row_k->ID_KBK."'>".$row_k->NAMA_KBK."</option>";
         }
-        
-        if("3" == $this->session->userdata('filter_kbk'))
-                $tanda = " selected ";
-            else
-                $tanda = " ";
-        echo "<option $tanda value='3'>RPL</option>";
         ?>
     </select>
 
