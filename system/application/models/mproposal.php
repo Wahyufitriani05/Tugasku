@@ -311,6 +311,24 @@ class mproposal extends Model
         $result = $query->row();
         return $result;
     }
+
+    function updateRevisiProposal($id_proposal,$revisi)
+    {
+        $sql = "
+            UPDATE proposal SET revisi_proposal = '".$revisi."' WHERE id_proposal = ".$id_proposal."";
+        $query = $this->db->query($sql);
+    }
+
+    function getRevisiProposal($id_proposal)
+    {
+        $query = $this->db->get_where('proposal', array('id_proposal' => $id_proposal));
+        if ($query->num_rows() > 0) {
+            return $query->first_row('array')['REVISI_PROPOSAL'];
+        }
+        else {
+            return NULL;
+        }
+    }
     
     function cek($filter="", $dialog="", $redirect_page="error/index/") 
     {

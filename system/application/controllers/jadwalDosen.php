@@ -45,7 +45,6 @@ class JadwalDosen extends Controller
         else
             $data['dosen'] = $this->mdosen->listDosen($rmk[0]->ID_KBK);
 
-
         $data['slot_waktu'] = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
         //var_dump($data['slot_waktu']);
         $status_jadwal = array();

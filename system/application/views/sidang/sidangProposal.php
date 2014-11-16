@@ -58,7 +58,7 @@
         if($this->lib_user->is_admin() or $this->lib_user->is_admin_kbk())
         {
             if($row->STATUS == 11)
-                echo "<td>$row->REVISI_PROPOSAL</td>";
+                echo "<td><a class='thickbox' title='Detail Revisi' href='".site_url("sidang/entryRevisiProposal/$row->ID_PROPOSAL?TB_iframe=true&height=215&width=640")."'>Detail Revisi</a></td>";
             else
                 echo "<td>-</td>";
         }

@@ -62,7 +62,7 @@ class Sidang extends MY_Controller
         {
             $id_kbk = $this->filterKBK();
             $daftar_kbk = $this->mdosen->listKBK();
-            array_pop($daftar_kbk); // hapus array urutan pertama
+            // array_pop($daftar_kbk); // hapus array urutan pertama
         }
 		if($this->input->post('sid_prop')!='')
 		{
@@ -358,10 +358,18 @@ class Sidang extends MY_Controller
         }
     }
 	
-    function entryRevisiProposal()
+    function entryRevisiProposal($id_proposal)
     {
-        # code...
-        $this->load->view('sidang/entrySidangProposal');
+        $data['id_proposal'] = $id_proposal;
+        $data['revisi'] = $this->mproposal->getRevisiProposal($id_proposal);
+        $this->load->view('sidang/entrySidangProposal',$data);
+    }
+
+    function updateRevisiProposal()
+    {
+        $revisi = $this->input->post('revisi');
+        $id_proposal = $this->input->post('id_proposal');
+        $this->mproposal->updateRevisiProposal($id_proposal,$revisi);
     }
 
     // tambah SidProp
