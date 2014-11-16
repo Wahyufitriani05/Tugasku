@@ -214,9 +214,19 @@ var global_navigation_data = [
             "desc": "Pengaturan Jadwal Sidang Proposal"
 
           },
-
           {
 
+            "link": site_url+"jadwalDosen/dosenAvailability",
+
+            "image": "events",
+
+            "title": "Penjadwalan Dosen",
+
+            "desc": "Pengaturan Jadwal Dosen untuk Sidang TA"
+
+          },
+          {
+              
             "link": site_url+"jadwalMahasiswa/statusTA",
 
             "image": "events",

@@ -1,7 +1,7 @@
 <?php
 class JadwalDosen extends Controller 
 {
-    
+    var $session_ci;
     function JadwalDosen() 
     {
         parent::Controller();
@@ -14,14 +14,19 @@ class JadwalDosen extends Controller
         $this->load->model('mdosen');
         $this->load->model('mslot');
         $this->load->model('mjadwaldosenavail');
+        $this->session_ci = new CI_Session();
     }
 
     function dosenAvailability() 
     {
         //$this->lib_user->cek_admin_dosen();
-        $this->lib_user->cek_admin_plus_kbk();
+        $this->lib_user->cek_admin_dosen_kbk();
         $nip_login = $this->session->userdata('nip');
-        $rmk = $this->mdosen->listKBK($nip_login);
+        
+        if($this->lib_user->is_admin_kbk())
+        {
+            $rmk = $this->mdosen->listKBK($nip_login);
+        }
 
         if($this->input->post('sidangTA')) {
             $id_sidangTA = $this->input->post('sidangTA');
@@ -40,9 +45,9 @@ class JadwalDosen extends Controller
         $this->mslot->cekTreeID($parent_treeid, false);
 
         // set jadwal dan dosen
-        if($this->session->userdata('type') == 'admin')
+        if($this->session->userdata('type') == 'admin' || $this->session->userdata('type') == 'dosen')
             $data['dosen'] = $this->mdosen->listDosen();
-        else
+        else if($this->lib_user->is_admin_kbk())
             $data['dosen'] = $this->mdosen->listDosen($rmk[0]->ID_KBK);
 
         $data['slot_waktu'] = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
@@ -137,7 +142,7 @@ class JadwalDosen extends Controller
     // update waktu luang dosen
     function updateJadwalDosen($id_sidangTA="", $parent_treeid="") 
     {
-        $this->lib_user->cek_admin_dosen();
+        $this->lib_user->cek_admin_dosen_kbk();
         
         $this->msidang->cekSidangTA($id_sidangTA, false);
         $this->mslot->cekTreeID($parent_treeid, false);
@@ -206,7 +211,7 @@ class JadwalDosen extends Controller
             foreach($arrayslotwaktu as $slotwaktu) {                            
                 if($array[$dosen->NIP][$slotwaktu->TREEID]==0)
                 {
-                    if(($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
+                    if(($this->lib_user->is_admin_kbk() && $this->mdosen->isDosenRMK($dosen->NIP,$this->session_ci->userdata('type'))) || ($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
                     {
                         if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) > 0)
                         {                          

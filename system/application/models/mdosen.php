@@ -15,6 +15,13 @@ class mdosen extends Model {
         $data = $this->db->query($query);
         return $data->result();
     }
+    
+    function isDosenRMK($nip, $kbk)
+    {
+        $query = "select * from kbk_dosen kd, kbk k where kd.nip=".$this->db->escape($nip)." and kd.id_kbk = k.id_kbk and k.nama_kbk=".$this->db->escape($kbk);
+        $data = $this->db->query($query);
+        return $data->result();
+    }
 
     function getDetailDosen(){
         $query="select d.nip, d.nip2010, d.nama_dosen, d.telp_dosen, d.nama_lengkap_dosen, d.jenis_kelamin, d.status_dosen, d.email_dosen, d.inisial_dosen, k.nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and (d.nip=".$this->db->escape($this->uri->segment(3,'kosong'))." or d.nip2010=".$this->db->escape($this->uri->segment(3,'kosong')).") order by k.nama_kbk asc";

@@ -70,6 +70,21 @@ class Lib_user
         }
     }
     
+    function cek_admin_dosen_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
+    {
+        if($this->session_ci->userdata('type') == 'admin' || $this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS' || $this->session_ci->userdata('type') == 'dosen' || $this->session_ci->userdata('type') == 'admin') 
+        {}
+        else
+        {
+            $this->lib_alert->warning($message);
+            if($redirect_page == "error/index/") {
+                redirect("error/index/".$dialog);
+            } else {
+                redirect($redirect_page);
+            }
+        }
+    }
+    
     function cek_admin_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
     {
         if($this->session_ci->userdata('type') == 'KBJ' || $this->session_ci->userdata('type') == 'KCV' || $this->session_ci->userdata('type') == 'RPL' || $this->session_ci->userdata('type') == 'AJK' || $this->session_ci->userdata('type') == 'MI' || $this->session_ci->userdata('type') == 'DTK' || $this->session_ci->userdata('type') == 'AP' || $this->session_ci->userdata('type') == 'IGS') 
