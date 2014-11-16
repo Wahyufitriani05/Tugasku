@@ -509,7 +509,7 @@ class jadwalMahasiswa extends Controller
 
     function updateStatusTA () {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $x = $_POST['status'];
 
