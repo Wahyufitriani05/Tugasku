@@ -56,12 +56,12 @@
                     else echo $row->nip2010;
                     echo "</td>
                         <td>$row->nama_lengkap_dosen</td>";
-                        if($row->status_dosen == 0)
-                        echo 
-                        "<td>Tidak Aktif</td>";
+                    
+                        if($row->status_dosen == 0)                        
+                        echo "<td align=\"center\"><a href=\"".site_url('kbk/ubahStatusDosen/'.$nip.'/2')."\">-</a></td>";
                         else
                         echo 
-                        "<td>Aktif</td>";
+                        "<td align=\"center\"><a href=\"".site_url('kbk/ubahStatusDosen/'.$nip.'/0')."\">Aktif</a></td>";
                             
                 }
 

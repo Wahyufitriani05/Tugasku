@@ -57,6 +57,12 @@ class mdosen extends Model {
         else $query="delete from kbk_dosen where nip=".$this->db->escape($nip_dosen)." and id_kbk=".$this->db->escape($id_kbk);
         $this->db->query($query);
     }
+    
+    function updateStatusDosen($nip_dosen, $perintah){
+        $query="";
+        $query = "update dosen set status_dosen = " .$this->db->escape($perintah). " where nip = ". $nip_dosen;
+        $this->db->query($query);
+    }
 
     function getKBK($nama_kbk = NULL){
         if (empty($nama_kbk)) {

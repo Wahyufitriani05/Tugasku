@@ -214,6 +214,30 @@ class Kbk extends Controller {
         redirect('kbk/daftarDosen','refresh');
     }
 
+    function ubahStatusDosen(){
+        $tipe="guest";
+        $tipe=$this->session->userdata('type');
+        if($tipe=="admin"){
+            $data['js_menu'] = "menuAdmin";
+            $data['header'] = "headerAdmin";
+        }
+        else if($tipe=="dosen"){
+            $data['js_menu'] = "menuDosen";
+            $data['header'] = "headerDosen";
+        }
+        if($tipe!="admin")redirect('berita/lihatberita', 'refresh');
+
+        $nip_dosen=$this->uri->segment(3,0);
+        $perintah=$this->uri->segment(4,0);
+        
+        if($nip_dosen!=0){
+            $this->load->model('mdosen');
+            $this->mdosen->updateStatusDosen($nip_dosen, $perintah);
+            $this->session->set_userdata('sukses','Status Dosen dengan NIP '.$nip_dosen.' berhasil diupdate');
+        }
+        redirect('kbk/daftarDosen','refresh');
+    }
+    
     function cariDosen(){
         $data['title'] = "Daftar Dosen & KBK";
         $data['js_menu'] = "menuAdmin";
