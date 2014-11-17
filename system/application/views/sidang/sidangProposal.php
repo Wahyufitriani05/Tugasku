@@ -22,8 +22,13 @@
                 echo $this->pquery->observe_field("#status_$row->ID_PROPOSAL",array('event'=>'change',
                     'function'=> $this->pquery->remote_function(array(
                     'url'=>site_url('sidang/ubahStatusProposal/'.$row->ID_PROPOSAL.'/"+$("#status_'.$row->ID_PROPOSAL.'").val()+"/'),
+                    //'with'=>location.reload(true)
                     'update'=>"#flag2_$row->ID_PROPOSAL"
-                    ))));
+                    
+                    ))
+                    
+                    ));
+                    
         echo "
         });
 

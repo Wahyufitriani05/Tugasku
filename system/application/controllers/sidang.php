@@ -197,8 +197,16 @@ class Sidang extends MY_Controller
                         'TGL_SIDANG_PROP' => date("Y-m-d")
                     );
                     $this->mproposal->update($data, $id_proposal);
-                    // tampilkan icon penanda update sukses
+                    
                     echo " &nbsp; <img src='".base_url()."assets/images/updated.png'>";
+                    // tampilkan icon penanda update sukses
+                    /*
+                    if($status!='11')
+                        echo " &nbsp; <img src='".base_url()."assets/images/updated.png'>";
+                    else
+                        redirect(base_url().'index.php/sidang/sidangProposal');
+                     * 
+                     */
                 } 
                 else 
                 {

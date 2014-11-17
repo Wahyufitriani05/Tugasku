@@ -18,7 +18,7 @@ class mruang extends Model
     
     function add($data) 
     {
-        $this->db->insert(jadwal_ruangan, $data);
+        $this->db->insert('jadwal_ruangan', $data);
     }
     
     function update($data, $id_ruang) 
@@ -29,6 +29,19 @@ class mruang extends Model
     function hapus($id_ruang) 
     {
         $this->db->delete('jadwal_ruangan', array('ID_JDW_RUANG' => $this->db->escape_like_str($id_ruang)));
+    }
+    
+    function cekRuangan($id_sidangTA, $Deskripsi)
+    {
+        $this->db->select("ID_JDW_RUANG");
+        $this->db->from("jadwal_ruangan");
+        $this->db->where("sidangTA", $this->db->escape_like_str($id_sidangTA));
+        $this->db->where("Deskripsi", $this->db->escape_like_str($Deskripsi));
+        $query = $this->db->get();
+        if($query->num_rows() > 0) 
+            return true;
+        else 
+            return false;
     }
     
     function getList($id_sidangTA) 
@@ -100,7 +113,7 @@ class mruang extends Model
     {
         $this->db->select_max("ID_JDW_RUANG");
         $this->db->from("jadwal_ruangan");
-        $this->db->where("SIDANGTA", $this->db->escape_like_str($id_sidangTA));
+        //$this->db->where("SIDANGTA", $this->db->escape_like_str($id_sidangTA));
         $query = $this->db->get();
         if($query->num_rows() > 0)
             return $query->row()->ID_JDW_RUANG;
