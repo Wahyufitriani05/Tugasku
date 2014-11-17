@@ -271,6 +271,7 @@ class Sidang extends MY_Controller
             $id_kbk = $this->filterKBK();
             $daftar_kbk = $this->mdosen->listKBK();
             array_pop($daftar_kbk); // hapus array urutan pertama
+            $this->session->set_userdata('kbk', $id_kbk);
         }
 
         $data['kbk'] = $daftar_kbk;
@@ -402,6 +403,7 @@ class Sidang extends MY_Controller
         
         if($this->lib_user->is_admin_kbk() == true) 
         {
+            
             $id_kbk = $arr_kbk[$this->session->userdata('type')];
             $this->session->set_userdata('kbk', $id_kbk);
         } 
