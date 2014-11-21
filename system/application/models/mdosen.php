@@ -96,7 +96,7 @@ class mdosen extends Model {
     }
 
     function getListDosenSearch($offset, $per_page, $nama){
-        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and d.nama_dosen like '%".$this->db->escape_like_str($nama)."%' order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
+        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and d.nama_dosen like '%".$this->db->escape_like_str($nama)."%' order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
         $data = $this->db->query($query);
         return $data->result();
     }
