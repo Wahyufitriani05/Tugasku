@@ -107,7 +107,7 @@ class JadwalDosen extends Controller
     // dosen availability all
     function penjadwalanAutomatis($id_sidangTA="", $parent_treeid="")
     {
-        $this->lib_user->cek_admin();
+        //$this->lib_user->cek_admin();
         
         $this->msidang->cekSidangTA($id_sidangTA, false);
         $this->mslot->cekTreeID($parent_treeid, false);
@@ -181,18 +181,20 @@ class JadwalDosen extends Controller
             foreach($arrayslotwaktu as $slotwaktu) {                            
                 $array[$dosen->NIP][$slotwaktu->TREEID] = 0;                  
             }               
-        }
+        } 
         
         
         foreach ($_POST as $key => $value) {            
+            //var_dump($_POST);
             if ($value=="on") {
                 $z = explode("_",$key);                
-                if ($z[0]=="AVAIL") {
+                if ($z[0]=="AVAIL" || $z[0]=="NOTAVAIL") {
                     $treeid = $z[1];
                     $nip = $z[2];                    
                     $array[$nip][$treeid] = 1;
                     if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $treeid, $nip)) == 0)
-                    {                        
+                    {                       
+                        //echo $NIP." - ".$treeid." - ".$id_sidangTA;
                         $data_jadwal_baru = array(
                             'NIP' => $nip,
                             'ID_SLOT' => $treeid,
@@ -221,7 +223,7 @@ class JadwalDosen extends Controller
                 }
             }               
         }
-        redirect("jadwalDosen/dosenAvailability/$id_sidangTA/".substr($treeid, 0, 4));
+       redirect("jadwalDosen/dosenAvailability/$id_sidangTA/".substr($treeid, 0, 4));
     }
 }
 ?>
