@@ -118,14 +118,20 @@ class mproposal extends Model
         return $result->result();
     }
 
-    function getProposalSaya($nrp){
+    function getProposalSaya($nrp, $dialog=""){
         //setting local time language
         $query="SET lc_time_names = 'id_ID'"; // set indonesian
         $this->db->query($query);
         
         $query="select p.id_proposal, DATE_FORMAT(p.tanggal_masuk, '%e %M %Y')tanggal_masuk, p.judul_ta, p.abstraksi, p.pembimbing1 as nip_pembimbing1, p.pembimbing2 as nip_pembimbing2, d1.nama_lengkap_dosen as pembimbing1, d2.nama_lengkap_dosen as pembimbing2, p.status  from proposal p, dosen d1, dosen d2 where (p.pembimbing1=d1.nip or p.pembimbing1=d1.nip2010) and (p.pembimbing2=d2.nip or p.pembimbing2=d2.nip2010) and p.nrp=".$this->db->escape($nrp)." order by p.id_proposal desc";
         $data=$this->db->query($query);
-        return $data;
+        if ($data->num_rows() > 0) {
+            return $data;
+        }
+        else {
+            $this->lib_alert->warning("Proposal Tugas Akhir belum didaftarkan!");
+            redirect("error/index/".$dialog);
+        }
     }
 
     function getDetailProposalSaya($id_proposal){

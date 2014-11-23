@@ -37,6 +37,13 @@
             <div class='element mini'>:</div>
             <div class='element wide'><?php echo $this->lib_tugas_akhir->nama_status($detailTA->status); ?></div>
         </div>
+        <?php if ($this->lib_tugas_akhir->nama_status($detailTA->status) == "Revisi") { ?>
+        <div class='detail'>
+            <div class='element'>DETAIL REVISI</div>
+            <div class='element mini'>:</div>
+            <div class='element wide'><?php echo $detailTA->revisi_proposal?></div>
+        </div>
+        <?php } ?>
         <div class='detail'>
             <div class='element'>TGL SIDANG PROPOSAL</div>
             <div class='element mini'>:</div>

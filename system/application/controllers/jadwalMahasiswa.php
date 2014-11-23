@@ -278,7 +278,11 @@ class jadwalMahasiswa extends Controller
 
     }
 
-    
+    function evaluasiTugasAkhir($id_proposal) {
+        $data['title'] = "Lembar Penilaian Tugas Akhir";
+
+        $this->load->view('jadwalMahasiswa/content-lembarPenilaian', $data);
+    }
 
     function jadwalSidangTA(){
 
@@ -292,7 +296,7 @@ class jadwalMahasiswa extends Controller
         $id_sidangTA = $this->msidang->getIDSidangTAAktif();
 
 
-        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA, $id_kbk, $nip);        
+        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA, $id_kbk, $nip);
 
         $jadwal_mhs = array();
 

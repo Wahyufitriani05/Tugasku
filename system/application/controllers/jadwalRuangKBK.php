@@ -17,24 +17,39 @@ class JadwalRuangKBK extends Controller
         $this->load->model('mjadwalruangavail');
     }
 
-    function ruangKBKAssignment()
+    function ruangKBKAssignment($id_sidangTA = NULL, $id_Ruangan = NULL)
     {
         $this->lib_user->cek_admin();
-        
+        if (empty($id_sidangTA)) {
+            $id_sidangTA = $this->msidang->getIDSidangTAAktif();
+        }
+        if (empty($id_Ruangan)) {
+            $id_Ruangan = $this->mruang->getDefaultIDRuang($id_sidangTA);
+        }
+
         // pengambilan value FILTER SIDANG TA
         if($this->input->post('sidangTA')) {
             // dari method POST
             $id_sidangTA = $this->input->post('sidangTA');
-            redirect("jadwalRuangKBK/ruangKBKAssignment/$id_sidangTA");
-        } else {
-            $id_sidangTA = $this->uri->segment(3, $this->msidang->getIDSidangTAAktif());
+            $id_Ruangan = $this->mruang->getDefaultIDRuang($id_sidangTA);
+            redirect("jadwalRuangKBK/ruangKBKAssignment/$id_sidangTA/$id_Ruangan");
+        }
+
+        // pengambilan value FILTER ID RUANG SIDANG TA
+        if($this->input->post('ruangSidangTA')) {
+            // dari method POST
+            $id_Ruangan = $this->input->post('ruangSidangTA');
+            redirect("jadwalRuangKBK/ruangKBKAssignment/$id_sidangTA/$id_Ruangan");
         }
         
         $this->msidang->cekSidangTA($id_sidangTA, false);
 
         $data['kbk'] = $this->mdosen->listKBK();
         $data['slot'] = $this->mslot->getListSlot($id_sidangTA);
-        $data['ruangan'] = $this->mruang->getList($id_sidangTA);
+
+        $data['filterRuangan'] = $id_Ruangan;
+        $data['listRuangan'] = $this->mruang->getList($id_sidangTA);
+        $data['ruangan'] = $this->mruang->getList($id_sidangTA,$data['filterRuangan']);
 
         $ada_jadwal = array();
         $id_kbk = array();

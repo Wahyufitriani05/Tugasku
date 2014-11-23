@@ -44,14 +44,46 @@ class mruang extends Model
             return false;
     }
     
-    function getList($id_sidangTA) 
+    function getList($id_sidangTA,$filter = NULL,$limit = NULL, $dialog="")
     {
         $this->db->select("*");
         $this->db->from("jadwal_ruangan");
         $this->db->where("SIDANGTA", $this->db->escape_like_str($id_sidangTA));
         $this->db->order_by("ID_JDW_RUANG","ASC");
+        if ($limit) {
+            $this->db->limit($limit);
+        }
+        if ($filter) {
+            $this->db->where('ID_JDW_RUANG', $filter);
+        }
         $query = $this->db->get();
-        return $query->result();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        else
+        {
+            $this->lib_alert->warning("Ruang sidang TA tidak ditemukan!");
+            redirect("error/index/".$dialog);
+        }
+    }
+
+    function getDefaultIDRuang($id_sidangTA, $dialog="")
+    {
+        $this->db->select("jadwal_ruangan.ID_JDW_RUANG");
+        $this->db->from("jadwal_ruangan");
+        $this->db->where("jadwal_ruangan.SIDANGTA", $id_sidangTA);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0) 
+        {
+            $row = $query->row();
+            return $row->ID_JDW_RUANG;
+        } 
+        else 
+        {
+            $this->lib_alert->warning("Ruang sidang TA tidak ditemukan!");
+            redirect("error/index/".$dialog);
+        }
     }
     
     function cek($id_ruang="", $dialog="") 

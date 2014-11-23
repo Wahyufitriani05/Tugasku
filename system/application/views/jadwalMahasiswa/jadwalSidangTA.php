@@ -32,7 +32,7 @@ echo $this->lib_js->thickbox();
             echo "<td>$prop->DESKRIPSI</td>";
             echo "<td>$prop->NRP</td>";
             echo "<td>$prop->NAMA_LENGKAP_MAHASISWA</td>";
-            echo "<td>$prop->NAMA_PEMBIMBING1</td>";
+            echo "<td><a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL?TB_iframe=true&height=500&width=800")."'>$prop->NAMA_PEMBIMBING1</a></td>";
             echo "<td>$prop->NAMA_PEMBIMBING2</td>";
             echo "<td>$prop->PENGUJI1</td>";
             echo "<td>$prop->PENGUJI2</td>";

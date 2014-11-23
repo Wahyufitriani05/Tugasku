@@ -13,15 +13,13 @@
             </div>
             <style>
             #scrollwide {
-            height: 400px;
             overflow: auto;
-            width: 1150px;
             white-space: nowrap;
             }
             </style>
             <?php
             if(!empty($list_proposal)) {
-                echo "<div id='scrollwide'>";
+                echo "<div id='scrollwide' style='max-height: 400px; overflow: auto; width: 98%; white-space: nowrap; margin: 4px auto; padding-bottom: 10px;'>";
                 echo "<table id='majuSidang' class='table1' style='width:96%; margin-top:20px; border:1px solid #aaa;' border='1' cellpadding='2' cellspacing='3'>";
                     echo $this->load->view("jadwalMahasiswa/jadwalSidangTA");
                 echo "</table>";
