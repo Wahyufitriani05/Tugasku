@@ -79,6 +79,20 @@ class Lamastudi extends Controller
             }
         }
         $data['mahasiswaTA'] = $newData;
+        $tes = $this->mlamastudi->getTotalMahasiswaTALulus(5);
+        $count = 0;
+        $newData = array();
+        $maxArray = count($tes);
+        for ($i=0; $i < $maxArray; $i++) { 
+            if (($i != 0) && ($tes[$i]['SEMESTER_SIDANG_TA'] == $tes[$i-1]['SEMESTER_SIDANG_TA']) && $tes[$i]['TAHUN_SIDANG_TA'] == $tes[$i-1]['TAHUN_SIDANG_TA']) {
+                $newData[$count-1]['TOTAL'] += $tes[$i]['TOTAL'];
+            }
+            else {
+                $newData[$count] = $tes[$i];
+                $count++;
+            }
+        }
+        $data['mahasiswaTALulus'] = $newData;
         $data['title'] = "Statistik Tugas Akhir Mahasiswa";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
