@@ -88,9 +88,25 @@ class mjadwalmahasiswa extends Model
         return $prop;
     }
 
-    function listProposalMajuSidang2($id_sidangTA, $id_kbk="-1", $nip="-1") 
-    {        $query="SET lc_time_names = 'id_ID'"; // set indonesian        
-          $this->db->query($query);
+    function listProposalMajuSidang2($id_sidangTA, $id_kbk="-1", $nip="-1", $id_proposal = NULL) 
+    {
+        $query="SET lc_time_names = 'id_ID'"; // set indonesian        
+        $this->db->query($query);
+        $sql2 = " SELECT jadwal_mhs.*, jadwal_ruangan.DESKRIPSI, ds1.NIP2010 as NIP2010_PENGUJI1, ds1.INISIAL_DOSEN as INISIAL_PENGUJI1, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NIP2010 as NIP2010_PENGUJI2, ds2.INISIAL_DOSEN as INISIAL_PENGUJI2, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, concat(jsh.DESKRIPSI, ' ', jsw.DESKRIPSI) as WAKTU, jsw.DESKRIPSI as JAMTEPAT, DATE_FORMAT(jsh.TGL, '%W, %e %M %Y') as WAKTU_SIDANG, jsw.TGL, jsw.WAKTU as JAM, concat(DATE_FORMAT(jsh.TGL, '%W, %e %M %Y'), ' Pukul ', TIME_FORMAT(jsw.WAKTU, '%H:%m'),'-',TIME_FORMAT(ADDTIME(jsw.WAKTU, '0 1:0:0'), '%H:%m')) as WAKTUHARI 
+              FROM (jadwal_mhs, jadwal_ruangan, dosen ds1, dosen ds2, jadwal_slot jsw, jadwal_slot jsh) 
+              WHERE `jadwal_mhs`.`ID_JDW_RUANG` = jadwal_ruangan.ID_JDW_RUANG 
+              AND `jadwal_mhs`.`NIP3` = ds1.NIP 
+              AND `jadwal_mhs`.`NIP4` = ds2.NIP 
+              AND `jadwal_mhs`.`SIDANGTA` = jsw.SIDANGTA 
+              AND `jadwal_mhs`.`ID_SLOT` = jsw.TREEID 
+              AND `jadwal_mhs`.`SIDANGTA` = jsh.SIDANGTA 
+              AND substr(jadwal_mhs.ID_SLOT,1,4) = jsh.TREEID 
+              AND `jadwal_mhs`.`SIDANGTA` = jsw.SIDANGTA 
+              AND `jadwal_mhs`.`ID_SLOT` = jsw.TREEID";
+        if ($id_proposal) {
+          $sql2 .= " AND `jadwal_mhs`.`ID_PROPOSAL` = '$id_proposal'";
+        }
+        $sql2 .= " ORDER BY ID_KBK ASC, TGL DESC, JAM ASC";
         $sql = "
             select q.*, r.* from (
               SELECT `proposal`.*, `kbk`.`NAMA_KBK`, `ds1`.`INISIAL_DOSEN` as INISIAL_PEMBIMBING1, `ds1`.`NAMA_LENGKAP_DOSEN` as NAMA_PEMBIMBING1, `ds1`.`NIP2010` as NIP2010_PEMBIMBING1, `ds2`.`INISIAL_DOSEN` as INISIAL_PEMBIMBING2, `ds2`.`NAMA_LENGKAP_DOSEN` as NAMA_PEMBIMBING2, `ds2`.`NIP2010` as NIP2010_PEMBIMBING2, `mahasiswa`.`NAMA_LENGKAP_MAHASISWA` 
@@ -104,18 +120,7 @@ class mjadwalmahasiswa extends Model
               ORDER BY `ID_KBK` ASC, `proposal`.`PEMBIMBING1` ASC, `proposal`.`PEMBIMBING2` ASC
             )q left join
             (
-              SELECT jadwal_mhs.*, jadwal_ruangan.DESKRIPSI, ds1.NIP2010 as NIP2010_PENGUJI1, ds1.INISIAL_DOSEN as INISIAL_PENGUJI1, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NIP2010 as NIP2010_PENGUJI2, ds2.INISIAL_DOSEN as INISIAL_PENGUJI2, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, concat(jsh.DESKRIPSI, ' ', jsw.DESKRIPSI) as WAKTU, jsw.TGL, jsw.WAKTU as JAM, concat(DATE_FORMAT(jsh.TGL, '%W, %e %M %Y'), ' Pukul ', TIME_FORMAT(jsw.WAKTU, '%H:%m'),'-',TIME_FORMAT(ADDTIME(jsw.WAKTU, '0 1:0:0'), '%H:%m')) as WAKTUHARI 
-              FROM (jadwal_mhs, jadwal_ruangan, dosen ds1, dosen ds2, jadwal_slot jsw, jadwal_slot jsh) 
-              WHERE `jadwal_mhs`.`ID_JDW_RUANG` = jadwal_ruangan.ID_JDW_RUANG 
-              AND `jadwal_mhs`.`NIP3` = ds1.NIP 
-              AND `jadwal_mhs`.`NIP4` = ds2.NIP 
-              AND `jadwal_mhs`.`SIDANGTA` = jsw.SIDANGTA 
-              AND `jadwal_mhs`.`ID_SLOT` = jsw.TREEID 
-              AND `jadwal_mhs`.`SIDANGTA` = jsh.SIDANGTA 
-              AND substr(jadwal_mhs.ID_SLOT,1,4) = jsh.TREEID 
-              AND `jadwal_mhs`.`SIDANGTA` = jsw.SIDANGTA 
-              AND `jadwal_mhs`.`ID_SLOT` = jsw.TREEID 
-              ORDER BY ID_KBK ASC, TGL DESC, JAM ASC
+              ".$sql2."
             )r on q.id_proposal=r.id_proposal 
             WHERE r.SHOW_ME = 1 ";
         if($id_kbk != "-1") {

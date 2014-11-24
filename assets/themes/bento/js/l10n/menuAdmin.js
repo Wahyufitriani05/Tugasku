@@ -380,6 +380,39 @@ var global_navigation_data = [
 
     ]
 
+},
+{
+
+    "id": "statistik",
+
+    "items": [
+
+          {
+
+            "link": site_url+"lamastudi/statistikTA",
+
+            "image": "wiki",
+
+            "title": "Statistik Tugas Akhir",
+
+            "desc": "Visualisasi Statistik Tugas Akhir Mahasiswa"
+
+          },
+
+          {
+
+            "link": site_url+"lamastudi/statistikDosen",
+
+            "image": "wiki",
+
+            "title": "Statistik Dosen",
+
+            "desc": "Visualisasi Statistik Dosen Penguji dan Pembimbing"
+
+          }
+
+    ]
+
 }
 
 ];

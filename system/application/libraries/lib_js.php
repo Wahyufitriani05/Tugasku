@@ -12,6 +12,11 @@ class Lib_js
         echo "<link rel='stylesheet' href='".base_url()."assets/thickbox/thickbox.css' type='text/css' media='screen' />";
         echo "<script type='text/javascript' src='".base_url()."assets/thickbox/thickbox.js'></script>";
     }
+
+    function chart() 
+    {
+        echo "<script type='text/javascript' src='".base_url()."assets/chart/Chart.js'></script>";
+    }
     
     function checkall()
     {

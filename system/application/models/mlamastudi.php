@@ -70,5 +70,22 @@ class mlamastudi extends Model
         $query = $this->db->query($sql);
         return $query->result();
     }
+
+    function getTotalMahasiswaTA($tahun) {
+      $sql = "SELECT sidang_ta.ID_SIDANG_TA,
+                     sidang_ta.SEMESTER_SIDANG_TA,
+                     sidang_ta.TAHUN_SIDANG_TA,
+                     count(proposal.ID_PROPOSAL) as TOTAL
+              FROM sidang_ta,
+                   proposal
+              WHERE YEAR(waktu_sidang_ta) > (YEAR(NOW()) - '$tahun')
+              AND sidang_ta.ID_SIDANG_TA = proposal.STA
+              GROUP BY sidang_ta.ID_SIDANG_TA,
+                       sidang_ta.SEMESTER_SIDANG_TA,
+                       sidang_ta.TAHUN_SIDANG_TA
+              ORDER BY sidang_ta.ID_SIDANG_TA desc";
+      $query = $this->db->query($sql);
+      return $query->result_array();
+    }
 }
 ?>
