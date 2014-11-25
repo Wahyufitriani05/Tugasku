@@ -493,10 +493,13 @@ class mjadwalmahasiswa extends Model
         return $hasil->ID_JDW_RUANG;
     }
 
-    function cekLembarPenilaian($id_proposal) {
+    function cekLembarPenilaian($id_proposal,$nip) {
       $this->db->select('ID_LEMBAR_PENILAIAN');
+      $this->db->where('NIP_DOSEN',$nip);
       $this->db->from('lembar_penilaian');
       $this->db->where('ID_PROPOSAL',$id_proposal);
+      $this->db->order_by('ID_LEMBAR_PENILAIAN', "desc");
+      $this->db->limit(1);
       $query = $this->db->get();
       if ($query->num_rows() > 0) {
         $id_lembar_penilaian = $query->row();
@@ -530,9 +533,10 @@ class mjadwalmahasiswa extends Model
       $this->db->update('lembar_penilaian', $data); 
     }
 
-    function getLembarPenilaian($id_proposal) {
+    function getLembarPenilaian($id_proposal,$nip) {
       $this->db->select('*');
       $this->db->where('ID_PROPOSAL',$id_proposal);
+      $this->db->where('NIP_DOSEN',$nip);
       $this->db->from('lembar_penilaian');
       $this->db->order_by('ID_LEMBAR_PENILAIAN', "desc");
       $this->db->limit(1);

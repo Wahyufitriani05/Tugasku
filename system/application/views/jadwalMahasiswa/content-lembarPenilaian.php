@@ -27,6 +27,7 @@
     <body style="overflow-x: hidden">
     <form id="form-penilaian" method="post" action="<?php echo base_url(); ?>index.php/jadwalMahasiswa/masukkanNilai">
         <input type="hidden" value="<?php echo $detail_proposal->ID_PROPOSAL; ?>" name="id_proposal">
+        <input type="hidden" value="<?php echo $nip_dosen; ?>" name="nip_dosen">
         <div class="container">
             <div class="row" id="cetak">
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -181,7 +182,8 @@
         </div>
         <div class="row hidden-print" style="position: fixed; bottom: 0px; width: 100%; padding: 30px;">
             <div class="col-md-8 col-md-offset-2">
-                <button type="button" class="btn btn-primary" onclick="document.forms["form-penilaian"].submit();">Simpan</button>
+                <input type="submit" value="Simpan" class="btn btn-primary" id="simpan" onclick="document.forms["form-penilaian"].submit();">
+                <!-- <button type="button" class="btn btn-primary" onclick="document.forms["form-penilaian"].submit();">Simpan</button> -->
                 <button type="button" class="btn btn-default" onclick="printDiv();">Cetak</button>
             </div>
         </div>

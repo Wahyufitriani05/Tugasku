@@ -285,11 +285,13 @@ class jadwalMahasiswa extends Controller
 
         $proposal = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA,'-1','-1',$id_proposal);
 
-        $data['detail_lembar_penilaian'] = $this->mjadwalmahasiswa->getLembarPenilaian($id_proposal);
+        $data['detail_lembar_penilaian'] = $this->mjadwalmahasiswa->getLembarPenilaian($id_proposal,$nip);
 
         $data['nama_dosen'] = $this->mdosen->namaDosen($nip);
 
         $data['tipe'] = $tipe;
+
+        $data['nip_dosen'] = $nip;
 
         $data['detail_proposal'] = $proposal[0];
 
@@ -302,9 +304,9 @@ class jadwalMahasiswa extends Controller
         $nilai2 = $this->input->post('nilai2');
         $nilai3 = $this->input->post('nilai3');
         $nilai4 = $this->input->post('nilai4');
-        $flag = $this->mjadwalmahasiswa->cekLembarPenilaian($id_proposal);
+        $nip_dosen = $this->input->post('nip_dosen');
+        $flag = $this->mjadwalmahasiswa->cekLembarPenilaian($id_proposal,$nip_dosen);
         if ($flag == NULL) {
-            $nip_dosen = $this->input->post('nip_dosen');
             $this->mjadwalmahasiswa->insertLembarPenilaian($id_proposal,$nip_dosen,$nilai1,$nilai2,$nilai3,$nilai4);
         }
         else {
