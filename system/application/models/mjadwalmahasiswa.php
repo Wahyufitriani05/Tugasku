@@ -492,6 +492,57 @@ class mjadwalmahasiswa extends Model
         $hasil = $query->row();
         return $hasil->ID_JDW_RUANG;
     }
-	
+
+    function cekLembarPenilaian($id_proposal) {
+      $this->db->select('ID_LEMBAR_PENILAIAN');
+      $this->db->from('lembar_penilaian');
+      $this->db->where('ID_PROPOSAL',$id_proposal);
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        $id_lembar_penilaian = $query->row();
+        return $id_lembar_penilaian->ID_LEMBAR_PENILAIAN;
+      }
+      else {
+        return NULL;
+      }
+    }
+
+    function insertLembarPenilaian($id_proposal,$nip_dosen,$nilai1,$nilai2,$nilai3,$nilai4) {
+      $data = array(
+        'ID_PROPOSAL' => $id_proposal,
+        'NIP_DOSEN' => $nip_dosen,
+        'UNSUR_1' => $nilai1,
+        'UNSUR_2' => $nilai2,
+        'UNSUR_3' => $nilai3,
+        'UNSUR_4' => $nilai4
+      );
+      $this->db->insert('lembar_penilaian', $data); 
+    }
+
+    function updateLembarPenilaian($flag,$nilai1,$nilai2,$nilai3,$nilai4) {
+      $data = array(
+        'UNSUR_1' => $nilai1,
+        'UNSUR_2' => $nilai2,
+        'UNSUR_3' => $nilai3,
+        'UNSUR_4' => $nilai4
+      );
+      $this->db->where('ID_LEMBAR_PENILAIAN', $flag);
+      $this->db->update('lembar_penilaian', $data); 
+    }
+
+    function getLembarPenilaian($id_proposal) {
+      $this->db->select('*');
+      $this->db->where('ID_PROPOSAL',$id_proposal);
+      $this->db->from('lembar_penilaian');
+      $this->db->order_by('ID_LEMBAR_PENILAIAN', "desc");
+      $this->db->limit(1);
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+        return $query->row();
+      }
+      else {
+        return NULL;
+      }
+    }
 }
 ?>

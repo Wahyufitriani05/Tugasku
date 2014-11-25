@@ -278,16 +278,38 @@ class jadwalMahasiswa extends Controller
 
     }
 
-    function evaluasiTugasAkhir($id_proposal, $nip) {
+    function evaluasiTugasAkhir($id_proposal, $nip, $tipe = "Pembimbing") {
         $data['title'] = "Lembar Penilaian Tugas Akhir";
 
         $id_sidangTA = $this->msidang->getIDSidangTAAktif();
 
         $proposal = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA,'-1','-1',$id_proposal);
 
+        $data['detail_lembar_penilaian'] = $this->mjadwalmahasiswa->getLembarPenilaian($id_proposal);
+
+        $data['nama_dosen'] = $this->mdosen->namaDosen($nip);
+
+        $data['tipe'] = $tipe;
+
         $data['detail_proposal'] = $proposal[0];
 
         $this->load->view('jadwalMahasiswa/content-lembarPenilaian', $data);
+    }
+
+    function masukkanNilai() {
+        $id_proposal = $this->input->post('id_proposal');
+        $nilai1 = $this->input->post('nilai1');
+        $nilai2 = $this->input->post('nilai2');
+        $nilai3 = $this->input->post('nilai3');
+        $nilai4 = $this->input->post('nilai4');
+        $flag = $this->mjadwalmahasiswa->cekLembarPenilaian($id_proposal);
+        if ($flag == NULL) {
+            $nip_dosen = $this->input->post('nip_dosen');
+            $this->mjadwalmahasiswa->insertLembarPenilaian($id_proposal,$nip_dosen,$nilai1,$nilai2,$nilai3,$nilai4);
+        }
+        else {
+            $this->mjadwalmahasiswa->updateLembarPenilaian($flag,$nilai1,$nilai2,$nilai3,$nilai4);
+        }
     }
 
     function jadwalSidangTA(){

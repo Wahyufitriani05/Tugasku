@@ -12,8 +12,21 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style type="text/css">
+            .input-nilai {
+                border: none;
+                text-align: center;
+                box-shadow: none;
+            }
+            .input-nilai:focus {
+                border: none;
+                box-shadow: none;
+            }
+        </style>
     </head>
     <body style="overflow-x: hidden">
+    <form id="form-penilaian" method="post" action="<?php echo base_url(); ?>index.php/jadwalMahasiswa/masukkanNilai">
+        <input type="hidden" value="<?php echo $detail_proposal->ID_PROPOSAL; ?>" name="id_proposal">
         <div class="container">
             <div class="row" id="cetak">
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -88,7 +101,6 @@
                     <p>Adalah sebagai berikut:</p>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
-                            <form id="form-penilaian" method="post" action="<?php echo $this->uri->uri_string(); ?>">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -101,22 +113,50 @@
                                         <tr>
                                             <td style="vertical-align: middle; text-align: center">I</td>
                                             <td>MATERI TUGAS AKHIR<br>(Desain, Analisa, Uji Coba dan Demo Aplikasi)</td>
-                                            <td></td>
+                                            <td class="hidden-print">
+                                                <div class="form-group" style="margin-bottom: 0px;">
+                                                    <input type="text" name="nilai1" id="nilai1" class="form-control input-nilai" placeholder="Masukkan Nilai Angka" onchange="updateNilai(1,this.value)" <?php if (!empty($detail_lembar_penilaian)) { ?>value="<?php echo $detail_lembar_penilaian->UNSUR_1; } ?>">
+                                                </div>
+                                            </td>
+                                            <td class="visible-print" style="vertical-align: middle; text-align: center">
+                                                <span id="value1"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_1; } ?></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td style="vertical-align: middle; text-align: center">II</td>
                                             <td>PENGUASAAN MATERI<br>(Ketepatan Menjawab Pertanyaan)</td>
-                                            <td></td>
+                                            <td class="hidden-print">
+                                                <div class="form-group" style="margin-bottom: 0px;">
+                                                    <input type="text" name="nilai2" id="nilai2" class="form-control input-nilai" placeholder="Masukkan Nilai Angka" onchange="updateNilai(2,this.value)" <?php if (!empty($detail_lembar_penilaian)) { ?>value="<?php echo $detail_lembar_penilaian->UNSUR_2; } ?>">
+                                                </div>
+                                            </td>
+                                            <td class="visible-print" style="vertical-align: middle; text-align: center">
+                                                <span id="value2"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_2; } ?></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td style="vertical-align: middle; text-align: center">III</td>
                                             <td>KEMAMPUAN PRESENTASI<br>(Komunikasi, Pengendalian Waktu, Penyajian)</td>
-                                            <td></td>
+                                            <td class="hidden-print">
+                                                <div class="form-group" style="margin-bottom: 0px;">
+                                                    <input type="text" name="nilai3" id="nilai3" class="form-control input-nilai" placeholder="Masukkan Nilai Angka" onchange="updateNilai(3,this.value)" <?php if (!empty($detail_lembar_penilaian)) { ?>value="<?php echo $detail_lembar_penilaian->UNSUR_3; } ?>">
+                                                </div>
+                                            </td>
+                                            <td class="visible-print" style="vertical-align: middle; text-align: center">
+                                                <span id="value3"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_3; } ?></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td style="vertical-align: middle; text-align: center">IV</td>
                                             <td>TATA TULIS BUKU TUGAS AKHIR dan POMITS<br>(Format,Typo, Referensi, Tabel/Gambar, Kelengkapan)</td>
-                                            <td></td>
+                                            <td class="hidden-print">
+                                                <div class="form-group" style="margin-bottom: 0px;">
+                                                    <input type="text" name="nilai4" id="nilai4" class="form-control input-nilai" placeholder="Masukkan Nilai Angka" onchange="updateNilai(4,this.value)" <?php if (!empty($detail_lembar_penilaian)) { ?>value="<?php echo $detail_lembar_penilaian->UNSUR_4; } ?>">
+                                                </div>
+                                            </td>
+                                            <td class="visible-print" style="vertical-align: middle; text-align: center">
+                                                <span id="value4"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_4; } ?></span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -125,33 +165,35 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </form>
                         </div>
                     </div>
                     <p>Catatan:<br>
-                    A = 100 – 81    AB = 80 – 71    B = 70 – 66    BC = 61 – 65    C = 56 – 60</p>
-                    <p class="text-right">Surabaya, <?php echo date("j F Y"); ?></p>
-                    <p class="text-right">Dosen Pembimbing,</p>
-                    <br>
-                    <br>
-                    <p class="text-right" style="margin-bottom: 60px">(Nama Dosen)</p>
+                    A = 100 – 81    AB = 80 – 71    B = 70 – 66    BC = 61 – 65    C = 56 – 60</p><br>
+                    <div class="pull-right text-center">
+                        <p>Surabaya, <?php echo date("j F Y"); ?><br>
+                        Dosen <?php echo $tipe; ?>,</p>
+                        <br>
+                        <br>
+                        <p style="margin-bottom: 60px">(<?php echo $nama_dosen; ?>)</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row" style="position: fixed; bottom: 0px; width: 100%; padding: 30px;">
+        <div class="row hidden-print" style="position: fixed; bottom: 0px; width: 100%; padding: 30px;">
             <div class="col-md-8 col-md-offset-2">
-                <input type="submit" value="Simpan" class="btn btn-primary" id="simpan" onclick="document.forms["filter-form"].submit();">
+                <button type="button" class="btn btn-primary" onclick="document.forms["form-penilaian"].submit();">Simpan</button>
                 <button type="button" class="btn btn-default" onclick="printDiv();">Cetak</button>
             </div>
         </div>
+        </form>
     </body>
     <script>
-    function printDiv() {
-          var printContents = document.getElementById("cetak").innerHTML;     
-       var originalContents = document.body.innerHTML;       
-       document.body.innerHTML = printContents;      
-       window.print();      
-       document.body.innerHTML = originalContents;
-       }
+        function printDiv() {
+            window.print();
+        }
+        function updateNilai(id, nilai) {
+            var namaField = "value"+id;
+            document.getElementById(namaField).innerHTML = nilai;
+        }
     </script>
 </html>
