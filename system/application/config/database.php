@@ -39,7 +39,11 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = "localhost";
 $db['default']['username'] = "root";
+<<<<<<< HEAD
 $db['default']['password'] = "informatics";
+=======
+$db['default']['password'] = "";
+>>>>>>> 923511524b68e4cb21eed5d51de76a9dca82c186
 $db['default']['database'] = "newmonta";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";

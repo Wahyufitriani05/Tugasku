@@ -69,6 +69,7 @@ class Lamastudi extends Controller
         $count = 0;
         $newData = array();
         $maxArray = count($tes);
+
         for ($i=0; $i < $maxArray; $i++) { 
             if (($i != 0) && ($tes[$i]['SEMESTER_SIDANG_TA'] == $tes[$i-1]['SEMESTER_SIDANG_TA']) && $tes[$i]['TAHUN_SIDANG_TA'] == $tes[$i-1]['TAHUN_SIDANG_TA']) {
                 $newData[$count-1]['TOTAL'] += $tes[$i]['TOTAL'];
@@ -97,6 +98,28 @@ class Lamastudi extends Controller
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "lamastudi/content-statistikTA";
+        $this->load->view('template', $data);
+    }
+
+    function statistikPembimbingTA()
+    {
+        $this->load->model('mlamastudi');
+        $tes = $this->mlamastudi->getTotalPembimbingTA();
+        $count = 0;
+        $newData = array();
+        $maxArray = count($tes);
+
+        // for ($i=0; $i < $maxArray; $i++) { 
+        //         $newData[$i] = $tes[$i];
+            
+        // }
+
+        //var_dump($newData);
+        $data['pembimbingTA'] = $tes;
+        $data['title'] = "Statistik Dosen Pembimbing TA";
+        $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['header'] = $this->lib_user->get_header();
+        $data['content'] = "lamastudi/content-statistikpembimbingTA";
         $this->load->view('template', $data);
     }
 }
