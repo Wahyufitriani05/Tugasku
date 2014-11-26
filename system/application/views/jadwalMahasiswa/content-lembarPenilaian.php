@@ -27,12 +27,17 @@
     <body style="overflow-x: hidden">
     <form id="form-penilaian" method="post" action="<?php echo base_url(); ?>index.php/jadwalMahasiswa/masukkanNilai">
         <input type="hidden" value="<?php echo $detail_proposal->ID_PROPOSAL; ?>" name="id_proposal">
-        <input type="hidden" value="<?php echo $nip_dosen; ?>" name="nip_dosen">
+        <input type="hidden" value="<?php echo $nip_dosen; ?>" name="nip_dosen">        
         <div class="container">
             <div class="row" id="cetak">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <h2 class="text-center"><strong>EVALUASI NILAI BIMBINGAN<br>TUGAS AKHIR</strong></h2>
+                <div class="col-xs-12 col-sm-12 col-md-12">                    
+                    <?php if ($tipe=='pembimbing') {?>
+                    <h2 class="text-center"><strong>EVALUASI NILAI BIMBINGAN<br>TUGAS AKHIR</strong></h2>                    
                     <p>Evaluasi Nilai Bimbingan TUGAS AKHIR bagi mahasiswa berikut :</p>
+                    <?php } else { ?>
+                     <h2 class="text-center"><strong>EVALUASI SEMINAR DAN UJIAN LISAN TUGAS AKHIR</strong></h2>
+                    <p>Hasil Seminar dan Ujian Lisan dalam UJIAN TUGAS AKHIR untuk mahasiswa :</p>
+                    <?php }?>
                     <div class="row">
                         <div class="col-xs-4" col-sm-4" col-md-4">
                             NAMA
@@ -120,7 +125,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-print" style="vertical-align: middle; text-align: center">
-                                                <span id="value1"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_1; } ?></span>
+                                                <span id="value1"><?php $total = 0; if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_1; $total = $total + $detail_lembar_penilaian->UNSUR_1; } ?></span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -132,7 +137,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-print" style="vertical-align: middle; text-align: center">
-                                                <span id="value2"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_2; } ?></span>
+                                                <span id="value2"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_2; $total = $total + $detail_lembar_penilaian->UNSUR_2; } ?></span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -144,7 +149,7 @@
                                                 </div>
                                             </td>
                                             <td class="visible-print" style="vertical-align: middle; text-align: center">
-                                                <span id="value3"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_3; } ?></span>
+                                                <span id="value3"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_3; $total = $total + $detail_lembar_penilaian->UNSUR_3; } ?></span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -156,14 +161,16 @@
                                                 </div>
                                             </td>
                                             <td class="visible-print" style="vertical-align: middle; text-align: center">
-                                                <span id="value4"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_4; } ?></span>
+                                                <span id="value4"><?php if (!empty($detail_lembar_penilaian)) { ?><?php echo $detail_lembar_penilaian->UNSUR_4; $total = $total + $detail_lembar_penilaian->UNSUR_4;} ?></span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td style="vertical-align: middle; text-align: center">TOTAL  = (I + II + III + IV) / 4</td>
-                                            <td><br><xsall br><small cr><mdall>*diisi oleh Koord.TA</xsall TA</small cA</mdall></td>
-                                        </tr>
+                                            <td style="vertical-align: middle; text-align: center"></td>
+                                            <td>Total</td>
+                                            <td style="vertical-align: middle; text-align: center">
+                                                <?php echo $total/4; ?>
+                                            </td>                                            
+                                        </tr>                                        
                                     </tbody>
                                 </table>
                         </div>
@@ -181,11 +188,16 @@
             </div>
         </div>
         <div class="row hidden-print" style="position: fixed; bottom: 0px; width: 100%; padding: 30px;">
-            <div class="col-md-8 col-md-offset-2">
+            
+            <div class="col-md-8 col-md-offset-2">       
+                <?php if($this->session->userdata['type']=='dosen'&& $nip_dosen == $this->session->userdata['nip']){  ?>
                 <input type="submit" value="Simpan" class="btn btn-primary" id="simpan" onclick="document.forms["form-penilaian"].submit();">
+                        <?php }?>
                 <!-- <button type="button" class="btn btn-primary" onclick="document.forms["form-penilaian"].submit();">Simpan</button> -->
                 <button type="button" class="btn btn-default" onclick="printDiv();">Cetak</button>
+                
             </div>
+           
         </div>
         </form>
     </body>
