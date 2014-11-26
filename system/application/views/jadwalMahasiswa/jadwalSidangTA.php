@@ -2,6 +2,9 @@
     tr th, tr td {
         font-size: 11px;
     }
+    #TB_title {
+        display: none;
+    }
 </style>
 <?php
 echo $this->lib_js->thickbox();

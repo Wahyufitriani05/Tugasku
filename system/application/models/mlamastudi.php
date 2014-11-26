@@ -79,6 +79,25 @@ class mlamastudi extends Model
               FROM sidang_ta,
                    proposal
               WHERE YEAR(waktu_sidang_ta) > (YEAR(NOW()) - '$tahun')
+              AND (proposal.`status` = 31 OR proposal.`STATUS` != 31)
+              AND sidang_ta.ID_SIDANG_TA = proposal.STA
+              GROUP BY sidang_ta.ID_SIDANG_TA,
+                       sidang_ta.SEMESTER_SIDANG_TA,
+                       sidang_ta.TAHUN_SIDANG_TA
+              ORDER BY sidang_ta.ID_SIDANG_TA desc";
+      $query = $this->db->query($sql);
+      return $query->result_array();
+    }
+
+    function getTotalMahasiswaTALulus($tahun) {
+      $sql = "SELECT sidang_ta.ID_SIDANG_TA,
+                     sidang_ta.SEMESTER_SIDANG_TA,
+                     sidang_ta.TAHUN_SIDANG_TA,
+                     count(proposal.ID_PROPOSAL) as TOTAL
+              FROM sidang_ta,
+                   proposal
+              WHERE YEAR(waktu_sidang_ta) > (YEAR(NOW()) - '$tahun')
+              AND proposal.`status` = 31
               AND sidang_ta.ID_SIDANG_TA = proposal.STA
               GROUP BY sidang_ta.ID_SIDANG_TA,
                        sidang_ta.SEMESTER_SIDANG_TA,
