@@ -305,12 +305,15 @@ class jadwalMahasiswa extends Controller
         $nilai3 = $this->input->post('nilai3');
         $nilai4 = $this->input->post('nilai4');
         $nip_dosen = $this->input->post('nip_dosen');
+        $tipe = $this->input->post('tipe');
         $flag = $this->mjadwalmahasiswa->cekLembarPenilaian($id_proposal,$nip_dosen);
         if ($flag == NULL) {
             $this->mjadwalmahasiswa->insertLembarPenilaian($id_proposal,$nip_dosen,$nilai1,$nilai2,$nilai3,$nilai4);
+            $this->evaluasiTugasAkhir($id_proposal, $nip_dosen, $tipe);
         }
         else {
             $this->mjadwalmahasiswa->updateLembarPenilaian($flag,$nilai1,$nilai2,$nilai3,$nilai4);
+            $this->evaluasiTugasAkhir($id_proposal, $nip_dosen, $tipe);
         }
     }
 
