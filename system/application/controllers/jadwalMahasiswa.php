@@ -294,6 +294,7 @@ class jadwalMahasiswa extends Controller
         $data['nip_dosen'] = $nip;
 
         $data['detail_proposal'] = $proposal[0];
+        
 
         $this->load->view('jadwalMahasiswa/content-lembarPenilaian', $data);
     }
