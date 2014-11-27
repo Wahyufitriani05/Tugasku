@@ -53,7 +53,7 @@
             <div class='element wide'><?php             
             if(isset($detailTA->sprop) && $detailTA->sprop!=NULL && $detailTA->sprop!='')
             {
-                echo date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU_SIDANG_PROP));
+                echo date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU));
             }
             else
             {
@@ -97,13 +97,13 @@
                 if($this->lib_tugas_akhir->nama_status($detailTA->status)=='Lulus')
                 {
                     $datetime1 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)->DESKRIPSI)));
-                    $datetime2 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU_SIDANG_PROP)));
+                    $datetime2 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU)));
                     $interval = $datetime2->diff($datetime1);
                     
                     $months = ($interval->y * 12) + $interval->m; // Total number of whole months
                     $months += number_format($interval->d / 30, 1);
                     
-                    echo $months;                    
+                    echo $months. " bulan";                    
                     
                     
                 }
