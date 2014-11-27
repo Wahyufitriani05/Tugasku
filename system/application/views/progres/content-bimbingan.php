@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class='separator'></div>
-        <div class='detail'>
+        
             <div class='element'><h2>Progres Bimbingan</h2></div>
             
             <div class='element wide' >
@@ -96,7 +96,7 @@
 		
 		
             </div>
-        </div>
+        
         
         
     </div>
