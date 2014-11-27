@@ -401,7 +401,7 @@ var global_navigation_data = [
 
           {
 
-            "link": site_url+"lamastudi/statistikDosen",
+            "link": site_url+"lamastudi/statistikPembimbingTA",
 
             "image": "wiki",
 

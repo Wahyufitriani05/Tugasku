@@ -297,6 +297,48 @@ class msidang extends Model
         $query = $this->db->query($sql);
         return $query->result();
     }
-
+    
+    public function getDetailSidangTA($id_sidang_ta, $NRP)
+    {
+        $sql = 'select * from proposal p, jadwal_mhs jm where p.id_proposal = jm.id_proposal and p.nrp = ' . $NRP . ' and p.sta = ' . $id_sidang_ta;       
+        $query = $this->db->query($sql);
+        if($query->num_rows() > 0) 
+        {
+            $row = $query->row();
+            $id_slot = str_split($row->ID_SLOT,4);
+            $sql2 = 'select * from jadwal_slot where sidangta = '.$id_sidang_ta . ' and treeid = '.$id_slot[0];
+            $query = $this->db->query($sql2);
+            if($query->num_rows() > 0) 
+            {
+                $row2 = $query->row();
+                return $row2;
+            }
+            else
+            {
+                return null;
+            }
+        } 
+        else 
+        {
+            return null;
+        }
+    }
+    
+    public function getDetailSidangProposal($id_sidang_prop)
+    {
+        $this->db->select("*");
+        $this->db->from("sidang_proposal");
+        $this->db->where("id_sidang_prop", $id_sidang_prop);        
+        $query = $this->db->get();
+        if($query->num_rows() > 0) 
+        {
+            $row = $query->row();
+            return $row;
+        } 
+        else 
+        {
+            return null;
+        }
+    }
 }
 ?>
