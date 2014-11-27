@@ -68,6 +68,7 @@
             <?php
             if(isset($detailTA->sta) && $detailTA->sta!=NULL && $detailTA->sta!='')
             {
+                if($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)!=null)
                 echo date('d-m-Y', strtotime($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)->DESKRIPSI));
                 
             }            
@@ -94,7 +95,7 @@
             
             if(is_null($detailTA->tanggal_yudisium))
             {
-                if($this->lib_tugas_akhir->nama_status($detailTA->status)=='Lulus')
+                if($this->lib_tugas_akhir->nama_status($detailTA->status)=='Lulus' && $ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)!=null)
                 {
                     $datetime1 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)->DESKRIPSI)));
                     $datetime2 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU)));

@@ -91,11 +91,12 @@ class Ruang extends Controller
                   "Laboratorium RPL",
               );
             $id_jdw_ruang = $this->mruang->getNewID($id_sidangTA);
+            $j = 0;
             for($i = 0; $i<8 ; $i++)
             {                
                 
                 if($this->mruang->cekRuangan($id_sidangTA,$ruang[$i])) continue;
-
+                if($j==2)break;
 
                 $data_entry_ruangsidang = array(
                     'ID_JDW_RUANG' => $id_jdw_ruang++,
@@ -105,6 +106,7 @@ class Ruang extends Controller
                 $this->mruang->add($data_entry_ruangsidang);
                 $this->setSemuaSlotAvailable($id_sidangTA, $id_jdw_ruang);
                 $this->setDefaultRuangKBKAssignment($id_sidangTA, $id_jdw_ruang, "0");
+                $j++;
             }
             $this->lib_alert->success("Penambahan ruangan berhasil");
             //redirect("ruang/ruangSidangAjaxRequest/$id_sidangTA/");

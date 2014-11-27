@@ -260,7 +260,9 @@ class Proposal extends Controller {
 
                 //setting upload
 
-                $config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/proposal/';
+                //$config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/proposal/';
+                
+                $config['upload_path'] = './assets/files/proposal/';
 
                 $config['allowed_types'] = 'gif|jpg|png|ppt|pptx|doc|docx|xls|xlsx|swf|fla|rar|zip|html|pdf';
 
@@ -539,8 +541,10 @@ class Proposal extends Controller {
 
                 //setting upload
 
-                $config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/proposal/';
+                //$config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/proposal/';
 
+                $config['upload_path'] = './assets/files/proposal/';
+                
                 $config['allowed_types'] = 'gif|jpg|png|ppt|pptx|doc|docx|xls|xlsx|swf|fla|rar|zip|html|pdf';
 
                 $config['max_size']	= '100000';
