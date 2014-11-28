@@ -330,8 +330,6 @@ class jadwalMahasiswa extends Controller
 
         $ada_jadwal = array();
 
-        // print_r($data['list_proposal']);
-
         foreach ($data['list_proposal'] as $row) {
 
             

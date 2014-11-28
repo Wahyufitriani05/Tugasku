@@ -2,13 +2,8 @@
     tr th, tr td {
         font-size: 11px;
     }
-    #TB_title {
-        display: none;
-    }
 </style>
 <?php
-echo $this->lib_js->thickbox();
-
     echo "<tr>";
 	if($this->session->userdata('type')=="admin")echo "<th>BERITA ACARA</th>";
     echo "<th width=150>WAKTU</th>";
