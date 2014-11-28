@@ -8,17 +8,9 @@
 	}
 	</script> 
 
-<div id='mw-revisiontag' class='plainlinks noprint' >
-    <table border='0' cellspacing='0' style='background: none;'>
-        <tr style='white-space:nowrap;'><td>
-            <span title="Quality page" class="fr-icon-download"></span>&nbsp;            
-            <a class="" onclick ="printContent('bimbingan')" title="<b>CETAK</b>" href="#"><b>Cetak Kartu Bimbingan</b></a>
-        </td></tr>
-    </table>
-</div>        
 
-<div id="bimbingan">    
-    <br/>    
+            <a class="cetak" onclick ="printContent('bimbingan')" title="CETAK" href="#" style="text-decoration: none; visibility: hidden"><b>[Cetak Kartu Bimbingan]</b></a>
+<div id="bimbingan">         
        <table>
             <tr>
                 <td>
@@ -99,4 +91,27 @@
         
         ?>						                          
 
-</div>
+        <div style="text-align: center; float:left; margin-left:10px;">
+                            <p>Surabaya, <?php echo date("j F Y"); ?>,<br> 
+                            Dosen Pembimbing 1
+                            <br>
+                            <br>
+                            <p style="margin-bottom: 60px">(<?php echo $detailTA->pembimbing1; ?>)</p>
+                        </div>
+        </div>
+            <div style="text-align: center; float:right; margin-right: 50px;">
+                            <p><br>   
+                             Dosen Pembimbing 2   
+                            <br>
+                            <br>
+                            <p style="margin-bottom: 60px">(<?php echo $detailTA->pembimbing2; ?>)</p>
+                        </div>
+        </div>
+            
+        
+        <script>
+            $(document).ready(function()
+            {
+              $('.cetak').trigger('click');
+            });
+        </script>

@@ -1,3 +1,6 @@
+<?php $ci =&get_instance();
+   $ci->load->model('msidang');
+   ?>
 </br>
 <div id="some-content" class="box box-shadow clearfix">
     <div class="alpha omega">
@@ -47,14 +50,29 @@
         <div class='detail'>
             <div class='element'>TGL SIDANG PROPOSAL</div>
             <div class='element mini'>:</div>
-            <div class='element wide'><?php echo substr($detailTA->tgl_sidang_ta,0,10); ?></div>
+            <div class='element wide'><?php             
+            if(isset($detailTA->sprop) && $detailTA->sprop!=NULL && $detailTA->sprop!='')
+            {
+                echo date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU));
+            }
+            else
+            {
+                echo substr($detailTA->tgl_sidang_ta,0,10);
+            }            
+?></div>
         </div>
         <div class='detail'>
             <div class='element'>TGL SIDANG TA</div>
             <div class='element mini'>:</div>
             <div class='element wide'>
             <?php
-            if($detailTA->tgl_sidang_ta_asli=='0000-00-00')
+            if(isset($detailTA->sta) && $detailTA->sta!=NULL && $detailTA->sta!='')
+            {
+                if($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)!=null)
+                echo date('d-m-Y', strtotime($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)->DESKRIPSI));
+                
+            }            
+            else if($detailTA->tgl_sidang_ta_asli=='0000-00-00')
                 echo $detailTA->tanggal_yudisium;
             else
                 echo $detailTA->tgl_sidang_ta_asli;
@@ -65,6 +83,7 @@
             <div class='element mini'>:</div>
             <div class='element wide'>
             <?php 
+            
             if($detailTA->tgl_sidang_ta_asli=='0000-00-00')
             {
                 $lamastudi = explode(".",$detailTA->lama_yudisium);
@@ -73,9 +92,24 @@
             {
                 $lamastudi = explode(".",$detailTA->lama_sidang);
             }
+            
             if(is_null($detailTA->tanggal_yudisium))
             {
-                echo "";
+                if($this->lib_tugas_akhir->nama_status($detailTA->status)=='Lulus' && $ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)!=null)
+                {
+                    $datetime1 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangTA($detailTA->sta,$detailTA->nrp)->DESKRIPSI)));
+                    $datetime2 = new DateTime(date('d-m-Y', strtotime($ci->msidang->getDetailSidangProposal($detailTA->sprop)->WAKTU)));
+                    $interval = $datetime2->diff($datetime1);
+                    
+                    $months = ($interval->y * 12) + $interval->m; // Total number of whole months
+                    $months += number_format($interval->d / 30, 1);
+                    
+                    echo $months. " bulan";                    
+                    
+                    
+                }
+                else
+                    echo "";
             }
             else
             {

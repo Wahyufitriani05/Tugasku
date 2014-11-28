@@ -121,7 +121,7 @@ class JadwalDosen extends Controller
             foreach ($arraydosen as $dosen) {                
                 if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) == 0)
                 {
-                    if(($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
+                    if(($this->lib_user->is_admin_kbk() && $this->mdosen->isDosenRMK($dosen->NIP,$this->session_ci->userdata('type')))||($this->session->userdata['type']=='dosen'&& $dosen->NIP == $this->session->userdata['nip']) || $this->session->userdata['type']=='admin')
                     {
                         $data_jadwal_baru = array(
                             'NIP' => $dosen->NIP,

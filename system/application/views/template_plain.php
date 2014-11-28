@@ -56,7 +56,7 @@
         echo "<script type='text/javascript' src='".base_url()."assets/skins/bento/js_local/script.js'></script>";
         // web menu
         //echo "<script type='text/javascript' src='".base_url()."assets/themes/bento/js/l10n/$js_menu.js'></script>";
-        echo "<script type='text/javascript' src='".base_url()."assets/themes/bento/js/global-navigation.js'></script>";
+        
         // pop up window
         echo "<script type='text/javascript' src='".base_url()."assets/extensions/FlaggedRevs/flaggedrevs.js?56'></script>";
         echo "<script type='text/javascript' src='".base_url()."assets/skins/common/ajax.js?207'></script>";
@@ -69,9 +69,7 @@
         
         ?>
     </head>
-    <body bgcolor="#FFFFFF">
-        <br/>
-        <br/>
+    <body bgcolor="#FFFFFF">        
         <?php
         
         // content
