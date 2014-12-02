@@ -19,12 +19,38 @@ class Lamastudi extends Controller
     {
         $this->load->model('mlamastudi');
         // set title, menu, view
+        $this->update();
         $data['title'] = "Lama Pengerjaan Tugas Akhir";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "lamastudi/content-index";
-        $data['list_ta'] = $this->mlamastudi->getListTAdanLamaStudi();
+        $data['list_ta'] = $this->mlamastudi->getListTAdanLamaStudi();   
+        
         $this->load->view('template', $data);
+    }
+    
+    function update()
+    {
+        $this->load->model('mlamastudi');
+        $this->load->model('msidang');
+        $this->load->model('mproposal');
+        $rows = $this->mlamastudi->getListTAUpdate();
+        $i = 0;
+        foreach($rows as $row)
+        {
+            if($i==60) break;
+            if($this->msidang->getDetailSidangTA($row->STA,$row->NRP)!=NULL)
+            {
+                //var_dump($row);
+                $row->TGL_SIDANG_TA = date('Y-m-d', strtotime($this->msidang->getDetailSidangProposal($row->SPROP)->WAKTU));            
+                $row->TGL_SIDANG_TA_ASLI = date('Y-m-d', strtotime($this->msidang->getDetailSidangTA($row->STA,$row->NRP)->DESKRIPSI));
+                //echo date('Y-m-d', strtotime($this->msidang->getDetailSidangProposal($row->SPROP)->WAKTU));
+                //echo date('d-m-Y', strtotime($this->msidang->getDetailSidangTA($row->STA,$row->NRP)->DESKRIPSI));
+                $this->mproposal->update($row, $row->ID_PROPOSAL);         
+                $i++;
+            }
+            //
+        }
     }
     
     function perwisuda($id_periode_wisuda="-1") 
@@ -35,18 +61,29 @@ class Lamastudi extends Controller
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "lamastudi/content-perwisuda";
+        
+        $data['periode'] = $this->mlamastudi->getPeriode();
+
         if($this->input->post('periodewisuda')!="")
         {
             $periode_wisuda = $this->input->post('periodewisuda');
             $this->session->set_userdata('periode',$periode_wisuda);
         }
-        else 
+        else if($id_periode_wisuda!="-1")
         {
-            $periode_wisuda = $id_periode_wisuda;
+             $periode_wisuda = $data['periode'][$id_periode_wisuda-1]->periode;
             $this->session->set_userdata('periode',$periode_wisuda);
         }
+        else 
+        {
+            
+            $periode_wisuda = "";
+            //echo $data['periode'][0]->periode;
+            $this->session->set_userdata('periode',$periode_wisuda);
+        }
+
         $data['list_ta'] = $this->mlamastudi->getListTAdanLamaStudi($periode_wisuda);
-        $data['periode'] = $this->mlamastudi->getPeriode();
+        
         $this->load->view('template', $data);
     }
     

@@ -139,9 +139,9 @@ var global_navigation_data = [
 
             "image": "news",
 
-            "title": "Ubah KBK",
+            "title": "Ubah RMK",
 
-            "desc": "Mengubah KBK"
+            "desc": "Mengubah RMK"
 
         },
 
@@ -153,7 +153,7 @@ var global_navigation_data = [
 
             "title": "Daftar Dosen",
 
-            "desc": "Daftar Dosen beserta KBK"
+            "desc": "Daftar Dosen beserta RMK"
 
         }
 

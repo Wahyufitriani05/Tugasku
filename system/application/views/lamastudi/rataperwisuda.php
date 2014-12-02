@@ -12,8 +12,8 @@
         else
             $class_row = 'rowB';
         echo "<tr class='$class_row'>";
-        echo "<td><a href='".site_url("lamastudi/perwisuda/$row->id_periode_lulus")."'>$row->nama_periode</a></td>";;
-        printf ("<td>%.2f</td>",$row->lama_total);
+        echo "<td><a href='".site_url("lamastudi/perwisuda/$i")."'>$row->semester_sidang_ta $row->tahun_sidang_ta</a></td>";;
+        printf ("<td>%.2f</td>",$row->lama_ratarata);
         echo "</tr>";
         $i++;
     }

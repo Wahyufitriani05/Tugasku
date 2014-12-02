@@ -3,7 +3,7 @@
     <a name="top" id="top"></a>
     <div class="alpha omega">
         <!-- judul halaman + gambar-->
-        <h1>Daftar Dosen & KBK</h1>
+        <h1>Daftar Dosen & RMK</h1>
         <?php
             $error="";
             $error=$this->session->userdata('error');

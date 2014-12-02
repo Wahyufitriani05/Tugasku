@@ -475,6 +475,8 @@ class Berita extends Controller {
             //setting upload
 
             $config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/berita/';
+            
+            //$config['upload_path'] = './assets/files/proposal/';
 
             $config['allowed_types'] = 'gif|jpg|png|ppt|pptx|doc|docx|xls|xlsx|swf|fla|rar|zip|html|pdf';
 
@@ -622,6 +624,8 @@ class Berita extends Controller {
             //setting upload
 
             $config['upload_path'] = '/var/www/akademik/if/newMonta/assets/files/berita/';
+            
+            //$config['upload_path'] = './assets/files/proposal/';
 
             $config['allowed_types'] = 'gif|jpg|png|ppt|pptx|doc|docx|xls|xlsx|swf|fla|rar|zip|html|pdf';
 

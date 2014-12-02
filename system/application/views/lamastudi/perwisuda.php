@@ -18,10 +18,10 @@
         echo "<tr class='$class_row'>";
         echo "<td>$row->nrp</td>";
         echo "<td>$row->nama_mahasiswa</td>";
-        echo "<td>$row->nama_periode</td>";
-        echo "<td>".substr($row->tgl_sidprop,0,10)."</td>";
-        echo "<td>$row->tgl_sidang</td>";
-        printf ("<td>%.2f</td>",$row->lamastudi);
+        echo "<td>$row->semester_sidang_ta $row->tahun_sidang_ta</td>";
+        echo "<td>". date('d-m-Y',strtotime($row->tgl_sidang_ta)). "</td>";
+        echo "<td>". date('d-m-Y',strtotime($row->tgl_sidang_ta_asli)). "</td>";        
+        printf ("<td>%.2f</td>",$row->lama_studi);                           
         echo "</tr>";
         $i++;
     }

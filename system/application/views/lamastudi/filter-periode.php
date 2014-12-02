@@ -3,12 +3,14 @@
     <select onchange="document.forms['filter-form'].submit();" name="periodewisuda" style="min-width: 150px; height: 20px;">
         <option value="-1"> - Semua Periode - </option>
         <?php
+
         foreach ($periode as $row) {
-            if($row->ID_PERIODE_LULUS == $this->session->userdata('periode') && $this->session->userdata('periode') != '')
+            
+            if($row->periode == $this->session->userdata('periode') && $this->session->userdata('periode') != '')
                 $tanda = " selected ";
             else
                 $tanda = " ";
-            echo "<option $tanda value='".$row->ID_PERIODE_LULUS."'>".$row->NAMA_PERIODE."</option>";
+            echo "<option $tanda value='".$row->periode."'>".$row->periode."</option>";
         }
         ?>
     </select>
