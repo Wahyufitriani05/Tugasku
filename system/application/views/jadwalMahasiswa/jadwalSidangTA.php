@@ -30,10 +30,30 @@
             echo "<td>$prop->DESKRIPSI</td>";
             echo "<td>$prop->NRP</td>";
             echo "<td>$prop->NAMA_LENGKAP_MAHASISWA</td>";
-            echo "<td><a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP1/pembimbing?TB_iframe=true&height=500&width=800")."'>$prop->NAMA_PEMBIMBING1</a></td>";
-            echo "<td><a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP2/pembimbing?TB_iframe=true&height=500&width=800")."'>$prop->NAMA_PEMBIMBING2</a></td>";
-            echo "<td><a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP3/penguji?TB_iframe=true&height=500&width=800")."'>$prop->PENGUJI1</a></td>";
-            echo "<td><a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP4/penguji?TB_iframe=true&height=500&width=800")."'>$prop->PENGUJI2</a></td>";
+            echo "<td>";
+                if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP1) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK)
+                    echo "<a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP1/pembimbing?TB_iframe=true&height=500&width=800")."'>$prop->NAMA_PEMBIMBING1</a>";
+                else
+                    echo $prop->NAMA_PEMBIMBING1;
+            echo "</td>";
+            echo "<td>";
+                if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP2) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK)
+                    echo "<a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP2/pembimbing?TB_iframe=true&height=500&width=800")."'>$prop->NAMA_PEMBIMBING2</a>";
+                else
+                    echo $prop->NAMA_PEMBIMBING2;
+            echo "</td>";
+            echo "<td>";
+                if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP3) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK)
+                    echo "<a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP3/penguji?TB_iframe=true&height=500&width=800")."'>$prop->PENGUJI1</a>";
+                else
+                    echo $prop->PENGUJI1;
+            echo "</td>";           
+            echo "<td>";
+                if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP4) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK)
+                    echo "<a class='thickbox' title='Detail Tugas Akhir' href='".site_url("jadwalMahasiswa/evaluasiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP4/penguji?TB_iframe=true&height=500&width=800")."'>$prop->PENGUJI2</a>";
+                else
+                    echo $prop->PENGUJI2;
+            echo "</td>";
             echo "<td>$prop->JUDUL_TA</td>";
             echo "</tr>";
             $i++;
