@@ -6,6 +6,7 @@ class mproposal extends Model
     {
         parent::Model();
         $this->load->database();
+        $this->load->library('lib_alert');
     }
 
     function judulTA($id_proposal='') {
