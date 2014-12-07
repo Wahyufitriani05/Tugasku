@@ -192,5 +192,17 @@ class mlamastudi extends Model
       $query = $this->db->query($sql);
       return $query->result_array();
     }
+
+    function getTotalPembimbingTAbyName($name=NULL)
+    {
+      $sql = "SELECT dosen.nama_dosen, summary.pembimbing1 as nip, sum(summary.jumlah) as jumlah_bimbingan from
+                (
+                select pembimbing1, count(pembimbing1) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta group by pembimbing1
+                union
+                select pembimbing2, count(pembimbing2) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta group by pembimbing2
+                ) summary join dosen on summary.pembimbing1 = dosen.NIP2010 where dosen.pembimbing1 != '$name' group by summary.pembimbing1";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 }
 ?>
