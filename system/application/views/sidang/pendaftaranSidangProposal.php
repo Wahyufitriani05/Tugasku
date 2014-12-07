@@ -1,5 +1,5 @@
-<table class="table1" style="width:96%; margin-top:20px; border:1px solid #aaa;" border="1" cellpadding="2" cellspacing="3">
-    <?php
+<?php
+    echo '<table class="table1" style="width:96%; margin-top:20px; border:1px solid #aaa;" border="1" cellpadding="2" cellspacing="3">';
     if(!empty($total_page))
         echo "<tr><td colspan='10' align='center'>$total_page</td></tr>";
     echo "<tr>";
