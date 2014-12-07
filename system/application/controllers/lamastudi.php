@@ -141,18 +141,32 @@ class Lamastudi extends Controller
     function statistikPembimbingTA()
     {
         $this->load->model('mlamastudi');
-        $tes = $this->mlamastudi->getTotalPembimbingTA();
-        $count = 0;
-        $newData = array();
-        $maxArray = count($tes);
-
-        // for ($i=0; $i < $maxArray; $i++) { 
-        //         $newData[$i] = $tes[$i];
-            
-        // }
-
-        //var_dump($newData);
-        $data['pembimbingTA'] = $tes;
+        $filter_tahun = $this->input->post('filter_statistik_tahun');
+        $filter_dosen = $this->input->post('filter_statistik_dosen');
+        
+        if($this->input->post('filter_statistik_tahun')!='all')
+        {
+            $filter_statistik_tahun = $this->input->post('filter_statistik_tahun');
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_statistik_tahun);
+        }
+        elseif ($filter_tahun=="all" || $filter_dosen=="all")
+        {
+            echo "1";
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+        }
+        elseif($this->input->post('filter_statistik_dosen')!='all')
+        {
+            $filter_statistik_dosen = $this->input->post('filter_statistik_dosen');
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyName($filter_statistik_dosen);
+            var_dump($data['pembimbingTA']);
+            exit();
+        }
+        else
+        {
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+        }
+        $data['tahun'] = $this->mlamastudi->getYear();
+        $data['dosen'] = $this->mlamastudi->getTotalPembimbingTA();
         $data['title'] = "Statistik Dosen Pembimbing TA";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
