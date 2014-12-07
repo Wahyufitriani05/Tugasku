@@ -204,7 +204,7 @@ class mjadwalmahasiswa extends Model
               ORDER BY `ID_KBK` ASC, `proposal`.`PEMBIMBING1` ASC, `proposal`.`PEMBIMBING2` ASC
             )q left join
             (
-              SELECT jadwal_mhs.*, jadwal_ruangan.DESKRIPSI, ds1.NIP2010 as NIP2010_PENGUJI1, ds1.INISIAL_DOSEN as INISIAL_PENGUJI1, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NIP2010 as NIP2010_PENGUJI2, ds2.INISIAL_DOSEN as INISIAL_PENGUJI2, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, concat(jsh.DESKRIPSI, ' ', jsw.DESKRIPSI) as WAKTU, jsw.TGL, jsw.WAKTU as JAM, concat(DATE_FORMAT(jsh.TGL, '%W, %e %M %Y'), ' Pukul ', TIME_FORMAT(jsw.WAKTU, '%H:%m'),'-',TIME_FORMAT(ADDTIME(jsw.WAKTU, '0 1:0:0'), '%H:%m')) as WAKTUHARI
+              SELECT jadwal_mhs.*, jadwal_ruangan.DESKRIPSI, ds1.NIP as NIP_PENGUJI1, ds1.NIP2010 as NIP2010_PENGUJI1, ds1.INISIAL_DOSEN as INISIAL_PENGUJI1, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NIP as NIP_PENGUJI2, ds2.NIP2010 as NIP2010_PENGUJI2, ds2.INISIAL_DOSEN as INISIAL_PENGUJI2, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, concat(jsh.DESKRIPSI, ' ', jsw.DESKRIPSI) as WAKTU, jsw.TGL, jsw.WAKTU as JAM, concat(DATE_FORMAT(jsh.TGL, '%W, %e %M %Y'), ' Pukul ', TIME_FORMAT(jsw.WAKTU, '%H:%m'),'-',TIME_FORMAT(ADDTIME(jsw.WAKTU, '0 1:0:0'), '%H:%m')) as WAKTUHARI
               FROM (jadwal_mhs, jadwal_ruangan, dosen ds1, dosen ds2, jadwal_slot jsw, jadwal_slot jsh) 
               WHERE `jadwal_mhs`.`ID_JDW_RUANG` = jadwal_ruangan.ID_JDW_RUANG 
               AND `jadwal_mhs`.`NIP3` = ds1.NIP 
@@ -375,6 +375,21 @@ class mjadwalmahasiswa extends Model
         return $query->result();
     }
     
+    function getJadwalMahasiswa($ID_JDW_MHS) 
+    {
+        
+        $sql = "select * from jadwal_mhs where ID_JDW_MHS = '$ID_JDW_MHS'";        
+        $query = $this->db->query($sql);
+        if($this->db->affected_rows() > 0)
+        {
+            foreach ($query->result() as $row) 
+            {
+                return $row;
+            }
+        }
+        
+    }
+    
     function listAvailableJadwal($id_sidangTA, $treeid, $id_kbk) 
     {
         $sql = "SELECT JRA.*, JR.DESKRIPSI, K.NAMA_KBK
@@ -426,6 +441,22 @@ class mjadwalmahasiswa extends Model
                 KD.NIP <> '$nip1'
                 AND KD.NIP <> '$nip2'
                 )
+                ORDER BY JA.ID_SLOT, KD.NIP";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
+    function listAvailableDosenNew($id_sidangTA, $treeid, $id_kbk) 
+    {
+        $sql = "SELECT JA.ID_JDW_AVAIL, JA.ID_SLOT, KD.NIP, JA.STATUS, D.INISIAL_DOSEN, D.NAMA_DOSEN
+                FROM jadwal_availability JA, kbk_dosen KD, dosen D
+                WHERE KD.NIP = JA.NIP
+                AND KD.NIP = D.NIP
+                AND KD.ID_KBK = '$id_kbk'
+                AND JA.SIDANGTA = '$id_sidangTA'
+                AND JA.ID_SLOT = '$treeid'
+                AND JA.STATUS = '0'
+                AND D.STATUS_DOSEN = 2                 
                 ORDER BY JA.ID_SLOT, KD.NIP";
         $query = $this->db->query($sql);
         return $query->result();

@@ -10,7 +10,7 @@
     echo "<th>SLOT</th>";
     echo "<th>WAKTU</th>";
     echo "<th>RUANGAN</th>";
-    echo "<th>KBK</th>";
+    echo "<th>RMK</th>";
     echo "<th>PEMB 1</th>";
     echo "<th>PEMB 2</th>";
     echo "<th>PENJI 1</th>";
@@ -34,6 +34,7 @@
     $status[7] = 'Tidak Ada Ruangan';
     foreach ($list_proposal as $prop) {
         if(isset($prop->ID_JDW_MHS)) {
+            //var_dump($prop);
         //if($ada_jadwal[$prop->ID_PROPOSAL_ASLI]==TRUE) {
             //$jdw_mhs = $jadwal_mhs[$prop->ID_PROPOSAL_ASLI];
             echo "<tr class='".$rowClass[($i%2)]."'>";
@@ -68,10 +69,12 @@
 //            echo "<td><a class='thickbox' title='GANTI PEMBIMBING 2' href='".site_url("jadwalMahasiswa/gantiPembimbing/2/$id_sidangTA/$prop->ID_PROPOSAL_ASLI?TB_iframe=true&height=300&width=600")."'>$prop->INISIAL_PEMBIMBING2</a></td>";
 //            echo "<td><a class='thickbox' title='GANTI PENGUJI 1' href='".site_url("jadwalMahasiswa/gantiPenguji/1/$id_sidangTA/$prop->ID_PROPOSAL_ASLI/$prop->ID_JDW_MHS?TB_iframe=true&height=300&width=600")."'>$prop->INISIAL_PENGUJI1<a/></td>";
 //            echo "<td><a class='thickbox' title='GANTI PENGUJI 2' href='".site_url("jadwalMahasiswa/gantiPenguji/2/$id_sidangTA/$prop->ID_PROPOSAL_ASLI/$prop->ID_JDW_MHS?TB_iframe=true&height=300&width=600")."'>$prop->INISIAL_PENGUJI2<a/></td>";
+            
+            
             echo "<td>$prop->INISIAL_PEMBIMBING1</td>";
             echo "<td>$prop->INISIAL_PEMBIMBING2</td>";
-            echo "<td>$prop->INISIAL_PENGUJI1</td>";
-            echo "<td>$prop->INISIAL_PENGUJI2</td>";
+            echo "<td><a class='thickbox'  title='UPDATE PENGUJI' href='". base_url() ."index.php/jadwalMahasiswa/updatePenguji/$prop->ID_JDW_MHS/$prop->NIP3/$prop->STA/$prop->ID_SLOT/$prop->ID_KBK?TB_iframe=true&height=450&width=800'>$prop->INISIAL_PENGUJI1</td>";
+            echo "<td><a class='thickbox'  title='UPDATE PENGUJI' href='". base_url() ."index.php/jadwalMahasiswa/updatePenguji/$prop->ID_JDW_MHS/$prop->NIP4/$prop->STA/$prop->ID_SLOT/$prop->ID_KBK?TB_iframe=true&height=450&width=800'>$prop->INISIAL_PENGUJI2</td>";           
             echo "<td><input type='checkbox' name='SWITCH_".$id_sidangTA."_".$prop->ID_JDW_MHS."' /></td>";//<a href='".site_url("penjadwalan/deleteJadwalMajuSidang/$id_sidangTA/$jdw_mhs->ID_JDW_MHS")."'>DELETE</a></td>";
             echo "<td>$prop->NRP</td>";
             echo "<td>$prop->NAMA_LENGKAP_MAHASISWA</td>";

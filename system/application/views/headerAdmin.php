@@ -6,7 +6,7 @@
             <li id="item-topikTA"><a href="#">Topik TA</a></li>
             <li><a href="<?php echo site_url('progres/tugasakhir')?>">Pencarian TA</a></li>
             <li id="item-sidang"><a href="#">Sidang</a></li>
-            <?php if($this->session->userdata['type']=="admin")echo "<li id=\"item-kbkDosen\"><a href=\"#\">KBK Dosen</a></li>";?>
+            <?php if($this->session->userdata['type']=="admin")echo "<li id=\"item-kbkDosen\"><a href=\"#\">RMK Dosen</a></li>";?>
             <li id="item-berita"><a href="#">Berita</a></li>
             <li id="item-penjadwalan"><a href="#">Penjadwalan</a></li>
             <?php if($this->session->userdata['type']=="admin")echo "<li id=\"item-mahasiswa\"><a href=\"#\">Mahasiswa</a></li>";?>

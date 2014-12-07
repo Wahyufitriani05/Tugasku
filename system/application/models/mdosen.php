@@ -50,11 +50,14 @@ class mdosen extends Model {
     }
 
     function updateKBKDosen($id_kbk, $nip_dosen, $perintah){
-        $query="";
+        
+        $query1="select * from kbk_dosen where nip=".$this->db->escape($nip_dosen)." and id_kbk=".$this->db->escape($id_kbk);
+        $data = $this->db->query($query1);
+        $count = count($data->result());
         //tambah kbk dosen
-        if($perintah==1)$query="insert into kbk_dosen values(".$this->db->escape($nip_dosen).",".$this->db->escape($id_kbk).")";
+        if($perintah==1 && $count==0)$query="insert into kbk_dosen values(".$this->db->escape($nip_dosen).",".$this->db->escape($id_kbk).")";
         //hapus kbk dosen
-        else $query="delete from kbk_dosen where nip=".$this->db->escape($nip_dosen)." and id_kbk=".$this->db->escape($id_kbk);
+        else if($count>0)$query="delete from kbk_dosen where nip=".$this->db->escape($nip_dosen)." and id_kbk=".$this->db->escape($id_kbk);
         $this->db->query($query);
     }
     
@@ -83,26 +86,63 @@ class mdosen extends Model {
         $this->db->query($query);
     }
 
-    function getTotalDosen(){
+    /*function getTotalDosen(){
         $query="select d.nip, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk order by d.nama_lengkap_dosen, k.nama_kbk asc";
         $data = $this->db->query($query);
         return count($data->result());
-    }
-
-    function getTotalDosenSearch($nama){
-        $query="select d.nip, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and d.nama_dosen like '%".$this->db->escape_like_str($nama)."%' order by d.nama_lengkap_dosen, k.nama_kbk asc";
+    }*/
+    
+    function getTotalDosen(){
+        $query="select * from dosen";
         $data = $this->db->query($query);
         return count($data->result());
     }
 
-    function getListDosenSearch($offset, $per_page, $nama){
+    /*(function getTotalDosenSearch($nama){
+        $query="select d.nip, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and d.nama_dosen like '%".$this->db->escape_like_str($nama)."%' order by d.nama_lengkap_dosen, k.nama_kbk asc";
+        $data = $this->db->query($query);
+        return count($data->result());
+    }*/
+    
+    function getTotalDosenSearch($nama){
+        $query="select * from dosen d where d.nama_dosen like '%".$this->db->escape_like_str($nama)."%'";
+        $data = $this->db->query($query);
+        return count($data->result());
+    }
+
+    /*function getListDosenSearch($offset, $per_page, $nama){
         $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk and d.nama_dosen like '%".$this->db->escape_like_str($nama)."%' order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
+        $data = $this->db->query($query);
+        return $data->result();
+    }*/
+    
+    function getListDosenSearch($offset, $per_page, $nama){
+        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk 
+                from (SELECT d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen FROM dosen d 
+                where d.nama_dosen like '%".$this->db->escape_like_str($nama)."%'
+                ORDER BY d.nama_lengkap_dosen ASC limit $offset, $per_page) d left outer join 
+                (select k.nama_kbk, kd.nip from kbk_dosen kd, kbk k
+                where k.id_kbk = kd.id_kbk) k
+                on(d.nip=k.nip or d.nip2010=k.nip) order by d.nama_lengkap_dosen, k.nama_kbk asc";
         $data = $this->db->query($query);
         return $data->result();
     }
 
+    /*function getListDosen($offset, $per_page){
+        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from 
+        (SELECT *
+        FROM dosen d
+        ORDER BY d.nama_lengkap_dosen ASC
+        limit $offset, $per_page) d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk order by d.nama_lengkap_dosen,  k.nama_kbk asc ";
+        $data = $this->db->query($query);
+        return $data->result();
+    }*/
+    
     function getListDosen($offset, $per_page){
-        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk from dosen d, kbk k, kbk_dosen kd where (d.nip=kd.nip or d.nip2010=kd.nip) and k.id_kbk=kd.id_kbk order by d.nama_lengkap_dosen, k.nama_kbk asc limit $offset, $per_page";
+        $query="select d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen, ifnull(k.nama_kbk, 'kosong')as nama_kbk 
+                from (SELECT d.nip, d.nip2010, d.nama_lengkap_dosen, d.status_dosen FROM dosen d ORDER BY d.nama_lengkap_dosen ASC limit $offset, $per_page) d left outer join (select k.nama_kbk, kd.nip from kbk_dosen kd, kbk k
+                where k.id_kbk = kd.id_kbk) k
+                on(d.nip=k.nip or d.nip2010=k.nip) order by d.nama_lengkap_dosen, k.nama_kbk asc   ";
         $data = $this->db->query($query);
         return $data->result();
     }

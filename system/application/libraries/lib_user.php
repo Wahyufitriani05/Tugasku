@@ -54,6 +54,23 @@ class Lib_user
             }
         }
     }
+    
+    function cek_admin_dosen_nip($nip, $dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh administrator dan dosen bersangkutan") 
+    {
+        if($this->session_ci->userdata('type') == 'admin' || ($this->session_ci->userdata('type') == 'dosen' && $this->session_ci->userdata('nip')== $nip))
+        {
+            
+        }   
+        else
+        {
+            $this->lib_alert->warning($message);
+            if($redirect_page == "error/index/") {
+                redirect("error/index/".$dialog);
+            } else {
+                redirect($redirect_page);
+            }
+        }
+    }
 
     function cek_admin_plus_kbk($dialog = false, $redirect_page="error/index/", $message="Halaman ini hanya bisa dilihat oleh admin KBK") 
     {

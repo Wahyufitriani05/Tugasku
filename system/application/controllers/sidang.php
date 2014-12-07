@@ -137,7 +137,7 @@ class Sidang extends MY_Controller
         {
             $id_kbk = $this->filterKBK();
             $daftar_kbk = $this->mdosen->listKBK();
-            array_pop($daftar_kbk); // hapus array urutan pertama
+            //array_pop($daftar_kbk); // hapus array urutan pertama
         }
         
         // list TA yang akan maju sidang proposal
@@ -270,7 +270,7 @@ class Sidang extends MY_Controller
         {
             $id_kbk = $this->filterKBK();
             $daftar_kbk = $this->mdosen->listKBK();
-            array_pop($daftar_kbk); // hapus array urutan pertama
+            //array_pop($daftar_kbk); // hapus array urutan pertama
             $this->session->set_userdata('kbk', $id_kbk);
         }
 

@@ -62,8 +62,12 @@ class mruang extends Model
         }
         else
         {
+            return null;
+            /*
             $this->lib_alert->warning("Ruang sidang TA tidak ditemukan!");
             redirect("error/index/".$dialog);
+             * *
+             */
         }
     }
 

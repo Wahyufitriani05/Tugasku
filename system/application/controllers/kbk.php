@@ -29,17 +29,17 @@ class Kbk extends Controller {
         
         $data['content'] = "kbkDosen/content-daftarKBK";
 
-        $this->form_validation->set_rules('nama', 'Nama KBK', 'required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan KBK', 'required');
+        $this->form_validation->set_rules('nama', 'Nama RMK', 'required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan RMK', 'required');
 
         $this->load->model('mdosen');
         $nama=$this->input->post('nama');
         $keterangan=$this->input->post('keterangan');
 
-        if ($this->form_validation->run() == TRUE && $nama!="Masukkan Nama KBK di sini..." && $keterangan!="Masukkan Keterangan KBK di sini...")
+        if ($this->form_validation->run() == TRUE && $nama!="Masukkan Nama RMK di sini..." && $keterangan!="Masukkan Keterangan RMK di sini...")
         {
             $this->mdosen->tambahKBK();
-            $this->session->set_userdata('sukses','KBK baru berhasil ditambahkan');
+            $this->session->set_userdata('sukses','RMK baru berhasil ditambahkan');
         }
         
         $data['kbk'] = $this->mdosen->getKBK();
@@ -48,7 +48,7 @@ class Kbk extends Controller {
 
     function daftarDosen()
     {
-        $data['title'] = "Daftar Dosen & KBK";
+        $data['title'] = "Daftar Dosen & RMK";
         $data['js_menu'] = "menuAdmin";
         $data['header'] = "headerAdmin";
         $data['leftSide'] = 'leftSide';
@@ -184,7 +184,7 @@ class Kbk extends Controller {
             $this->load->model('mdosen');
             $this->mdosen->updateDetailDosen();
             $nip = $this->input->post('nip');
-            $this->session->set_userdata('sukses','Dosn dengan NIP '.$nip.' berhasil diupdate');
+            $this->session->set_userdata('sukses','Dosen dengan NIP '.$nip.' berhasil diupdate');
             $this->load->view('kbkDosen/content-ubahDosen');
         }
     }
@@ -205,13 +205,23 @@ class Kbk extends Controller {
         $id_kbk=$this->uri->segment(3, 0);
         $nip_dosen=$this->uri->segment(4,0);
         $perintah=$this->uri->segment(5,0);
+        $uri = $this->uri->segment(6, 0);
+        $link = $this->uri->segment(7, 0);
         
         if($id_kbk!=0 && $nip_dosen!=0 && $perintah!=0){
             $this->load->model('mdosen');
             $this->mdosen->updateKBKDosen($id_kbk, $nip_dosen, $perintah);
-            $this->session->set_userdata('sukses','KBK Dosen dengan NIP '.$nip_dosen.' berhasil diupdate');
+            $this->session->set_userdata('sukses','RMK Dosen dengan NIP '.$nip_dosen.' berhasil diupdate');
         }
-        redirect('kbk/daftarDosen','refresh');
+        if($link==2)
+        {
+            redirect('kbk/daftarDosen/'.$uri);
+        }
+        else
+        {
+            redirect('kbk/cariDosen/'.$uri);
+        }
+        
     }
 
     function ubahStatusDosen(){
@@ -229,17 +239,27 @@ class Kbk extends Controller {
 
         $nip_dosen=$this->uri->segment(3,0);
         $perintah=$this->uri->segment(4,0);
+        $uri = $this->uri->segment(5, 0);
+        $link = $this->uri->segment(6, 0);
         
         if($nip_dosen!=0){
             $this->load->model('mdosen');
             $this->mdosen->updateStatusDosen($nip_dosen, $perintah);
             $this->session->set_userdata('sukses','Status Dosen dengan NIP '.$nip_dosen.' berhasil diupdate');
         }
-        redirect('kbk/daftarDosen','refresh');
+        
+        if($link==2)
+        {
+            redirect('kbk/daftarDosen/'.$uri);
+        }
+        else
+        {
+            redirect('kbk/cariDosen/'.$uri);
+        }
     }
     
     function cariDosen(){
-        $data['title'] = "Daftar Dosen & KBK";
+        $data['title'] = "Daftar Dosen & RMK";
         $data['js_menu'] = "menuAdmin";
         $data['header'] = "headerAdmin";
         $data['content'] = "kbkDosen/content-daftarDosen";
@@ -277,6 +297,7 @@ class Kbk extends Controller {
         $offset = $this->uri->segment(4, 0); //ngambil batas akhir row pada halaman sebelumnya
         $data['dosen'] = $this->mdosen->getListDosenSearch($offset, $config['per_page'], $nama);
         $data['type']=$tipe;
+        $data['search'] = $nama;
         $this->load->view('template', $data);
     }
 

@@ -17,12 +17,12 @@ class mlamastudi extends Model
 
     function getPeriode() 
     {
-        $sql = "select * from periode_lulus where tanggal_yudisium > '2006-1-1' order by tanggal_yudisium desc";
+        $sql = "SELECT Distinct CONCAT_WS(' ', SEMESTER_SIDANG_TA, TAHUN_SIDANG_TA) AS periode FROM `sidang_ta` order by id_sidang_ta desc";
         $query = $this->db->query($sql);
         return $query->result();
     }
     
-    function getListTAdanLamaStudi($id_periode="-1", $offset="", $perpage="") 
+    /*function getListTAdanLamaStudi($id_periode="-1", $offset="", $perpage="") 
     {
         $sql = "select q2.id_proposal, q2.id_kbk, q2.nama_periode, q2.tgl_sidang_ta as tgl_sidprop, q2.tanggal_yudisium, ifnull(q1.tgl_sidang_ta_asli, q2.tanggal_yudisium) as tgl_sidang, q2.id_periode_lulus, q2.id_proposal, q2.judul_ta, q2.nrp, q2.nama_mahasiswa, ifnull(q1.lama,q2.lama) as lamastudi from 
                 (
@@ -46,9 +46,50 @@ class mlamastudi extends Model
             $sql .= " limit $offset, $perpage";
         $query = $this->db->query($sql);
         return $query->result();
+    }*/
+    
+    function getListTAUpdate()
+    {
+        $sql = "select p.* from proposal p, sidang_ta s where p.status = 31 and 
+            (p.sta is not null and p.sta != '') and  (p.sprop is not null and p.sprop != '') 
+            and (p.tgl_sidang_ta is null or p.tgl_sidang_ta_asli = '0000-00-00') and s.id_sidang_ta =  p.sta 
+            order by p.id_proposal desc";
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+    } 
+    
+    function updateProposal($id_proposal, $data)
+    {
+        $this->db->where('ID_PROPOSAL', $id_proposal);
+        $this->db->update('PROPOSAL', $data);
+        if($this->db->affected_rows() > 0)
+            return true;
+        else
+            return false;
     }
     
-    function getWisudadanRataLamaStudi() 
+    function getListTAdanLamaStudi($periode="", $offset="", $perpage="") 
+    {        
+        $sql = "select m.nrp, m.nama_mahasiswa, s.semester_sidang_ta, s.tahun_sidang_ta, p.tgl_sidang_ta, p.tgl_sidang_ta_asli
+                ,(TO_DAYS( p.tgl_sidang_ta_asli ) - TO_DAYS( p.tgl_sidang_ta )) /30 AS lama_studi
+                from proposal p, mahasiswa m,  sidang_TA s where m.nrp = p.nrp and p.status = 31 and p.sta = s.id_sidang_TA and p.tgl_sidang_ta is not null
+                and p.tgl_sidang_ta_asli != '0000-00-00'"; 
+        
+        if($periode!="")
+        {
+            $per = explode(" ",$periode);
+            $sql .= " and s.semester_sidang_ta like '$per[0]' and s.tahun_sidang_ta like '$per[1]'";
+        }
+        
+        if($perpage!="")
+            $sql .= " limit $offset, $perpage";
+        
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
+    /*function getWisudadanRataLamaStudi() 
     {
         $sql = "
             select q3.id_periode_lulus, q3.nama_periode, q3.tanggal_yudisium, avg(q3.lamastudi) as lama_total from (
@@ -69,7 +110,21 @@ class mlamastudi extends Model
             ";
         $query = $this->db->query($sql);
         return $query->result();
+    }*/
+    
+    function getWisudadanRataLamaStudi() 
+    {
+        $sql = "
+                select s.semester_sidang_ta, s.tahun_sidang_ta
+                , AVG((TO_DAYS( p.tgl_sidang_ta_asli ) - TO_DAYS( p.tgl_sidang_ta )) /30) AS lama_ratarata
+                from proposal p, mahasiswa m,  sidang_TA s where m.nrp = p.nrp and p.status = 31 and p.sta = s.id_sidang_TA and p.tgl_sidang_ta is not null
+                and p.tgl_sidang_ta_asli != '0000-00-00' group by s.semester_sidang_ta, tahun_sidang_ta order by s.id_sidang_TA desc
+            ";
+        $query = $this->db->query($sql);
+        return $query->result();
     }
+    
+
 
     function getTotalMahasiswaTA($tahun) {
       $sql = "SELECT sidang_ta.ID_SIDANG_TA,

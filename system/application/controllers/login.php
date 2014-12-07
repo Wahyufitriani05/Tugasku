@@ -142,7 +142,7 @@ class Login extends Controller {
                     }
                     else if($row->inisial_dosen=="KBJ"){
                         $this->session->set_userdata('type', 'KBJ');
-                        $this->session->set_userdata('nama', 'AdminNCC');
+                        $this->session->set_userdata('nama', 'AdminKBJ');
                         $data['js_menu'] = "menuKBK";
                         $data['header'] = "headerAdmin";
                     }

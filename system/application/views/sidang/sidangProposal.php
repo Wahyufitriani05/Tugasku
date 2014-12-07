@@ -30,6 +30,16 @@
                     ));
                     
         echo "
+            
+        $( '#status_$row->ID_PROPOSAL' ).change(function() {           
+                if($( '#status_$row->ID_PROPOSAL' ).val() == 11)
+                {
+                    location.reload(true);
+                }
+                else
+                {
+                }
+            }); 
         });
 
         </script>";

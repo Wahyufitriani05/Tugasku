@@ -1,9 +1,13 @@
 <?php
 class jadwalMahasiswa extends Controller 
 {
+    var $session_ci;
     function jadwalMahasiswa() 
     {
         parent::Controller();
+        
+        $this->session_ci = new CI_Session();  
+        
         $this->load->library('lib_tugas_akhir'); 
 
         $this->load->library('lib_alert');
@@ -279,6 +283,9 @@ class jadwalMahasiswa extends Controller
     }
 
     function evaluasiTugasAkhir($id_proposal, $nip, $tipe = "Pembimbing") {
+        
+        $this->lib_user->cek_admin_dosen_kbk();
+        
         $data['title'] = "Lembar Penilaian Tugas Akhir";
 
         $id_sidangTA = $this->msidang->getIDSidangTAAktif();
@@ -372,6 +379,8 @@ class jadwalMahasiswa extends Controller
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
 
         $data['header'] = $this->lib_user->get_header();
+        
+        $data['item'] = $this->session_ci;
 
         //$data['leftSide'] = 'leftSidePenjadwalan';
 
@@ -1848,6 +1857,172 @@ class jadwalMahasiswa extends Controller
     }
 
 
+    function updatePenguji($id_jdw_mhs="",$nip="",$id_sidangTA="",$treeid="",$id_kbk="")
+    {
+        $this->form_validation->set_rules('ID_JDW_MHS', 'ID_JDW_MHS', 'required');
+
+        $this->form_validation->set_rules('idkbk', 'idkbk', 'required');
+
+        $this->form_validation->set_rules('idslot', 'idslot', 'required');
+
+        $this->form_validation->set_rules('sidangta', 'sidangta', 'required');
+        
+        $this->form_validation->set_rules('nip', 'nip', 'required');       
+    
+        if ($this->form_validation->run()==TRUE)
+        {
+            
+            $JADWAL = $this->mjadwalmahasiswa->getJadwalMahasiswa($this->input->post('ID_JDW_MHS'));
+            
+            if($JADWAL->NIP3==$this->input->post('nip'))
+            {
+                $status = 1;
+            }
+            else
+            {
+                $status = 2;
+            }
+            
+            foreach ($_POST as $a=>$b) {
+
+                $jum = 0;
+                if ($b=="on") {
+
+                    if (substr($a,0,4)=="nipx") {
+
+                            $jum++;
+
+                            $x=explode("_", $a);
+
+                            if ($jum==1) {
+
+                                    if($JADWAL->NIP3==$this->input->post('nip'))
+                                    {
+                                        $JADWAL->NIP3=$x[2];
+                                        
+                                        $UP_NIP =  $JADWAL->UP_NIP3;
+
+                                        $JADWAL->UP_NIP3=$x[1];
+                                    }
+                                    else
+                                    {
+                                        $JADWAL->NIP4=$x[2];
+                                        
+                                        $UP_NIP =  $JADWAL->UP_NIP4;
+                                        
+                                        $JADWAL->UP_NIP4=$x[1];
+                                    
+                                    }
+
+                            }
+
+                       
+
+
+
+                    }
+
+                }
+
+            }
+            
+            $options = array("ID_JDW_MHS" => $JADWAL->ID_JDW_MHS);
+            $this->mjadwalmahasiswa->update($JADWAL, $options);
+            
+            $data = array(
+
+                    "STATUS" => "2",
+
+                    "ID_PROPOSAL" => $JADWAL->ID_PROPOSAL
+
+                );
+            
+            if($status==1)
+            {
+                $options = array(
+
+                "ID_JDW_AVAIL" => $JADWAL->UP_NIP3,
+
+                "SIDANGTA" => $JADWAL->SIDANGTA
+
+                );
+            }
+            else
+            {
+                $options = array(
+
+                "ID_JDW_AVAIL" => $JADWAL->UP_NIP4,
+
+                "SIDANGTA" => $JADWAL->SIDANGTA
+
+                );
+            }
+            
+            $this->mjadwaldosenavail->update($data, $options);
+            
+            $data = array(
+
+                    "STATUS" => "0",
+
+                    "ID_PROPOSAL" => "0"
+
+                );
+            
+             $options = array(
+
+                "ID_JDW_AVAIL" => $UP_NIP,
+
+                "SIDANGTA" => $JADWAL->SIDANGTA
+
+                );
+            
+           
+            $this->mjadwaldosenavail->update($data, $options);
+            
+            echo "<body onload='self.parent.tb_refresh(true)'></body>";
+            
+            
+        }
+        else if($id_jdw_mhs!='' && $nip!='')
+        {
+            $list_dosen_free = $this->mjadwalmahasiswa->listAvailableDosenNew($id_sidangTA, $treeid, $id_kbk);
+            
+            /*var_dump($list_dosen_free);
+            foreach ($list_dosen_free as $row)
+            {
+                echo $row->NAMA_DOSEN."<br/>";
+            }*/
+            
+            
+            
+            $data['parameter'] = array(
+
+                "SIDANGTA" => $id_sidangTA,               
+
+                "ID_JDW_MHS" => $id_jdw_mhs,
+
+                "IDKBK" => $id_kbk,
+
+                "IDSLOT" => $treeid, 
+                
+                "NIP" => $nip
+
+            );
+            
+            $data['list_dosen_free'] = $list_dosen_free;
+
+            $data['content'] = "jadwalMahasiswa/updatePenguji";
+
+
+
+            $this->load->view("tb_template", $data);
+            
+        }
+        else
+        {
+            echo "<body onload='self.parent.tb_refresh(true)'></body>";
+        }
+    }
 
     function pilihPenguji($id_sidangTA="",$nip_pemb1="",$nip_pemb2="",$id_prop="",$id_kbk="", $treeid="", $id_jdw_ruang_avail="") {
 
