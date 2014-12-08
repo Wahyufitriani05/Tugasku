@@ -115,7 +115,8 @@ class JadwalDosen extends Controller
         $arrayslotwaktu = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
         $arraydosen = $this->mdosen->listDosen();
         
-        set_time_limit (0);        
+        set_time_limit (0);     
+        ini_set('max_execution_time', 300);
         
         $j = 0;
         foreach($arrayslotwaktu as $slotwaktu) { 
