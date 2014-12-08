@@ -38,7 +38,10 @@
         $( '#status_$row->ID_PROPOSAL' ).change(function() {           
                 if($( '#status_$row->ID_PROPOSAL' ).val() == 11)
                 {
-                    $('#asd').submit();
+                    setTimeout(function () {
+                            $('#asd').submit();
+                        }, 750); 
+                                  
                 }
                 else
                 {
