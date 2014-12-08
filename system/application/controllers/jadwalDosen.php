@@ -114,10 +114,12 @@ class JadwalDosen extends Controller
         
         $arrayslotwaktu = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
         $arraydosen = $this->mdosen->listDosen();
-                
+        
+        set_time_limit (0);        
+        
         $j = 0;
         foreach($arrayslotwaktu as $slotwaktu) { 
-            if($j>200) break;
+            //if($j>200) break;
             foreach ($arraydosen as $dosen) {                
                 if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) == 0)
                 {
