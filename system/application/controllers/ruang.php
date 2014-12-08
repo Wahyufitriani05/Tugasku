@@ -5,6 +5,10 @@ class Ruang extends Controller
     function Ruang() 
     {
         parent::Controller();
+        
+        set_time_limit (0);
+        ini_set('max_execution_time', 0); 
+        
         $this->load->library('lib_alert');
         $this->load->library('lib_user');
         $this->load->library('lib_js');
@@ -76,8 +80,7 @@ class Ruang extends Controller
         $this->lib_user->cek_admin(true);
         $id_sidangTA = $this->uri->segment(3,0);
         
-        set_time_limit (0);
-        ini_set('max_execution_time', 300); 
+        
         
         $A = 0;
         $ruang = array
