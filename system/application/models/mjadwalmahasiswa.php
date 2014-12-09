@@ -481,13 +481,15 @@ class mjadwalmahasiswa extends Model
     function cekAvailabilityDosen($id_sidangTA, $treeid, $id_kbk, $nip1, $nip2) 
     {
         $sql = "SELECT JA.ID_JDW_AVAIL, JA.ID_SLOT, KD.NIP, JA.STATUS
-                FROM jadwal_availability JA, kbk_dosen KD
+                FROM jadwal_availability JA, kbk_dosen KD, Dosen D
                 WHERE KD.NIP = JA.NIP
                 AND KD.ID_KBK = '$id_kbk'
                 AND JA.SIDANGTA = '$id_sidangTA'
                 AND JA.ID_SLOT = '$treeid'
                 AND JA.STATUS = '0'
+                AND KD.NIP = D.NIP AND JA.NIP = D.NIP AND D.STATUS_DOSEN!=0
                 AND KD.NIP = '$nip1'";
+                
                 $sql.=" ORDER BY JA.ID_SLOT, JA.NIP";
          $query = $this->db->query($sql);
          if(count($query->result()) > 0)

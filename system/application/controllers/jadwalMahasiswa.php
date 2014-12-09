@@ -1811,10 +1811,10 @@ class jadwalMahasiswa extends Controller
         foreach ($list_slot as $slot) {
 
             $cekKosongPembimbing = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb1, $nip_pemb2);
-
+            $cekKosongPembimbing2 = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb2, $nip_pemb1);
             
 
-            if($cekKosongPembimbing) {
+            if($cekKosongPembimbing && $cekKosongPembimbing2) {
 
                 $slot->JADWAL_AVAIL = $this->mjadwalmahasiswa->listAvailableJadwal($id_sidangTA, $slot->TREEID, $id_kbk);
 
