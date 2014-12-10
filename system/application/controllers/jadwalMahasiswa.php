@@ -1813,8 +1813,9 @@ class jadwalMahasiswa extends Controller
             $cekKosongPembimbing = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb1, $nip_pemb2);
             $cekKosongPembimbing2 = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb2, $nip_pemb1);
             
+            if($nip_pemb2=="") $state = true;
 
-            if($cekKosongPembimbing && $cekKosongPembimbing2) {
+            if($cekKosongPembimbing && ($cekKosongPembimbing2 || $state)) {
 
                 $slot->JADWAL_AVAIL = $this->mjadwalmahasiswa->listAvailableJadwal($id_sidangTA, $slot->TREEID, $id_kbk);
 
@@ -2042,7 +2043,7 @@ class jadwalMahasiswa extends Controller
 
         $this->form_validation->set_rules('nip2', 'nip2', 'required');
 
-        $this->form_validation->set_rules('availnip2', 'availnip2', 'required');
+        //$this->form_validation->set_rules('availnip2', 'availnip2', 'required');
 
         $this->form_validation->set_rules('idjdwruangavail', 'idjdwruangavail', 'required');
 
