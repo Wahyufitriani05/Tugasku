@@ -1,3 +1,7 @@
+<form action="<?php echo base_url();?>index.php/sidang/sidangProposal" method="post" id="asd">
+  <input  style="display: none;" id="sid_prop" name="sid_prop" value="<?php echo $id_sidprop; ?>"/> 
+</form>
+
 <table class="table1" style="width:96%; margin-top:20px; border:1px solid #aaa;" border="1" cellpadding="2" cellspacing="3">
     <?php
     if(!empty($total_page))
@@ -34,7 +38,10 @@
         $( '#status_$row->ID_PROPOSAL' ).change(function() {           
                 if($( '#status_$row->ID_PROPOSAL' ).val() == 11)
                 {
-                    location.reload(true);
+                    setTimeout(function () {
+                            $('#asd').submit();
+                        }, 750); 
+                                  
                 }
                 else
                 {

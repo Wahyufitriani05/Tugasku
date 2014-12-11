@@ -5,6 +5,10 @@ class JadwalDosen extends Controller
     function JadwalDosen() 
     {
         parent::Controller();
+        
+        set_time_limit (0);     
+        ini_set('max_execution_time', 0);
+        
         $this->load->library('lib_tugas_akhir');
         $this->load->library('lib_alert');
         $this->load->library('lib_user');
@@ -114,10 +118,12 @@ class JadwalDosen extends Controller
         
         $arrayslotwaktu = $this->mslot->getListSlotWaktu($id_sidangTA, $parent_treeid);
         $arraydosen = $this->mdosen->listDosen();
-                
+        
+        
+        
         $j = 0;
         foreach($arrayslotwaktu as $slotwaktu) { 
-            if($j>200) break;
+            //if($j>200) break;
             foreach ($arraydosen as $dosen) {                
                 if(count($this->mjadwaldosenavail->getDetailAvail($id_sidangTA, $slotwaktu->TREEID, $dosen->NIP)) == 0)
                 {

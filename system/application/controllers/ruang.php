@@ -5,6 +5,10 @@ class Ruang extends Controller
     function Ruang() 
     {
         parent::Controller();
+        
+        set_time_limit (0);
+        ini_set('max_execution_time', 0); 
+        
         $this->load->library('lib_alert');
         $this->load->library('lib_user');
         $this->load->library('lib_js');
@@ -76,10 +80,10 @@ class Ruang extends Controller
         $this->lib_user->cek_admin(true);
         $id_sidangTA = $this->uri->segment(3,0);
         
+        
+        
         $A = 0;
-        if (1) 
-        {
-            $ruang = array
+        $ruang = array
               (                  
                   "Laboratorium AJK",
                   "Laboratorium AP",
@@ -90,35 +94,28 @@ class Ruang extends Controller
                   "Laboratorium MI",
                   "Laboratorium RPL",
               );
-            $id_jdw_ruang = $this->mruang->getNewID($id_sidangTA);
-            $j = 0;
-            for($i = 0; $i<8 ; $i++)
-            {                
-                
-                if($this->mruang->cekRuangan($id_sidangTA,$ruang[$i])) continue;
-                if($j==2)break;
+        $id_jdw_ruang = $this->mruang->getNewID($id_sidangTA);
+        $j = 0;
+        for($i = 0; $i<8 ; $i++)
+        {                
 
-                $data_entry_ruangsidang = array(
-                    'ID_JDW_RUANG' => $id_jdw_ruang++,
-                    'DESKRIPSI' => $ruang[$i],
-                    'SIDANGTA' => $this->db->escape_like_str($id_sidangTA)
-                );
-                $this->mruang->add($data_entry_ruangsidang);
-                $this->setSemuaSlotAvailable($id_sidangTA, $id_jdw_ruang);
-                $this->setDefaultRuangKBKAssignment($id_sidangTA, $id_jdw_ruang, "0");
-                $j++;
-            }
-            $this->lib_alert->success("Penambahan ruangan berhasil");
-            //redirect("ruang/ruangSidangAjaxRequest/$id_sidangTA/");
-            redirect("ruang/ruangSidang/".$id_sidangTA);
-        } 
-        else 
-        {
-            // view ruang sidang
-            $data['ruang_sidang'] = $this->mruang->getList($id_sidangTA);
-            $data['id_sidangTA'] = $id_sidangTA;
-            $this->load->view('ruang/ruangSidang', $data);
+            if($this->mruang->cekRuangan($id_sidangTA,$ruang[$i])) continue;
+            //if($j==9)break;
+
+            $data_entry_ruangsidang = array(
+                'ID_JDW_RUANG' => $id_jdw_ruang++,
+                'DESKRIPSI' => $ruang[$i],
+                'SIDANGTA' => $this->db->escape_like_str($id_sidangTA)
+            );
+            $this->mruang->add($data_entry_ruangsidang);
+            $this->setSemuaSlotAvailable($id_sidangTA, $id_jdw_ruang);
+            $this->setDefaultRuangKBKAssignment($id_sidangTA, $id_jdw_ruang, "0");
+            $j++;
         }
+        $this->lib_alert->success("Penambahan ruangan berhasil");
+        //redirect("ruang/ruangSidangAjaxRequest/$id_sidangTA/");
+        redirect("ruang/ruangSidang/".$id_sidangTA);
+        
     }
     
     function entryRuangSidang($id_sidangTA="") 
