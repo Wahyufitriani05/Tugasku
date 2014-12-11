@@ -7,7 +7,7 @@
 <script>
         var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
         var lineChartData = {
-            labels : [<?php foreach ($pembimbingTA as $row) { echo "\"".$row['nama_dosen']." \","; } ?>],
+            labels : [<?php foreach ($pembimbingTA as $row) { echo "\"".$row[$filter]." \","; } ?>],
             datasets : [
                 {
                     label: <?php echo "\"Pembimbing TA\""; ?>,

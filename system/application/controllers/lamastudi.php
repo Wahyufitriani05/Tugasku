@@ -143,26 +143,26 @@ class Lamastudi extends Controller
         $this->load->model('mlamastudi');
         $filter_tahun = $this->input->post('filter_statistik_tahun');
         $filter_dosen = $this->input->post('filter_statistik_dosen');
-        
-        if($this->input->post('filter_statistik_tahun')!='all')
+        $data['filter'] = '';
+        if($filter_tahun=="all" || $filter_dosen=="all")
         {
+           $data['filter'] = 'nama_dosen';
+           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+        }
+        elseif($filter_tahun !='all' && !$filter_dosen )
+        {
+            $data['filter'] = 'nama_dosen';
             $filter_statistik_tahun = $this->input->post('filter_statistik_tahun');
-            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_statistik_tahun);
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun);
         }
-        elseif ($filter_tahun=="all" || $filter_dosen=="all")
+        elseif(!$filter_tahun && $filter_dosen != 'all')
         {
-            echo "1";
-            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
-        }
-        elseif($this->input->post('filter_statistik_dosen')!='all')
-        {
-            $filter_statistik_dosen = $this->input->post('filter_statistik_dosen');
-            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyName($filter_statistik_dosen);
-            var_dump($data['pembimbingTA']);
-            exit();
+            $data['filter'] = 'tahun';
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyName($filter_dosen);
         }
         else
         {
+            $data['filter'] = 'nama_dosen';
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
         }
         $data['tahun'] = $this->mlamastudi->getYear();
