@@ -1813,7 +1813,9 @@ class jadwalMahasiswa extends Controller
             $cekKosongPembimbing = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb1, $nip_pemb2);
             $cekKosongPembimbing2 = $this->mjadwalmahasiswa->cekAvailabilityDosen($id_sidangTA, $slot->TREEID, $id_kbk, $nip_pemb2, $nip_pemb1);
             
-            if($nip_pemb2=="") $state = true;
+
+            $state = false;
+            if($nip_pemb2=="000000000") $state = true;
 
             if($cekKosongPembimbing && ($cekKosongPembimbing2 || $state)) {
 
