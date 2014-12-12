@@ -581,5 +581,17 @@ class mjadwalmahasiswa extends Model
         return NULL;
       }
     }
+
+    function getTotalPenguji()
+    {
+      $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji from
+                (
+                select nip3, count(nip3) as jumlah from jadwal_mhs group by nip3
+                union
+                select nip4, count(nip4) as jumlah from jadwal_mhs group by nip4
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3";
+      $query = $this->db->query($sql);
+      return $query->result_array();
+    }
 }
 ?>

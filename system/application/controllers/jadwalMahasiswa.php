@@ -2199,6 +2199,18 @@ class jadwalMahasiswa extends Controller
 
     }
 
+    function statistikPengujiTA()
+    {
+        $this->load->model('mjadwalmahasiswa');
+        $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        // var_dump($data['pengujiTA']);
+        $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['header'] = $this->lib_user->get_header();
+        $data['content'] = "jadwalMahasiswa/content-statistikPengujiTA";
+        $this->load->view('template', $data);
+        # code...
+    }
+
 
 
     
