@@ -593,5 +593,38 @@ class mjadwalmahasiswa extends Model
       $query = $this->db->query($sql);
       return $query->result_array();
     }
+
+    function getTotalPengujiByYear($year=null)
+    {
+      $year = is_null( $year) ? date('Y') : $year;
+      $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from
+                (
+                select nip3, count(nip3) as jumlah, year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip3
+                union
+                select nip4, count(nip4) as jumlah ,year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip4
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3";
+      $query = $this->db->query($sql);
+      return $query->result_array();
+    }
+
+    function getTotalPengujiByName($nip=null)
+    {
+      $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from
+                (
+                select nip3, count(nip3) as jumlah, year(timestamp) as tahun from jadwal_mhs group by nip3, tahun
+                union
+                select nip4, count(nip4) as jumlah ,year(timestamp) as tahun from jadwal_mhs group by nip4, tahun
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' and summary.nip3 = '$nip' and summary.tahun != '0' group by summary.nip3, summary.tahun";
+      $query = $this->db->query($sql);
+      return $query->result_array();
+    }
+
+    function getYear()
+    {
+      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000'";
+      $query = $this->db->query($sql);
+      return $query->result();
+      # code...
+    }
 }
 ?>
