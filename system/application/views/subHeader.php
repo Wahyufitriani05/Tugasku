@@ -12,6 +12,7 @@
         <?php echo $this->load->view("rightBreadcumbs");?>
 
         <div id="login-form">
+            <div class="duplicate"></div>
             <form action="<?php echo site_url('login/masuk');?>" method="post" enctype="application/x-www-form-urlencoded" id="login_form">
                 <input name="url" value="http://wiki.opensuse.org/Main_Page" type="hidden"/>
                 <input name="context" value="default" type="hidden"/>
@@ -22,6 +23,23 @@
                 <p><input type="submit" value="Login" /></p>
                 <p class="slim-footer"><a id="close-login" href="#cancel">Cancel</a></p>
             </form>
+                
+            
+            <script>
+                 $('#login-form').submit(function (e) {
+                    //var sList = "";
+                    
+                    if( $('input[name=username]').val()=='' || $('input[name=password]').val()=='')
+                    {
+                        e.preventDefault();
+                        if(!($("div[class='error']").length))
+                        {
+                            $("div[class='duplicate']").append(  '<div class="error">Masukkan Username dan Password</div>' );
+                        }
+                    }                   
+                });
+            </script>
+            
         </div>
     </div>
 </div>

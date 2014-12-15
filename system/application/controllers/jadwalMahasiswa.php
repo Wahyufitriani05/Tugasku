@@ -628,7 +628,7 @@ class jadwalMahasiswa extends Controller
 
     function gantiRuangSidang($id_sidangTA="", $id_jdw_mhs="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         $data_jdw_mhs = $this->mjadwalmahasiswa->detail($id_jdw_mhs);
 
@@ -658,7 +658,7 @@ class jadwalMahasiswa extends Controller
 
     function confirmGantiRuangSidang($id_sidangTA="", $id_jdw_mhs="", $id_jdw_ruang_avail_baru="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         $detail_jdw_mhs = $this->mjadwalmahasiswa->detail($id_jdw_mhs);
 
@@ -772,7 +772,7 @@ class jadwalMahasiswa extends Controller
 
     function gantiPembimbing($no="",$id_sidangTA="", $id_proposal="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         if($no != 1 && $no != 2) 
 
@@ -806,7 +806,7 @@ class jadwalMahasiswa extends Controller
 
     function confirmGantiPembimbing($no="", $id_sidangTA="", $id_proposal="", $nip_pengganti="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         if($no != 1 && $no != 2) 
 
@@ -862,7 +862,7 @@ class jadwalMahasiswa extends Controller
 
     function gantiPenguji($no="", $id_sidangTA="", $id_proposal="", $id_jdw_mhs="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         $id_kbk = $this->mproposal->fieldTA("ID_KBK", $id_proposal);
 
@@ -890,7 +890,7 @@ class jadwalMahasiswa extends Controller
 
     function confirmGantiPenguji($no="", $id_sidangTA="", $id_proposal="", $nip_pengganti="", $id_jdw_mhs="", $id_jdw_avail="") {
 
-        $this->lib_user->cek_admin(true);
+        $this->lib_user->cek_admin_plus_kbk(true);
 
         $treeid = $this->mjadwalmahasiswa->field("ID_SLOT", array("ID_PROPOSAL" => $id_proposal, "SIDANGTA" => $id_sidangTA));
 
@@ -1010,7 +1010,7 @@ class jadwalMahasiswa extends Controller
 
     function updateJadwalPesertaSidang($id_sidangTA="") {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         foreach ($_POST as $a=>$b) {
 
@@ -1072,7 +1072,7 @@ class jadwalMahasiswa extends Controller
 
     {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $detail_jdw_mhs = $this->mjadwalmahasiswa->detail($id_jdw_mhs);
 
@@ -1100,7 +1100,7 @@ class jadwalMahasiswa extends Controller
 
     function bebaskan($id_jdw_mhs,$id_sidangTA) {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $jdw_mhs = $this->mjadwalmahasiswa->detail($id_jdw_mhs);
 
@@ -1176,7 +1176,7 @@ class jadwalMahasiswa extends Controller
 
     function cariSlotPembimbing($id_kbk,$nip1,$nip2,$nrp,$id_proposal,$id_sidangTA,&$jadwalmhs,$p2boleh,$id_kbk) {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $slotPembimbing = $this->mjadwaldosenavail->slotPembimbing($id_sidangTA, $nip1, $nip2, $p2boleh);
 
@@ -1302,7 +1302,7 @@ class jadwalMahasiswa extends Controller
 
     function cariPenguji(&$jadwalmhs) {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         if ($jadwalmhs['STATUS']!='1') {
 
@@ -1396,7 +1396,7 @@ class jadwalMahasiswa extends Controller
 
     function cariRuangan(&$jadwalmhs) {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $treeid=$jadwalmhs['ID_SLOT'];
 
