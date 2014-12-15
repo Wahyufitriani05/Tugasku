@@ -4,6 +4,9 @@
         <!-- <div style="margin:1em;">
             <?php $this->load->view("lamastudi/filter-statistikpembimbingTA"); ?>
         </div> -->
+        <div style="margin:1em;">
+            <?php $this->load->view("jadwalMahasiswa/filter-statistikPengujiTA"); ?>
+        </div>
         <?php
         if(! empty($pengujiTA))
             $this->load->view("jadwalMahasiswa/statistikpengujiTA");

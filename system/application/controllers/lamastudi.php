@@ -152,7 +152,6 @@ class Lamastudi extends Controller
         elseif($filter_tahun !='all' && !$filter_dosen )
         {
             $data['filter'] = 'nama_dosen';
-            $filter_statistik_tahun = $this->input->post('filter_statistik_tahun');
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun);
         }
         elseif(!$filter_tahun && $filter_dosen != 'all')
