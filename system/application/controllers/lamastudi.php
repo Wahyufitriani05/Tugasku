@@ -138,39 +138,118 @@ class Lamastudi extends Controller
         $this->load->view('template', $data);
     }
 
+    
     function statistikPembimbingTA()
     {
         $this->load->model('mlamastudi');
-        $filter_tahun = $this->input->post('filter_statistik_tahun');
-        $filter_dosen = $this->input->post('filter_statistik_dosen');
+        $filter_tahun = $this->input->get('filter_tahun');
+        $filter_dosen = $this->input->get('filter_dosen');
+        $filter_tipe = $this->input->get('filter_tipe');
         $data['filter'] = '';
-        if($filter_tahun=="all" || $filter_dosen=="all")
+        
+
+        if($filter_tipe=='penguji') 
+            //redirect(base_url().'index.php/lamastudi/statistikPengujiTA?filter_tahun='.$filter_tahun.'&filter_dosen='.$filter_dosen."&filter_tipe=".$filter_tipe); 
+            redirect(base_url().'index.php/lamastudi/statistikPengujiTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe); 
+        
+        if($filter_tahun=="" && $filter_dosen=="")
         {
+            $data['filter'] = 'nama_dosen';
+           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+        }
+        elseif($filter_tahun=="all" || $filter_dosen=="all")
+        {
+            //echo "TES";
            $data['filter'] = 'nama_dosen';
            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
         }
         elseif($filter_tahun !='all' && !$filter_dosen )
         {
+            echo "TES";
             $data['filter'] = 'nama_dosen';
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun);
         }
         elseif(!$filter_tahun && $filter_dosen != 'all')
         {
+         
             $data['filter'] = 'tahun';
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyName($filter_dosen);
         }
         else
         {
+           
             $data['filter'] = 'nama_dosen';
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
         }
+        
+        
         $data['tahun'] = $this->mlamastudi->getYear();
         $data['dosen'] = $this->mlamastudi->getTotalPembimbingTA();
         $data['title'] = "Statistik Dosen Pembimbing TA";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
+        $data['filter_tahun'] = $filter_tahun;
+        $data['filter_dosen'] = $filter_dosen;
+        $data['filter_tipe'] = $filter_tipe;
         $data['content'] = "lamastudi/content-statistikpembimbingTA";
         $this->load->view('template', $data);
+    }
+    
+    function statistikPengujiTA()
+    {
+        $this->load->model('mjadwalmahasiswa');
+        $this->load->model('mlamastudi');
+        $filter_tahun = $this->input->get('filter_tahun');
+        $filter_dosen = $this->input->get('filter_dosen');
+        $filter_tipe = $this->input->get('filter_tipe');
+        $data['filter'] = '';
+        
+        if($filter_tipe=='pembimbing') 
+            //redirect(base_url().'index.php/lamastudi/statistikPembimbingTA?filter_tahun='.$filter_tahun.'&filter_dosen='.$filter_dosen."&filter_tipe=".$filter_tipe); 
+            redirect(base_url().'index.php/lamastudi/statistikPembimbingTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe); 
+        
+        if($filter_tahun=="" && $filter_dosen=="")
+        {
+            
+           $data['filter'] = 'NAMA_DOSEN';
+           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        }
+        elseif($filter_tahun=="all" || $filter_dosen=="all")
+        {
+           $data['filter'] = 'NAMA_DOSEN';
+           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        }
+        elseif($filter_tahun !='all' && !$filter_dosen)
+        {
+            //echo "TA";
+            $data['filter'] = 'NAMA_DOSEN';
+            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByYear($filter_tahun);
+        }
+        elseif(!$filter_tahun && $filter_dosen != 'all')
+        {
+            //echo "TA";
+            $data['filter'] = 'tahun';
+            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByName($filter_dosen);
+        }
+        else
+        {
+            $data['filter'] = 'NAMA_DOSEN';
+            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        }
+        //$data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        
+        $data['dosen'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        $data['tahun'] = $this->mjadwalmahasiswa->getYear();
+        $data['title'] = "Statistik Dosen Penguji TA";
+        $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['header'] = $this->lib_user->get_header();
+        $data['filter_tahun'] = $filter_tahun;
+        $data['filter_dosen'] = $filter_dosen;
+        $data['filter_tipe'] = $filter_tipe;
+        $data['content'] = "lamastudi/content-statistikPengujiTA";
+        $this->load->view('template', $data);
+          
+         
     }
 }
 

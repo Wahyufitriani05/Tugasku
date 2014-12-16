@@ -2206,18 +2206,26 @@ class jadwalMahasiswa extends Controller
         $filter_tahun = $this->input->post('filter_statistik_tahun');
         $filter_dosen = $this->input->post('filter_statistik_dosen');
         $data['filter'] = '';
-        if($filter_tahun=="all" || $filter_dosen=="all")
+        
+        if($filter_tahun=="" && $filter_dosen=="")
+        {
+           $data['filter'] = 'NAMA_DOSEN';
+           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        }
+        elseif($filter_tahun=="all" || $filter_dosen=="all")
         {
            $data['filter'] = 'NAMA_DOSEN';
            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
         }
         elseif($filter_tahun !='all' && !$filter_dosen)
         {
+            //echo "TA";
             $data['filter'] = 'NAMA_DOSEN';
             $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByYear($filter_tahun);
         }
         elseif(!$filter_tahun && $filter_dosen != 'all')
         {
+            //echo "TA";
             $data['filter'] = 'tahun';
             $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByName($filter_dosen);
         }
@@ -2230,10 +2238,13 @@ class jadwalMahasiswa extends Controller
         
         $data['dosen'] = $this->mjadwalmahasiswa->getTotalPenguji();
         $data['tahun'] = $this->mjadwalmahasiswa->getYear();
+        $data['title'] = "Statistik Dosen Penguji TA";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "jadwalMahasiswa/content-statistikPengujiTA";
         $this->load->view('template', $data);
+          
+         
     }
 
 

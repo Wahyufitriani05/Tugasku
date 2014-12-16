@@ -589,7 +589,7 @@ class mjadwalmahasiswa extends Model
                 select nip3, count(nip3) as jumlah from jadwal_mhs group by nip3
                 union
                 select nip4, count(nip4) as jumlah from jadwal_mhs group by nip4
-                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3";
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();
     }
@@ -602,7 +602,7 @@ class mjadwalmahasiswa extends Model
                 select nip3, count(nip3) as jumlah, year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip3
                 union
                 select nip4, count(nip4) as jumlah ,year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip4
-                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3";
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();
     }
@@ -614,14 +614,14 @@ class mjadwalmahasiswa extends Model
                 select nip3, count(nip3) as jumlah, year(timestamp) as tahun from jadwal_mhs group by nip3, tahun
                 union
                 select nip4, count(nip4) as jumlah ,year(timestamp) as tahun from jadwal_mhs group by nip4, tahun
-                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' and summary.nip3 = '$nip' and summary.tahun != '0' group by summary.nip3, summary.tahun";
+                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' and summary.nip3 = '$nip' and summary.tahun != '0' group by summary.nip3, summary.tahun order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();
     }
 
     function getYear()
     {
-      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000'";
+      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000' order by YEAR(timestamp)";
       $query = $this->db->query($sql);
       return $query->result();
       # code...
