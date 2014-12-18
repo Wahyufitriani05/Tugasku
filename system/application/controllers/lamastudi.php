@@ -165,7 +165,7 @@ class Lamastudi extends Controller
         }
         elseif($filter_tahun !='all' && !$filter_dosen )
         {
-            echo "TES";
+            //echo "TES";
             $data['filter'] = 'nama_dosen';
             $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun);
         }
@@ -197,6 +197,7 @@ class Lamastudi extends Controller
     
     function statistikPengujiTA()
     {
+        $this->update();
         $this->load->model('mjadwalmahasiswa');
         $this->load->model('mlamastudi');
         $filter_tahun = $this->input->get('filter_tahun');
@@ -250,6 +251,28 @@ class Lamastudi extends Controller
         $this->load->view('template', $data);
           
          
+    }
+    
+    function detailMahasiswa()
+    {
+        $nama = $this->input->get('nama');
+        $tahun = $this->input->get('tahun');
+        $tipe = $this->input->get('tipe');
+        
+        $nip = $this->mdosen->getNIP($nama);
+        
+        
+        
+        $data['tipe'] = $tipe;
+        $data['title'] = "List Mahasiswa";
+        $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['header'] = $this->lib_user->get_header();
+        $data['content'] = "lamastudi/content-detailMahasiswa";
+        $data['listTA'] = $this->mproposal->getListTANew($nip, $tahun, $tipe);
+        //var_dump($data['listTA']);
+        $this->load->view('template', $data);
+        
+        
     }
 }
 

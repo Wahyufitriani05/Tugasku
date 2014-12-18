@@ -599,9 +599,9 @@ class mjadwalmahasiswa extends Model
       $year = is_null( $year) ? date('Y') : $year;
       $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from
                 (
-                select nip3, count(nip3) as jumlah, year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip3
+                select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' group by nip3
                 union
-                select nip4, count(nip4) as jumlah ,year(timestamp) as tahun from jadwal_mhs where year(timestamp)='$year' group by nip4
+                select nip4, count(nip4) as jumlah ,year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' group by nip4
                 ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();

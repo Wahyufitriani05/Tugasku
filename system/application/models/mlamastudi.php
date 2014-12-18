@@ -185,9 +185,9 @@ class mlamastudi extends Model
       $year = is_null( $year) ? date('Y') : $year;
       $sql = "SELECT dosen.nama_dosen, summary.pembimbing1 as nip, sum(summary.jumlah) as jumlah_bimbingan from
                 (
-                select pembimbing1, count(pembimbing1) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta and year(sidang_ta.WAKTU_SIDANG_TA) = '$year' group by pembimbing1
+                select pembimbing1, count(pembimbing1) as jumlah, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' group by pembimbing1
                 union
-                select pembimbing2, count(pembimbing2) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta and year(sidang_ta.WAKTU_SIDANG_TA) = '$year' group by pembimbing2
+                select pembimbing2, count(pembimbing2) as jumlah, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' group by pembimbing2
                 ) summary join dosen on summary.pembimbing1 = dosen.NIP where dosen.nama_dosen != '--' group by summary.pembimbing1 order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();

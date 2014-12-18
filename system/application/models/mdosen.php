@@ -324,6 +324,22 @@ class mdosen extends Model {
         return $query->result();
     }
 
+    function getNIP($nama)
+    {
+        $this->db->select("*");
+        $this->db->from("dosen");
+        $this->db->where("nama_dosen",$nama);
+       
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $nip = $query->row();
+            return $nip->NIP;
+        }
+        else {
+            return NULL;
+        }
+    }
+    
     function namaDosen($nip = NULL, $nip2010 = NULL) {
         $this->db->select("NAMA_LENGKAP_DOSEN");
         $this->db->from("dosen");

@@ -18,6 +18,11 @@ class Lib_js
         echo "<script type='text/javascript' src='".base_url()."assets/chart/Chart.js'></script>";
     }
     
+    function chartNew()
+    {
+        echo "<script type='text/javascript' src='".base_url()."assets/chartNew/ChartNew.js'></script>";
+    }
+    
     function checkall()
     {
         // written by Daniel P 3/21/07
