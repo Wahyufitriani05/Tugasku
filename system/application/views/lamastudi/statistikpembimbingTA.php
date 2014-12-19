@@ -31,7 +31,7 @@
         {
   
             if(other != null)
-                window.open("<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe);
+                window.location.replace("<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe);
                 //window.alert("["+data.labels[other.v12]+","+data.datasets[other.v11].data[other.v12]+"]");
             //else window.alert("Data yang ");
         }

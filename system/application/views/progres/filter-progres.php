@@ -1,7 +1,7 @@
 <form id="filter-form" action="<?php echo site_url($url_filter)?>" method="post" style="display: inline;float: left;padding: 0 1em 0 0;">
     <strong>FILTER</strong>&nbsp;
     <select onchange="document.forms['filter-form'].submit();" name="filter_kbk" style="min-width: 150px; height: 20px;">
-        <option value="-1"> - Semua KBK - </option>
+        <option value="-1"> - Semua RMK - </option>
         <?php
         foreach ($list_kbk as $row_k) {
             if($row_k->ID_KBK == $this->session->userdata('filter_kbk') && $this->session->userdata('filter_kbk') != '')

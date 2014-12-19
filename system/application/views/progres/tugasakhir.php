@@ -15,7 +15,7 @@
     $new_uri = str_replace("/", "%20", $uri);
     echo "<tr>";
     echo "<th class='".($sort_by=='1' ? 'sorting'.$sort_type : 'sorting')."' width=30><a href='".site_url("progres/sorting/1/$list_sort_type[$sort_type]/".$new_uri)."'>ID</a></th>";
-    echo "<th class='".($sort_by=='2' ? 'sorting'.$sort_type : 'sorting')."' width=50><a href='".site_url("progres/sorting/2/$list_sort_type[$sort_type]/".$new_uri)."'>KBK</th>";
+    echo "<th class='".($sort_by=='2' ? 'sorting'.$sort_type : 'sorting')."' width=50><a href='".site_url("progres/sorting/2/$list_sort_type[$sort_type]/".$new_uri)."'>RMK</th>";
     echo "<th class='".($sort_by=='3' ? 'sorting'.$sort_type : 'sorting')."' width=140><a href='".site_url("progres/sorting/3/$list_sort_type[$sort_type]/".$new_uri)."'>STATUS</th>";
     echo "<th class='".($sort_by=='4' ? 'sorting'.$sort_type : 'sorting')."'><a href='".site_url("progres/sorting/4/$list_sort_type[$sort_type]/".$new_uri)."'>NRP</a></th>";
     echo "<th class='".($sort_by=='5' ? 'sorting'.$sort_type : 'sorting')."'><a href='".site_url("progres/sorting/5/$list_sort_type[$sort_type]/".$new_uri)."'>NAMA</a></th>";
