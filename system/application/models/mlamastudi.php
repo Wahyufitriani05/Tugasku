@@ -73,7 +73,7 @@ class mlamastudi extends Model
     {        
         $sql = "select m.nrp, m.nama_mahasiswa, s.semester_sidang_ta, s.tahun_sidang_ta, p.tgl_sidang_ta, p.tgl_sidang_ta_asli
                 ,(TO_DAYS( p.tgl_sidang_ta_asli ) - TO_DAYS( p.tgl_sidang_ta )) /30 AS lama_studi
-                from proposal p, mahasiswa m,  sidang_TA s where m.nrp = p.nrp and p.status = 31 and p.sta = s.id_sidang_TA and p.tgl_sidang_ta is not null
+                from proposal p, mahasiswa m,  sidang_ta s where m.nrp = p.nrp and p.status = 31 and p.sta = s.id_sidang_ta and p.tgl_sidang_ta is not null
                 and p.tgl_sidang_ta_asli != '0000-00-00'"; 
         
         if($periode!="")
