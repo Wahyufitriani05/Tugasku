@@ -15,15 +15,25 @@
             labels : [<?php foreach ($pembimbingTA as $row) { echo "\"".$row[$filter]." \","; } ?>],
             datasets : [
                 {
-                    label: <?php echo "\"Pembimbing TA\""; ?>,
+                    
                     fillColor : "rgba(220,220,220,0.2)",
                     strokeColor : "rgba(220,220,220,1)",
                     pointColor : "rgba(220,220,220,1)",
                     pointStrokeColor : "#fff",
                     pointHighlightFill : "#fff",
                     pointHighlightStroke : "rgba(220,220,220,1)",
-                    data : [<?php foreach ($pembimbingTA as $row) { echo $row['jumlah_bimbingan'].","; } ?>]
-                }
+                    data : [<?php foreach ($pembimbingTA as $row) { echo $row['jumlah1'].","; } ?>],
+                    title : "Pembimbing 1"
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "green",
+                    pointstrokeColor : "yellow",
+                    data : [<?php foreach ($pembimbingTA as $row) { echo $row['jumlah2'].","; } ?>],
+                    title : "Pembimbing 2"
+		}
+             
             ]
 
         }
@@ -40,7 +50,7 @@
         var startWithData =1;
 
         var opt1 = {
-                responsive: true,
+              responsive: true,
               animationStartWithDataset : startWithDataset,
               animationStartWithData : startWithData,
               animationSteps : 100,
@@ -49,14 +59,14 @@
               yAxisMinimumInterval : 5,
               annotateDisplay : true,
               graphTitleFontSize: 18,
-              annotateLabel: "<%= v2 + ' : ' + v3%>",
+              annotateLabel: "<%=v2 + ' : ' + v3 + ' ('+v1+')'%>",
               mouseDownLeft : fctMouseDownLeft
 
         }
 
     window.onload = function(){
         var ctx = document.getElementById("canvas").getContext("2d");
-        window.myLine = new Chart(ctx).Bar(lineChartData,opt1
+        window.myLine = new Chart(ctx).StackedBar(lineChartData,opt1
         );  
     }
 
