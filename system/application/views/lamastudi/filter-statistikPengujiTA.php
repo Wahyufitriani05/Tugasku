@@ -26,6 +26,24 @@
         }
         ?>
     </select>-->
+    
+    <select onchange="document.forms['filter-form'].submit()" name="filter_rmk" style="min-width: 150px; height: 20px;">
+        <option value=""> - Pilih RMK - </option>
+        <option value="all">Semua RMK</option>
+        <?php
+        foreach ($rmk as $row_k) {
+            
+            if($filter_rmk==$row_k->id_kbk)
+                $tanda = " selected ";
+            else
+                $tanda = " ";
+            echo "<option $tanda value='".$row_k->id_kbk."'";
+            
+            echo ">".$row_k->nama_kbk."</option>";
+        }
+        ?>
+    </select>
+    
      <select onchange="document.forms['filter-form'].submit()" name="filter_tipe" style="min-width: 150px; height: 20px;">        
         <option value="pembimbing" <?php if ($filter_tipe=="" || $filter_tipe=="pembimbing") echo "Selected"; ?> >Dosen Pembimbing</option>
         <option value="penguji" <?php if ($filter_tipe=="penguji") echo "Selected"; ?>>Dosen Penguji</option>

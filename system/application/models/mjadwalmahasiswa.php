@@ -582,11 +582,15 @@ class mjadwalmahasiswa extends Model
       }
     }
 
-    function getTotalPenguji()
+    function getTotalPenguji($rmk="")
     {
       $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji from
                 (
-                select nip3, count(nip3) as jumlah from jadwal_mhs group by nip3
+                select nip3, count(nip3) as jumlah from jadwal_mhs ";
+      if($rmk!='' && $rmk!='all')
+                $sql.= " where jadwal_mhs.id_kbk = $rmk "; 
+        
+        $sql .= "group by nip3
                 union
                 select nip4, count(nip4) as jumlah from jadwal_mhs group by nip4
                 ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
@@ -594,14 +598,20 @@ class mjadwalmahasiswa extends Model
       return $query->result_array();
     }
 
-    function getTotalPengujiByYear($year=null)
+    function getTotalPengujiByYear($year=null,$rmk="")
     {
       $year = is_null( $year) ? date('Y') : $year;
       $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from
                 (
-                select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' group by nip3
+                select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' ";
+      if($rmk!='' && $rmk!='all')
+                $sql.= " and p.id_kbk = $rmk "; 
+      $sql .= " group by nip3
                 union
-                select nip4, count(nip4) as jumlah ,year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' group by nip4
+                select nip4, count(nip4) as jumlah ,year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' ";
+      if($rmk!='' && $rmk!='all')
+                $sql.= " and p.id_kbk = $rmk ";       
+      $sql .= " group by nip4
                 ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();

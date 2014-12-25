@@ -145,29 +145,31 @@ class Lamastudi extends Controller
         $filter_tahun = $this->input->get('filter_tahun');
         $filter_dosen = $this->input->get('filter_dosen');
         $filter_tipe = $this->input->get('filter_tipe');
+        $filter_rmk = $this->input->get('filter_rmk');
+        
         $data['filter'] = '';
         
 
         if($filter_tipe=='penguji') 
             //redirect(base_url().'index.php/lamastudi/statistikPengujiTA?filter_tahun='.$filter_tahun.'&filter_dosen='.$filter_dosen."&filter_tipe=".$filter_tipe); 
-            redirect(base_url().'index.php/lamastudi/statistikPengujiTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe); 
+            redirect(base_url().'index.php/lamastudi/statistikPengujiTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe.'&filter_rmk='.$filter_rmk); 
         
         if($filter_tahun=="" && $filter_dosen=="")
         {
             $data['filter'] = 'nama_dosen';
-           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA($filter_rmk);
         }
         elseif($filter_tahun=="all" || $filter_dosen=="all")
         {
             //echo "TES";
            $data['filter'] = 'nama_dosen';
-           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+           $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA($filter_rmk);
         }
         elseif($filter_tahun !='all' && !$filter_dosen )
         {
             //echo "TES";
             $data['filter'] = 'nama_dosen';
-            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun);
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTAbyYear($filter_tahun,$filter_rmk);
         }
         elseif(!$filter_tahun && $filter_dosen != 'all')
         {
@@ -179,18 +181,20 @@ class Lamastudi extends Controller
         {
            
             $data['filter'] = 'nama_dosen';
-            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA();
+            $data['pembimbingTA'] = $this->mlamastudi->getTotalPembimbingTA($filter_rmk);
         }
         
         
         $data['tahun'] = $this->mlamastudi->getYear();
-        $data['dosen'] = $this->mlamastudi->getTotalPembimbingTA();
+        $data['dosen'] = $this->mlamastudi->getTotalPembimbingTA($filter_rmk);
         $data['title'] = "Statistik Dosen Pembimbing TA";
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['rmk'] = $this->mdosen->getKBK();
         $data['header'] = $this->lib_user->get_header();
         $data['filter_tahun'] = $filter_tahun;
         $data['filter_dosen'] = $filter_dosen;
         $data['filter_tipe'] = $filter_tipe;
+        $data['filter_rmk'] = $filter_rmk;
         $data['content'] = "lamastudi/content-statistikpembimbingTA";
         $this->load->view('template', $data);
     }
@@ -203,28 +207,29 @@ class Lamastudi extends Controller
         $filter_tahun = $this->input->get('filter_tahun');
         $filter_dosen = $this->input->get('filter_dosen');
         $filter_tipe = $this->input->get('filter_tipe');
+        $filter_rmk = $this->input->get('filter_rmk');
         $data['filter'] = '';
         
         if($filter_tipe=='pembimbing') 
             //redirect(base_url().'index.php/lamastudi/statistikPembimbingTA?filter_tahun='.$filter_tahun.'&filter_dosen='.$filter_dosen."&filter_tipe=".$filter_tipe); 
-            redirect(base_url().'index.php/lamastudi/statistikPembimbingTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe); 
+            redirect(base_url().'index.php/lamastudi/statistikPembimbingTA?filter_tahun='.$filter_tahun.'&filter_tipe='.$filter_tipe.'&filter_rmk='.$filter_rmk); 
         
         if($filter_tahun=="" && $filter_dosen=="")
         {
             
            $data['filter'] = 'NAMA_DOSEN';
-           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
         }
         elseif($filter_tahun=="all" || $filter_dosen=="all")
         {
            $data['filter'] = 'NAMA_DOSEN';
-           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+           $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
         }
         elseif($filter_tahun !='all' && !$filter_dosen)
         {
             //echo "TA";
             $data['filter'] = 'NAMA_DOSEN';
-            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByYear($filter_tahun);
+            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByYear($filter_tahun,$filter_rmk);
         }
         elseif(!$filter_tahun && $filter_dosen != 'all')
         {
@@ -235,18 +240,20 @@ class Lamastudi extends Controller
         else
         {
             $data['filter'] = 'NAMA_DOSEN';
-            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
+            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
         }
         //$data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
         
-        $data['dosen'] = $this->mjadwalmahasiswa->getTotalPenguji();
+        $data['dosen'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
         $data['tahun'] = $this->mjadwalmahasiswa->getYear();
         $data['title'] = "Statistik Dosen Penguji TA";
+        $data['rmk'] = $this->mdosen->getKBK();
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['filter_tahun'] = $filter_tahun;
         $data['filter_dosen'] = $filter_dosen;
         $data['filter_tipe'] = $filter_tipe;
+        $data['filter_rmk'] = $filter_rmk;
         $data['content'] = "lamastudi/content-statistikPengujiTA";
         $this->load->view('template', $data);
           
@@ -258,6 +265,7 @@ class Lamastudi extends Controller
         $nama = $this->input->get('nama');
         $tahun = $this->input->get('tahun');
         $tipe = $this->input->get('tipe');
+        $rmk = $this->input->get('rmk');
         
         $nip = $this->mdosen->getNIP($nama);
         
@@ -268,7 +276,7 @@ class Lamastudi extends Controller
         $data['js_menu'] = $this->lib_user->get_javascript_menu();
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "lamastudi/content-detailMahasiswa";
-        $data['listTA'] = $this->mproposal->getListTANew($nip, $tahun, $tipe);
+        $data['listTA'] = $this->mproposal->getListTANew($nip, $tahun, $tipe, $rmk);
         //var_dump($data['listTA']);
         $this->load->view('template', $data);
         

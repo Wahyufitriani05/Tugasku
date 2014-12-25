@@ -8,6 +8,7 @@
 <script>
         var tahun = <?php echo json_encode($filter_tahun)?>;
         var tipe = <?php echo json_encode($filter_tipe)?>;
+        var rmk = <?php echo json_encode($filter_rmk)?>;
         if(tipe==false) tipe = 'pembimbing';
         
         var lineChartData = {
@@ -15,8 +16,8 @@
             datasets : [
                 {
                     label: <?php echo "\"Penguji TA\""; ?>,
-                    fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : "rgba(220,220,220,1)",
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
                     pointColor : "rgba(220,220,220,1)",
                     pointStrokeColor : "#fff",
                     pointHighlightFill : "#fff",
@@ -31,7 +32,7 @@
         {
   
             if(other != null)
-                window.location.replace("<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe);
+                window.location.href = "<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe+"&rmk="+rmk;
                 //window.alert("["+data.labels[other.v12]+","+data.datasets[other.v11].data[other.v12]+"]");
             //else window.alert("Data yang ");
         }

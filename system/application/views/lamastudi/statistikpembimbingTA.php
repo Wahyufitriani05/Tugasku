@@ -9,6 +9,7 @@
 
         var tahun = <?php echo json_encode($filter_tahun)?>;
         var tipe = <?php echo json_encode($filter_tipe)?>;
+        var rmk = <?php echo json_encode($filter_rmk)?>;
         if(tipe==false) tipe = 'pembimbing';
         
         var lineChartData = {
@@ -41,7 +42,7 @@
         {
   
             if(other != null)
-                window.location.replace("<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe);
+                window.location.href = "<?php echo base_url().'index.php/lamastudi/detailMahasiswa?nama=';?>"+data.labels[other.v12]+"&tahun="+tahun+"&tipe="+tipe+"&rmk="+rmk;
                 //window.alert("["+data.labels[other.v12]+","+data.datasets[other.v11].data[other.v12]+"]");
             //else window.alert("Data yang ");
         }
