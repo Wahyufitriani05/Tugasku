@@ -22,6 +22,8 @@
                 $tanda = " selected ";
             else
                 $tanda = " ";
+            
+            
             echo "<option $tanda value='".$row_k['nip']."'>".ucwords(strtolower($row_k['NAMA_DOSEN']))."</option>";
         }
         ?>
@@ -29,7 +31,7 @@
     
     <select onchange="document.forms['filter-form'].submit()" name="filter_rmk" style="min-width: 150px; height: 20px;">
         <option value=""> - Pilih RMK - </option>
-        <option value="all">Semua RMK</option>
+        <?php if ($admin_kbk==0) { ?> <option value="all">Semua RMK</option> <?php } ?>
         <?php
         foreach ($rmk as $row_k) {
             
@@ -37,9 +39,14 @@
                 $tanda = " selected ";
             else
                 $tanda = " ";
-            echo "<option $tanda value='".$row_k->id_kbk."'";
             
-            echo ">".$row_k->nama_kbk."</option>";
+            if($admin_kbk==0 || ($admin_kbk==1 && $filter_rmk == $row_k->id_kbk) )
+            {
+            
+                echo "<option $tanda value='".$row_k->id_kbk."'";
+
+                echo ">".$row_k->nama_kbk."</option>";
+            }
         }
         ?>
     </select>

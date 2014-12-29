@@ -187,8 +187,8 @@ class mproposal extends Model
                 FROM proposal pr 
                 JOIN mahasiswa mhs ON mhs.NRP = pr.NRP
                 JOIN kbk kbk ON kbk.ID_KBK = pr.ID_KBK
-                JOIN dosen ds1 ON ds1.NIP = pr.PEMBIMBING1
-                JOIN dosen ds2 ON ds2.NIP = pr.PEMBIMBING2 ";
+                left outer JOIN dosen ds1 ON ds1.NIP = pr.PEMBIMBING1
+                left outer JOIN dosen ds2 ON ds2.NIP = pr.PEMBIMBING2 ";
             if($tahun!='' && $tahun!='all' && $tahun!='false')
                 $sql .= " JOIN sidang_proposal sp ON sp.id_sidang_prop = pr.sprop and year(sp.waktu_sidang_prop) = '$tahun' "; 
             $sql .= " where pr.PEMBIMBING1 = '$nip' or pr.PEMBIMBING2 = '$nip'";
@@ -199,19 +199,21 @@ class mproposal extends Model
         {
             $sql =  "SELECT pr.ID_PROPOSAL, pr.JUDUL_TA, pr.STATUS, kbk.NAMA_KBK, mhs.NRP, mhs.NAMA_LENGKAP_MAHASISWA, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, ds3.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds4.NAMA_LENGKAP_DOSEN as PEMBIMBING2 
                 FROM (select pr.*, jm.nip3, jm.nip4 from proposal pr, jadwal_mhs jm where pr.id_proposal = jm.id_proposal ";
-            
+            $sql .= " and (jm.nip3 = '$nip' or jm.nip4 = '$nip')";
+            if($rmk!='' && $rmk!='all')
+                $sql.= " and jm.id_kbk = $rmk ";
+            if($tahun!='' && $tahun!='all' && $tahun!='false') $sql.= " and year(pr.TGL_SIDANG_TA_ASLI) = $tahun";
             $sql .= "
                  ) pr
                 JOIN mahasiswa mhs ON mhs.NRP = pr.NRP
                 JOIN kbk kbk ON kbk.ID_KBK = pr.ID_KBK
-                JOIN dosen ds3 ON ds3.NIP = pr.PEMBIMBING1
-                JOIN dosen ds4 ON ds4.NIP = pr.PEMBIMBING2
-                JOIN dosen ds1 ON ds1.NIP = pr.nip3
-                JOIN dosen ds2 ON ds2.NIP = pr.nip4            
-           where (pr.nip3 = '$nip' or pr.nip4 = '$nip')"; 
-           if($tahun!='' && $tahun!='all' && $tahun!='false') $sql.= " and year(pr.TGL_SIDANG_TA_ASLI) = $tahun";
-           if($rmk!='' && $rmk!='all')
-                $sql.= " and pr.id_kbk = $rmk "; 
+                left outer JOIN dosen ds3 ON ds3.NIP = pr.PEMBIMBING1
+                left outer JOIN dosen ds4 ON ds4.NIP = pr.PEMBIMBING2
+                left outer JOIN dosen ds1 ON ds1.NIP = pr.nip3
+                left outer JOIN dosen ds2 ON ds2.NIP = pr.nip4            
+            "; 
+           
+            
         }
         
         $query = $this->db->query($sql);

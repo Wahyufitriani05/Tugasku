@@ -145,7 +145,7 @@ class mlamastudi extends Model
     }
 
     function getYear() {
-      $sql="SELECT distinct YEAR(WAKTU_SIDANG_TA) as tahun from sidang_ta order by YEAR(WAKTU_SIDANG_TA)";
+      $sql="SELECT distinct YEAR(TGL_SIDANG_TA) as tahun from proposal order by YEAR(TGL_SIDANG_TA) desc limit 0,5";
       $query = $this->db->query($sql);
       return $query->result();
     }

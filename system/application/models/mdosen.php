@@ -280,6 +280,15 @@ class mdosen extends Model {
         $query = $this->db->get();
         return $query->row();
     }
+    
+    function detailKBKdariNama($nama_kbk) 
+    {
+        $this->db->select("*");
+        $this->db->from("kbk");
+        $this->db->where('NAMA_KBK', $this->db->escape_like_str($nama_kbk));
+        $query = $this->db->get();
+        return $query->row();
+    }
 
     function listKBK($nip="", $id_kbk="") 
     {

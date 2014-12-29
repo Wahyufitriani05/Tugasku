@@ -1,6 +1,7 @@
 <?php 
 class Lamastudi extends Controller 
 {
+    var $session_ci;
     function Lamastudi() 
     {
         parent::Controller();
@@ -13,6 +14,8 @@ class Lamastudi extends Controller
         $this->load->model('mprogres');
         $this->load->model('mdosen');
         $this->load->model('mproposal');
+        
+        $this->session_ci = new CI_Session(); 
     }
 
     function index() 
@@ -147,6 +150,17 @@ class Lamastudi extends Controller
         $filter_tipe = $this->input->get('filter_tipe');
         $filter_rmk = $this->input->get('filter_rmk');
         
+        
+        if($this->lib_user->is_admin_kbk()) 
+        {
+            $filter_rmk = $this->mdosen->detailKBKdariNama($this->session_ci->userdata('type'))->ID_KBK;
+            $data['admin_kbk'] = '1';
+            
+        }
+        else
+        {
+            $data['admin_kbk'] = '0';
+        }
         $data['filter'] = '';
         
 
@@ -195,6 +209,7 @@ class Lamastudi extends Controller
         $data['filter_dosen'] = $filter_dosen;
         $data['filter_tipe'] = $filter_tipe;
         $data['filter_rmk'] = $filter_rmk;
+        
         $data['content'] = "lamastudi/content-statistikpembimbingTA";
         $this->load->view('template', $data);
     }
@@ -208,6 +223,20 @@ class Lamastudi extends Controller
         $filter_dosen = $this->input->get('filter_dosen');
         $filter_tipe = $this->input->get('filter_tipe');
         $filter_rmk = $this->input->get('filter_rmk');
+        
+        
+
+        if($this->lib_user->is_admin_kbk())
+        {
+            $filter_rmk = $this->mdosen->detailKBKdariNama($this->session_ci->userdata('type'))->ID_KBK;
+            $data['admin_kbk'] = '1'; 
+            
+        }
+        else
+        {
+            $data['admin_kbk'] = '0';
+        }
+        
         $data['filter'] = '';
         
         if($filter_tipe=='pembimbing') 
@@ -230,18 +259,14 @@ class Lamastudi extends Controller
             //echo "TA";
             $data['filter'] = 'NAMA_DOSEN';
             $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByYear($filter_tahun,$filter_rmk);
-        }
-        elseif(!$filter_tahun && $filter_dosen != 'all')
-        {
-            //echo "TA";
-            $data['filter'] = 'tahun';
-            $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiByName($filter_dosen);
-        }
+        }        
         else
-        {
+        {            
             $data['filter'] = 'NAMA_DOSEN';
             $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
         }
+        
+        if(count($data['pengujiTA'])==1) $data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPengujiEmpty($filter_rmk);
         //$data['pengujiTA'] = $this->mjadwalmahasiswa->getTotalPenguji();
         
         $data['dosen'] = $this->mjadwalmahasiswa->getTotalPenguji($filter_rmk);
@@ -254,6 +279,7 @@ class Lamastudi extends Controller
         $data['filter_dosen'] = $filter_dosen;
         $data['filter_tipe'] = $filter_tipe;
         $data['filter_rmk'] = $filter_rmk;
+        
         $data['content'] = "lamastudi/content-statistikPengujiTA";
         $this->load->view('template', $data);
           

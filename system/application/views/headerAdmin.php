@@ -12,7 +12,7 @@
             <li id="item-penjadwalan"><a href="#">Penjadwalan</a></li>
             <?php if($this->session->userdata['type']=="admin")echo "<li id=\"item-mahasiswa\"><a href=\"#\">Mahasiswa</a></li>";?>
             <li id="item-lamastudi"><a href="#">Lama Pengerjaan TA</a></li>
-            <?php if($this->session->userdata['type']=="admin")echo "<li id=\"item-statistik\"><a href=\"#\">Statistik</a></li>";?>
+            <li id="item-statistik"><a href="#">Statistik</a></li>
         </ul>
     </div>
 </div>

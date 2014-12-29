@@ -585,11 +585,11 @@ class mjadwalmahasiswa extends Model
     function getTotalPenguji($rmk="")
     {      
         
-      $sql = " SELECT d.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji from 
+      $sql = " SELECT d.nama_dosen as NAMA_DOSEN, d.nip as nip, ifnull(sum(summary.jumlah),0)as jumlah_penguji from 
           (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
         
          if($rmk!='' && $rmk!='all')
-            $sql .= " id_kbk = $rmk and ";
+            $sql .= " kbk.id_kbk = $rmk and ";
          
         $sql .= " kbk.nip = d.nip) d left outer join ";
         
@@ -598,24 +598,44 @@ class mjadwalmahasiswa extends Model
       if($rmk!='' && $rmk!='all')
                 $sql.= " where jadwal_mhs.id_kbk = $rmk "; 
         
-        $sql .= "group by nip3
+        $sql .= " group by nip3
                 union
-                select nip4, count(nip4) as jumlah from jadwal_mhs group by nip4
-                ) summary  on summary.nip3 = d.NIP where d.status_dosen != 0 and d.nama_dosen != '' group by summary.nip3 order by d.nama_dosen asc ";
+                select nip4, count(nip4) as jumlah from jadwal_mhs ";
+        if($rmk!='' && $rmk!='all')
+                $sql.= " where jadwal_mhs.id_kbk = $rmk "; 
+        
+        $sql .= " group by nip4
+                ) summary  on summary.nip3 = d.NIP where d.status_dosen != 0 and d.nama_dosen  not like '%Admin%' and d.nama_dosen != '' and d.nama_dosen != '--' group by summary.nip3 order by d.nama_dosen asc ";
         
       $query = $this->db->query($sql);
+      
+      
       return $query->result_array();
     }
 
+    function getTotalPengujiEmpty($rmk="")
+    {
+        $sql = "SELECT d.nama_dosen as NAMA_DOSEN, d.nip, 0 as jumlah_penguji from dosen d, kbk_dosen kbk where ";
+        
+         if($rmk!='' && $rmk!='all')
+            $sql .= " kbk.id_kbk = $rmk and ";
+         
+        $sql .= " kbk.nip = d.nip";
+        
+        $sql .= " and d.status_dosen != 0 and d.nama_dosen not like '%Admin%' and d.nama_dosen != '' and d.nama_dosen != '--' order by d.nama_dosen asc";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+    
     function getTotalPengujiByYear($year=null,$rmk="")
     {
       $year = is_null( $year) ? date('Y') : $year;
-      $sql = "SELECT d.nama_dosen as NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from ";
+      $sql = "SELECT d.nama_dosen as NAMA_DOSEN, d.nip, ifnull(sum(summary.jumlah),0) as jumlah_penguji, summary.tahun from ";
       
       $sql .= "  (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
         
          if($rmk!='' && $rmk!='all')
-            $sql .= " id_kbk = $rmk and ";
+            $sql .= " kbk.id_kbk = $rmk and ";
          
         $sql .= " kbk.nip = d.nip) d left outer join ";
       
@@ -629,7 +649,7 @@ class mjadwalmahasiswa extends Model
       if($rmk!='' && $rmk!='all')
                 $sql.= " and p.id_kbk = $rmk ";       
       $sql .= " group by nip4
-                ) summary on summary.nip3 = d.nip where d.status_dosen != 0 and d.nama_dosen != '' and d.nama_dosen != '-' group by summary.nip3 order by d.nama_dosen asc";
+                ) summary on summary.nip3 = d.nip where d.status_dosen != 0 and d.nama_dosen  not like '%Admin%' and d.nama_dosen != '' and d.nama_dosen != '--' group by summary.nip3 order by d.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();
     }
@@ -648,7 +668,7 @@ class mjadwalmahasiswa extends Model
 
     function getYear()
     {
-      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000' order by YEAR(timestamp)";
+      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000' order by YEAR(timestamp) desc limit 0,5";
       $query = $this->db->query($sql);
       return $query->result();
       # code...
