@@ -1,4 +1,4 @@
-<?php echo $this->lib_js->chartNew(); ?>
+<?php echo $this->lib_js->chartNew();// echo count($pengujiTA);?>
 <div style="width:95%; margin: 20px;">
     <div>
         <canvas id="canvas" height="125"></canvas>

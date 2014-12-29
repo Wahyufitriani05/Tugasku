@@ -583,9 +583,17 @@ class mjadwalmahasiswa extends Model
     }
 
     function getTotalPenguji($rmk="")
-    {
-      $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji from
-                (
+    {      
+        
+      $sql = " SELECT d.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji from 
+          (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
+        
+         if($rmk!='' && $rmk!='all')
+            $sql .= " id_kbk = $rmk and ";
+         
+        $sql .= " kbk.nip = d.nip) d left outer join ";
+        
+        $sql  .= "(
                 select nip3, count(nip3) as jumlah from jadwal_mhs ";
       if($rmk!='' && $rmk!='all')
                 $sql.= " where jadwal_mhs.id_kbk = $rmk "; 
@@ -593,7 +601,8 @@ class mjadwalmahasiswa extends Model
         $sql .= "group by nip3
                 union
                 select nip4, count(nip4) as jumlah from jadwal_mhs group by nip4
-                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
+                ) summary  on summary.nip3 = d.NIP where d.status_dosen != 0 and d.nama_dosen != '' group by summary.nip3 order by d.nama_dosen asc ";
+        
       $query = $this->db->query($sql);
       return $query->result_array();
     }
@@ -601,8 +610,16 @@ class mjadwalmahasiswa extends Model
     function getTotalPengujiByYear($year=null,$rmk="")
     {
       $year = is_null( $year) ? date('Y') : $year;
-      $sql = "SELECT dosen.NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from
-                (
+      $sql = "SELECT d.nama_dosen as NAMA_DOSEN, summary.nip3 as nip, sum(summary.jumlah) as jumlah_penguji, summary.tahun from ";
+      
+      $sql .= "  (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
+        
+         if($rmk!='' && $rmk!='all')
+            $sql .= " id_kbk = $rmk and ";
+         
+        $sql .= " kbk.nip = d.nip) d left outer join ";
+      
+        $sql .= " (
                 select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' ";
       if($rmk!='' && $rmk!='all')
                 $sql.= " and p.id_kbk = $rmk "; 
@@ -612,7 +629,7 @@ class mjadwalmahasiswa extends Model
       if($rmk!='' && $rmk!='all')
                 $sql.= " and p.id_kbk = $rmk ";       
       $sql .= " group by nip4
-                ) summary left join dosen on summary.nip3 = dosen.NIP where dosen.NAMA_DOSEN != '' group by summary.nip3 order by dosen.nama_dosen asc";
+                ) summary on summary.nip3 = d.nip where d.status_dosen != 0 and d.nama_dosen != '' and d.nama_dosen != '-' group by summary.nip3 order by d.nama_dosen asc";
       $query = $this->db->query($sql);
       return $query->result_array();
     }

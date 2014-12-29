@@ -120,7 +120,7 @@ class CI_Pagination {
 		// Determine the current page number.
 		$CI =& get_instance();
 
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		/*if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
 			if ($CI->input->get($this->query_string_segment) != 0)
 			{
@@ -129,9 +129,9 @@ class CI_Pagination {
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
 			}
-		}
-		else
-		{
+		}*/
+		//else
+		//{
 			if ($CI->uri->segment($this->uri_segment) != 0)
 			{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
@@ -139,7 +139,7 @@ class CI_Pagination {
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
 			}
-		}
+		//}
 
 		$this->num_links = (int)$this->num_links;
 
@@ -170,14 +170,14 @@ class CI_Pagination {
 
 		// Is pagination being used over GET or POST?  If get, add a per_page query
 		// string. If post, add a trailing slash to the base URL if needed
-		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
+		/*if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
 			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
-		}
-		else
-		{
+		}*/
+		//else
+		//{
 			$this->base_url = rtrim($this->base_url, '/') .'/';
-		}
+		//}
 
   		// And here we go...
 		$output = '';

@@ -184,7 +184,15 @@ class mlamastudi extends Model
     function getTotalPembimbingTA($rmk="")
     {
         
-        $sql = "select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2 from 
+        $sql = "select d.nip, d.nama_dosen, d.status_dosen,  ifnull(q.jumlah1,0) as jumlah1, ifnull(q.jumlah2,0) as jumlah2 from 
+                (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
+        
+         if($rmk!='' && $rmk!='all')
+            $sql .= " id_kbk = $rmk and ";
+         
+        $sql .= " kbk.nip = d.nip) d left outer join ";
+        
+        $sql .= " (select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2 from 
         (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1 from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1 from proposal ";
         
         if($rmk!='' && $rmk!='all')
@@ -197,7 +205,9 @@ class mlamastudi extends Model
             $sql.= " where id_kbk = $rmk ";
             
         
-        $sql .= " group by pembimbing2) s on s.pembimbing2 = d.nip) p2 where p1.nip = p2.nip and p1.nama_dosen != '--'  and (p1.jumlah1 != 0 or p2.jumlah2 != 0) order by p1.nama_dosen asc";
+        $sql .= " group by pembimbing2) s on s.pembimbing2 = d.nip) p2 where p1.nip = p2.nip and p1.nama_dosen != '--'  and (p1.jumlah1 != 0 or p2.jumlah2 != 0) ) q";
+        
+        $sql .= " on d.nip = q.nip where d.status_dosen != 0 and d.nama_dosen != '--' and d.nama_dosen  not like '%Admin%' order by d.nama_dosen asc";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -205,7 +215,17 @@ class mlamastudi extends Model
     function getTotalPembimbingTAbyYear($year=NULL, $rmk="")
     {
       $year = is_null( $year) ? date('Y') : $year;
-      $sql = "select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2, ifnull(p1.tahun, p2.tahun) as tahun from 
+      
+      $sql = "select  d.nip, d.nama_dosen, d.status_dosen,  ifnull(q.jumlah1,0) as jumlah1, ifnull(q.jumlah2,0) as jumlah2 from 
+                (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
+       
+      if($rmk!='' && $rmk!='all')
+            $sql .= " id_kbk = $rmk and ";  
+              
+      $sql .= " kbk.nip = d.nip) d left outer join ";
+                
+      
+      $sql .= "(select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2, ifnull(p1.tahun, p2.tahun) as tahun from 
         (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1, s.tahun from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' ";
       
       if($rmk!='' && $rmk!='all')
@@ -217,8 +237,10 @@ class mlamastudi extends Model
       if($rmk!='' && $rmk!='all')
             $sql.= " and proposal.id_kbk = $rmk ";
       
-      $sql .= " group by pembimbing2) s on s.pembimbing2 = d.nip) p2 where p1.nip = p2.nip and p1.nama_dosen != '--'  and (p1.jumlah1 != 0 or p2.jumlah2 != 0) order by p1.nama_dosen asc";
+      $sql .= " group by pembimbing2) s on s.pembimbing2 = d.nip) p2 where p1.nip = p2.nip and p1.nama_dosen != '--'  and (p1.jumlah1 != 0 or p2.jumlah2 != 0)) q";
 
+      $sql .= " on d.nip = q.nip where d.status_dosen != 0 and d.nama_dosen != '--' and d.nama_dosen  not like '%Admin%' order by d.nama_dosen asc";
+      
       $query = $this->db->query($sql);
       return $query->result_array();
     }
