@@ -1086,7 +1086,7 @@ class jadwalMahasiswa extends Controller
 
     {
 
-        $this->lib_user->cek_admin();
+        $this->lib_user->cek_admin_plus_kbk();
 
         $this->mjadwalmahasiswa->update(array("SHOW_ME" => $publish), array("SIDANGTA" => $id_sidangTA));
 
