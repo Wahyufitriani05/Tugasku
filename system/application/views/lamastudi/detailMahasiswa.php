@@ -1,4 +1,3 @@
-<?php echo count($listTA); ?>
 <table class="table1" style="width:96%; margin-top:20px; border:1px solid #aaa;" border="1" cellpadding="2" cellspacing="3">
     <?php
     echo "<tr>";;

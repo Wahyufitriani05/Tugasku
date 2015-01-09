@@ -191,7 +191,7 @@ class mproposal extends Model
                 left outer JOIN dosen ds2 ON ds2.NIP = pr.PEMBIMBING2 ";
             if($tahun!='' && $tahun!='all' && $tahun!='false')
                 $sql .= " JOIN sidang_proposal sp ON sp.id_sidang_prop = pr.sprop and year(sp.waktu_sidang_prop) = '$tahun' "; 
-            $sql .= " where pr.PEMBIMBING1 = '$nip' or pr.PEMBIMBING2 = '$nip'";
+            $sql .= " where (pr.PEMBIMBING1 = '$nip' or pr.PEMBIMBING2 = '$nip') and pr.status!=31 ";
             if($rmk!='' && $rmk!='all')
                 $sql.= " and pr.id_kbk = $rmk "; 
         }

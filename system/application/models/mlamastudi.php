@@ -193,16 +193,16 @@ class mlamastudi extends Model
         $sql .= " kbk.nip = d.nip) d left outer join ";
         
         $sql .= " (select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2 from 
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1 from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1 from proposal ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1 from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1 from proposal where status != 31";
         
         if($rmk!='' && $rmk!='all')
-            $sql .= " where id_kbk = $rmk "; 
+            $sql .= " and id_kbk = $rmk "; 
         
         $sql .= " group by pembimbing1) s on s.pembimbing1 = d.nip) p1,
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2 from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2 from proposal ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2 from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2 from proposal where status != 31";
         
         if($rmk!='' && $rmk!='all')
-            $sql.= " where id_kbk = $rmk ";
+            $sql.= " and id_kbk = $rmk ";
             
         
         $sql .= " group by pembimbing2) s on s.pembimbing2 = d.nip) p2 where p1.nip = p2.nip and p1.nama_dosen != '--'  and (p1.jumlah1 != 0 or p2.jumlah2 != 0) ) q";
@@ -226,13 +226,13 @@ class mlamastudi extends Model
                 
       
       $sql .= "(select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2, ifnull(p1.tahun, p2.tahun) as tahun from 
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1, s.tahun from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1, s.tahun from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' and proposal.status != 31 ";
       
       if($rmk!='' && $rmk!='all')
             $sql .= " and proposal.id_kbk = $rmk "; 
       
       $sql .= " group by pembimbing1) s on s.pembimbing1 = d.nip) p1,
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2, s.tahun from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2, s.tahun from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' and proposal.status != 31 ";
       
       if($rmk!='' && $rmk!='all')
             $sql.= " and proposal.id_kbk = $rmk ";
