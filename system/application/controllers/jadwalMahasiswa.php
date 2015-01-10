@@ -195,9 +195,11 @@ class jadwalMahasiswa extends Controller
             $id_kbk = $id[0]->id_kbk;
         }
 
-        elseif ($this->lib_user->is_admin() && !$this->lib_user->is_admin_kbk()) {
-            $id_kbk = "-1";
+        elseif ($this->lib_user->is_admin() && !$this->lib_user->is_admin_kbk()) {            
+            $id_kbk = $this->uri->segment(4, "-1");
         }
+        
+        
 
         // pengambilan value FILTER SIDANG TA
 
@@ -206,8 +208,16 @@ class jadwalMahasiswa extends Controller
             // dari method POST
 
             $id_sidangTA = $this->input->post('sidangTA');
-
-            redirect("jadwalMahasiswa/pesertaSidang/$id_sidangTA");
+            
+            if($this->input->post('RMK'))
+            {
+                $id_kbk = $this->input->post('RMK');
+                redirect("jadwalMahasiswa/pesertaSidang/$id_sidangTA/$id_kbk");
+            }
+            else
+            {
+                redirect("jadwalMahasiswa/pesertaSidang/$id_sidangTA");
+            }
 
         } else {
 
@@ -261,6 +271,8 @@ class jadwalMahasiswa extends Controller
         $data['id_sidangTA'] = $id_sidangTA;
 
         $data['list_kbk'] = $this->mdosen->listKBK();
+        
+        $data['id_kbk'] = $id_kbk;
 
         //$data['list_ruang'] = $this->mruang->getList($id_sidangTA);
 
