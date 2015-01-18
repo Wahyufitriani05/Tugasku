@@ -2,17 +2,20 @@
 <form id="filter-form" method="get" style="display: inline;float: left;padding: 0 1em 0 0; margin-bottom: 10px" action="<?php echo site_url('lamastudi/statistikPembimbingTA')?>">
     Filter
 	<select onchange="document.forms['filter-form'].submit()" name="filter_tahun" style="min-width: 150px; height: 20px;">
-        <option value=""> - Pilih Tahun - </option>
-        <option value="all">Semua Tahun</option>
+        <option value=""> - Pilih Semester - </option>
+        <option value="all">Semua Semester</option>
         <?php
         foreach ($tahun as $row_k) {
-            if($filter_tahun==$row_k->tahun)
+            if($filter_tahun==$row_k->tahun."-".$row_k->semester)
                 $tanda = " selected ";
             else
                 $tanda = " ";
-            echo "<option $tanda value='".$row_k->tahun."'"; 
+            echo "<option $tanda value='".$row_k->tahun."-".$row_k->semester."'"; 
             
-            echo ">".$row_k->tahun."</option>";
+            if($row_k->semester==2)
+                echo ">".($row_k->tahun-1)."/".$row_k->tahun."-Genap</option>";
+            else                
+                echo ">".($row_k->tahun)."/".($row_k->tahun+1)."-Ganjil</option>";
         }
         ?>
     </select>

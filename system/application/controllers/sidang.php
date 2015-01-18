@@ -64,7 +64,7 @@ class Sidang extends MY_Controller
             $daftar_kbk = $this->mdosen->listKBK();
             // array_pop($daftar_kbk); // hapus array urutan pertama
         }
-        echo $this->input->post('sid_prop');
+        
 		if($this->input->post('sid_prop')!='')
 		{
 			$id_sidprop = $this->input->post('sid_prop');
@@ -101,7 +101,7 @@ class Sidang extends MY_Controller
         // set daftar sidprop
         $data['sid_prop'] = $this->msidang->jadwalSidangProposal($id_kbk, 1);
         
-        echo $this->input->post('sid_prop');
+        
         $data['id_sidprop'] = $this->input->post('sid_prop');
         $data['id_kbk'] = $id_kbk;
         

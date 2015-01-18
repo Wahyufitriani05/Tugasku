@@ -708,7 +708,19 @@ class mjadwalmahasiswa extends Model
     
     function getTotalPengujiByYear($year=null,$rmk="")
     {
-      $year = is_null( $year) ? date('Y') : $year;
+      if($year!=null)   
+      {
+          $smstr = substr($year, 10);
+          $tahun = substr($year, 0, 9);           
+      }
+      else
+      {
+        $tahun = date('Y').'/'.(date('Y')+1);
+        $smstr = 'Ganjil';
+      }
+      
+      //$year = is_null( $year) ? date('Y') : $year;
+      
       $sql = "SELECT d.nama_dosen as NAMA_DOSEN, d.nip, ifnull(sum(summary.jumlah),0) as jumlah_penguji, summary.tahun from ";
       
       $sql .= "  (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
@@ -719,12 +731,24 @@ class mjadwalmahasiswa extends Model
         $sql .= " kbk.nip = d.nip) d left outer join ";
       
         $sql .= " (
-                select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' ";
+                select nip3, count(nip3) as jumlah, year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p, sidang_ta s where s.id_sidang_ta = p.sta and jm.sidangta = s.id_sidang_ta and jm.id_proposal = p.id_proposal ";
+      
+        
+        
+     
+        $sql .= " and s.tahun_sidang_ta = '$tahun' and s.semester_sidang_ta = '$smstr' ";
+      
+        
       if($rmk!='' && $rmk!='all')
                 $sql.= " and p.id_kbk = $rmk "; 
       $sql .= " group by nip3
                 union
-                select nip4, count(nip4) as jumlah ,year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p where jm.id_proposal = p.id_proposal and year(p.tgl_sidang_ta_asli)='$year' ";
+                select nip4, count(nip4) as jumlah ,year(p.tgl_sidang_ta_asli) as tahun from jadwal_mhs jm, proposal p, sidang_ta s  where s.id_sidang_ta = p.sta and jm.sidangta = s.id_sidang_ta and jm.id_proposal = p.id_proposal ";
+      
+      
+         $sql .= " and s.tahun_sidang_ta = '$tahun' and s.semester_sidang_ta = '$smstr' ";
+      
+      
       if($rmk!='' && $rmk!='all')
                 $sql.= " and p.id_kbk = $rmk ";       
       $sql .= " group by nip4
@@ -747,7 +771,7 @@ class mjadwalmahasiswa extends Model
 
     function getYear()
     {
-      $sql="SELECT distinct YEAR(timestamp) as tahun from jadwal_mhs where YEAR(timestamp) != '0000' order by YEAR(timestamp) desc limit 0,5";
+      $sql="select tahun_sidang_ta as tahun, semester_sidang_ta as semester  from sidang_ta s, proposal p where p.sta = s.id_sidang_ta and p.tgl_sidang_ta_asli != '0000-00-00' group by semester_sidang_ta, tahun_sidang_ta order by tahun_sidang_ta desc limit 0,10";
       $query = $this->db->query($sql);
       return $query->result();
       # code...

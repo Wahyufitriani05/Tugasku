@@ -145,7 +145,7 @@ class mlamastudi extends Model
     }
 
     function getYear() {
-      $sql="SELECT distinct YEAR(TGL_SIDANG_TA) as tahun from proposal order by YEAR(TGL_SIDANG_TA) desc limit 0,5";
+      $sql="select distinct YEAR(waktu) as tahun, IF(MONTH(waktu) < 9 , 2, 1) semester from sidang_proposal GROUP BY YEAR(waktu), semester order by YEAR(waktu) desc  limit 0,10";
       $query = $this->db->query($sql);
       return $query->result();
     }
@@ -193,13 +193,13 @@ class mlamastudi extends Model
         $sql .= " kbk.nip = d.nip) d left outer join ";
         
         $sql .= " (select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2 from 
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1 from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1 from proposal where status != 31";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1 from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1 from proposal where status NOT IN (0,1,2,13,31,32) ";
         
         if($rmk!='' && $rmk!='all')
             $sql .= " and id_kbk = $rmk "; 
         
         $sql .= " group by pembimbing1) s on s.pembimbing1 = d.nip) p1,
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2 from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2 from proposal where status != 31";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2 from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2 from proposal where status NOT IN (0,1,2,13,31,32) ";
         
         if($rmk!='' && $rmk!='all')
             $sql.= " and id_kbk = $rmk ";
@@ -214,8 +214,18 @@ class mlamastudi extends Model
 
     function getTotalPembimbingTAbyYear($year=NULL, $rmk="")
     {
-      $year = is_null( $year) ? date('Y') : $year;
-      
+      if($year!=null)   
+      {
+          $smstr = substr($year, 5, 1);                    
+          $tahun = substr($year, 0, 4);
+          
+      }
+      else
+      {
+        $tahun = data('Y');
+        $smstr = 1;
+      }
+                                                
       $sql = "select  d.nip, d.nama_dosen, d.status_dosen,  ifnull(q.jumlah1,0) as jumlah1, ifnull(q.jumlah2,0) as jumlah2 from 
                 (select distinct d.nip, d.nama_dosen, d.status_dosen from dosen d, kbk_dosen kbk where ";
        
@@ -226,14 +236,29 @@ class mlamastudi extends Model
                 
       
       $sql .= "(select p1.nama_dosen, p1.nip, p1.jumlah1 as jumlah1, p2.jumlah2 as jumlah2, ifnull(p1.tahun, p2.tahun) as tahun from 
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1, s.tahun from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' and proposal.status != 31 ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah1,0) as jumlah1, s.tahun from dosen d left outer join (select pembimbing1, count(pembimbing1) as jumlah1, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and 
+        year(sidang_proposal.WAKTU) = '$tahun'  and proposal.status NOT IN (0,1,2,13,31,32) ";
+      
+      
+      if($smstr==2)
+        $sql .= " and month(sidang_proposal.WAKTU) < 9 ";
+      else
+        $sql .= " and month(sidang_proposal.WAKTU) >= 9 ";
+      
       
       if($rmk!='' && $rmk!='all')
             $sql .= " and proposal.id_kbk = $rmk "; 
       
       $sql .= " group by pembimbing1) s on s.pembimbing1 = d.nip) p1,
-        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2, s.tahun from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and year(sidang_proposal.WAKTU_SIDANG_PROP) = '$year' and proposal.status != 31 ";
+        (select d.nama_dosen, d.nip, ifnull(s.jumlah2,0) as jumlah2, s.tahun from dosen d left outer join (select pembimbing2, count(pembimbing2) as jumlah2, year(sidang_proposal.WAKTU_SIDANG_PROP) as tahun from proposal, sidang_proposal where proposal.sprop = sidang_proposal.id_sidang_prop and 
+      year(sidang_proposal.WAKTU) = '$tahun' and proposal.status NOT IN (0,1,2,13,31,32) ";
       
+      if($smstr==2)
+        $sql .= " and month(sidang_proposal.WAKTU) < 9 ";
+      else
+        $sql .= " and month(sidang_proposal.WAKTU) >= 9 ";
+      
+
       if($rmk!='' && $rmk!='all')
             $sql.= " and proposal.id_kbk = $rmk ";
       
@@ -267,7 +292,7 @@ class mlamastudi extends Model
                 select pembimbing1, count(pembimbing1) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta group by pembimbing1, tahun
                 union
                 select pembimbing2, count(pembimbing2) as jumlah, year(sidang_ta.WAKTU_SIDANG_TA) as tahun from proposal, sidang_ta where proposal.sta = sidang_ta.id_sidang_ta group by pembimbing2, tahun
-                ) summary join dosen on summary.pembimbing1 = dosen.NIP where  summary.pembimbing1 = '$nip' group by summary.pembimbing1, summary.tahun order by dosen.nama_dosen asc";
+                ) summary join dosen on summary.pembimbing1 = dosen.nip where  summary.pembimbing1 = '$nip' group by summary.pembimbing1, summary.tahun order by dosen.nama_dosen asc";
         $query = $this->db->query($sql);
         return $query->result_array();
     }

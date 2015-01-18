@@ -280,6 +280,7 @@ class Lamastudi extends Controller
         $data['filter_tipe'] = $filter_tipe;
         $data['filter_rmk'] = $filter_rmk;
         
+
         $data['content'] = "lamastudi/content-statistikPengujiTA";
         $this->load->view('template', $data);
           

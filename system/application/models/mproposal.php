@@ -179,30 +179,58 @@ class mproposal extends Model
     
     function getListTANew($nip, $tahun, $tipe, $rmk)
     {
+     
+        
         
         if($tipe=='pembimbing')
         {
+            if($tahun!='' && $tahun!='all' && $tahun!='false')
+            {
+                $smstr = substr($tahun, 5, 1);                    
+                $year = substr($tahun, 0, 4);       
+            }
             $sql = "
                 SELECT pr.ID_PROPOSAL, pr.JUDUL_TA, pr.STATUS, kbk.NAMA_KBK, mhs.NRP, mhs.NAMA_LENGKAP_MAHASISWA, ds1.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds2.NAMA_LENGKAP_DOSEN as PEMBIMBING2
                 FROM proposal pr 
                 JOIN mahasiswa mhs ON mhs.NRP = pr.NRP
                 JOIN kbk kbk ON kbk.ID_KBK = pr.ID_KBK
                 left outer JOIN dosen ds1 ON ds1.NIP = pr.PEMBIMBING1
-                left outer JOIN dosen ds2 ON ds2.NIP = pr.PEMBIMBING2 ";
+                left outer JOIN dosen ds2 ON ds2.NIP = pr.PEMBIMBING2 JOIN sidang_proposal sp ON sp.id_sidang_prop = pr.sprop ";
             if($tahun!='' && $tahun!='all' && $tahun!='false')
-                $sql .= " JOIN sidang_proposal sp ON sp.id_sidang_prop = pr.sprop and year(sp.waktu_sidang_prop) = '$tahun' "; 
-            $sql .= " where (pr.PEMBIMBING1 = '$nip' or pr.PEMBIMBING2 = '$nip') and pr.status!=31 ";
-            if($rmk!='' && $rmk!='all')
+            {
+                $sql .= " and year(sp.WAKTU) = '$year' ";
+            }
+            
+            if($smstr==2)
+                $sql .= " and month(sp.WAKTU) < 9 ";
+            else
+                $sql .= " and month(sp.WAKTU) >= 9 ";
+      
+            
+            $sql .= " where (pr.PEMBIMBING1 = '$nip' or pr.PEMBIMBING2 = '$nip') and pr.status NOT IN (0,1,2,13,31,32) ";
+            if($rmk!='' && $rmk!='all' && $rmk!='false')
                 $sql.= " and pr.id_kbk = $rmk "; 
         }
         else
         {
+            if($tahun!='' && $tahun!='all' && $tahun!='false')
+            {
+                $smstr = substr($tahun, 10);
+                $year = substr($tahun, 0, 9);          
+            }
+            
             $sql =  "SELECT pr.ID_PROPOSAL, pr.JUDUL_TA, pr.STATUS, kbk.NAMA_KBK, mhs.NRP, mhs.NAMA_LENGKAP_MAHASISWA, ds1.NAMA_LENGKAP_DOSEN as PENGUJI1, ds2.NAMA_LENGKAP_DOSEN as PENGUJI2, ds3.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds4.NAMA_LENGKAP_DOSEN as PEMBIMBING2 
-                FROM (select pr.*, jm.nip3, jm.nip4 from proposal pr, jadwal_mhs jm where pr.id_proposal = jm.id_proposal ";
+                FROM (select pr.*, jm.nip3, jm.nip4 from proposal pr, jadwal_mhs jm, sidang_ta s where s.id_sidang_ta = pr.sta and s.id_sidang_ta = jm.sidangta 
+                and pr.id_proposal = jm.id_proposal ";
             $sql .= " and (jm.nip3 = '$nip' or jm.nip4 = '$nip')";
-            if($rmk!='' && $rmk!='all')
+            if($rmk!='' && $rmk!='all' && $rmk!='false')
                 $sql.= " and jm.id_kbk = $rmk ";
-            if($tahun!='' && $tahun!='all' && $tahun!='false') $sql.= " and year(pr.TGL_SIDANG_TA_ASLI) = $tahun";
+
+            if($tahun!='' && $tahun!='all' && $tahun!='false') 
+                $sql .= " and s.tahun_sidang_ta = '$year' and s.semester_sidang_ta = '$smstr' ";
+            
+
+            
             $sql .= "
                  ) pr
                 JOIN mahasiswa mhs ON mhs.NRP = pr.NRP
