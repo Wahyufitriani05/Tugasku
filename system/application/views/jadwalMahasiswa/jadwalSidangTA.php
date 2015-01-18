@@ -15,6 +15,10 @@
     echo "<th width=170>PEMBIMBING 2</th>";
     echo "<th width=170>PENGUJI 1</th>";
     echo "<th width=170>PENGUJI 2</th>";
+    if( ($item->userdata('type')=="dosen") || $item->userdata('type')=='admin' || ($item->userdata('type') == 'KBJ' || $item->userdata('type') == 'KCV' || $item->userdata('type') == 'RPL' || $item->userdata('type') == 'AJK' || $item->userdata('type') == 'MI' || $item->userdata('type') == 'DTK' || $item->userdata('type') == 'AP' || $item->userdata('type') == 'IGS')  )
+    echo "<th width=170>Revisi Penguji 1</th>";
+    if( ($item->userdata('type')=="dosen") || $item->userdata('type')=='admin' || ($item->userdata('type') == 'KBJ' || $item->userdata('type') == 'KCV' || $item->userdata('type') == 'RPL' || $item->userdata('type') == 'AJK' || $item->userdata('type') == 'MI' || $item->userdata('type') == 'DTK' || $item->userdata('type') == 'AP' || $item->userdata('type') == 'IGS')  ) 
+    echo "<th width=170>Revisi Penguji 2</th>";
     echo "<th>JUDUL</th>";
     echo "</tr>";
 
@@ -54,6 +58,31 @@
                 else
                     echo $prop->PENGUJI2;
             echo "</td>";
+            if( ($item->userdata('type')=="dosen") || $item->userdata('type')=='admin' || ($item->userdata('type') == 'KBJ' || $item->userdata('type') == 'KCV' || $item->userdata('type') == 'RPL' || $item->userdata('type') == 'AJK' || $item->userdata('type') == 'MI' || $item->userdata('type') == 'DTK' || $item->userdata('type') == 'AP' || $item->userdata('type') == 'IGS')  ):
+            
+            echo "<td>";
+                    if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP3) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK) :
+                    echo "<a class='thickbox' title='Revisi Tugas Akhir' href='".site_url("jadwalMahasiswa/revisiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP3?TB_iframe=true&height=215&width=640")."'>";
+                    echo "Edit Revisi";
+                    echo "</a>";                
+                    else:
+                        echo "-";
+                    endif;
+                    
+            echo "</td>";
+            endif; 
+            if( ($item->userdata('type')=="dosen") || $item->userdata('type')=='admin' || ($item->userdata('type') == 'KBJ' || $item->userdata('type') == 'KCV' || $item->userdata('type') == 'RPL' || $item->userdata('type') == 'AJK' || $item->userdata('type') == 'MI' || $item->userdata('type') == 'DTK' || $item->userdata('type') == 'AP' || $item->userdata('type') == 'IGS')  ):
+            
+            echo "<td>";
+                    if( ($item->userdata('type')=="dosen" && $item->userdata('nip')==$prop->NIP4) || $item->userdata('type')=='admin' || $item->userdata('type') == $prop->NAMA_KBK) :
+                    echo "<a class='thickbox' title='Revisi Tugas Akhir' href='".site_url("jadwalMahasiswa/revisiTugasAkhir/$prop->ID_PROPOSAL/$prop->NIP4?TB_iframe=true&height=215&width=640")."'>";
+                    echo "Edit Revisi";
+                    echo "</a>";    
+                    else:
+                        echo "-";
+                    endif;
+            echo "</td>";
+            endif; 
             echo "<td>$prop->JUDUL_TA</td>";
             echo "</tr>";
             $i++;

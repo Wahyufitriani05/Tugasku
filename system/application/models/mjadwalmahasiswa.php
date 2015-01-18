@@ -8,6 +8,21 @@ class mjadwalmahasiswa extends Model
         $this->load->database();
     }
 
+    function update_jadwal_mhs($id_jdw_mhs, $revisi, $tipe)
+    {
+        if($tipe==1)
+        {
+            $sql = "
+                UPDATE jadwal_mhs SET revisi1 = '".$revisi."' WHERE id_jdw_mhs = ".$id_jdw_mhs."";
+        }
+        else
+        {
+             $sql = "
+                UPDATE jadwal_mhs SET revisi2 = '".$revisi."' WHERE id_jdw_mhs = ".$id_jdw_mhs."";
+        }
+        $query = $this->db->query($sql);
+    }
+    
     function model_load_model($model_name) 
     {
         $CI =& get_instance();
@@ -248,6 +263,35 @@ class mjadwalmahasiswa extends Model
         return $prop;
     }
 
+    function listProposalBelumMajuSidangNew($id_kbk) 
+    {
+        
+        $sql = "
+            SELECT q1.*, ifnull(count( p.id_proposal ),0) AS BIMBINGAN
+            FROM (
+                SELECT (TO_DAYS(NOW()) - TO_DAYS(p.TGL_SIDANG_PROP)) /30 AS lama, p.* , k.NAMA_KBK , 
+                    d.INISIAL_DOSEN AS INISIAL_PEMBIMBING1, d.NAMA_LENGKAP_DOSEN AS NAMA_PEMBIMBING1, d.NIP2010 AS NIP2010_PEMBIMBING1, 
+                    d2.INISIAL_DOSEN AS INISIAL_PEMBIMBING2, d2.NAMA_LENGKAP_DOSEN AS NAMA_PEMBIMBING2, d2.NIP2010 AS NIP2010_PEMBIMBING2, 
+                    m.NAMA_LENGKAP_MAHASISWA
+                FROM proposal p, kbk k, dosen d, dosen d2, mahasiswa m
+                WHERE p.NRP=m.NRP
+                AND p.PEMBIMBING1=d.NIP
+                AND p.PEMBIMBING2=d2.NIP
+                AND p.ID_KBK=k.ID_KBK
+                AND p.STATUS NOT IN (0,1,11,2,31,32) ";
+        if($id_kbk!=-1)
+                $sql .= " AND k.ID_KBK=$id_kbk ";
+        $sql .= "ORDER BY p.ID_KBK ASC , p.PEMBIMBING1 ASC , p.PEMBIMBING2 ASC
+            )q1 left outer join progress_ta p
+                on p.id_proposal = q1.id_proposal
+                GROUP BY id_proposal
+        "; //WHERE q1.lama < 30
+        $query = $this->db->query($sql);
+        $prop = $query->result();
+
+        return $prop;
+    }
+    
     function jadwalSidangTA($publish=1, $id_proposal, $id_sidangTA, $status_jadwal="", $nip="-1") 
     {
         $this->db->select("jadwal_mhs.*, jadwal_ruangan.DESKRIPSI, 
@@ -426,6 +470,7 @@ class mjadwalmahasiswa extends Model
         return $query->result();
     }
 
+    /*
     function listAvailableDosenPenguji($id_sidangTA, $treeid, $id_kbk, $nip1, $nip2) 
     {
         $sql = "SELECT JA.ID_JDW_AVAIL, JA.ID_SLOT, KD.NIP, JA.STATUS, D.INISIAL_DOSEN, D.NAMA_DOSEN
@@ -445,6 +490,40 @@ class mjadwalmahasiswa extends Model
         $query = $this->db->query($sql);
         return $query->result();
     }
+     * 
+     */
+    
+    
+    
+    function listAvailableDosenPenguji($id_sidangTA, $treeid, $id_kbk, $nip1, $nip2) 
+    {
+        $sql = "
+                select d.*, ifnull(sum(sum.jumlah),0) as jumlahPenguji from (
+                Select d.*, ifnull(sum(sum.jumlah),0) as jumlahBimbingan from       
+                (SELECT JA.ID_JDW_AVAIL, JA.ID_SLOT, KD.NIP, JA.STATUS, D.INISIAL_DOSEN, D.NAMA_DOSEN
+                FROM jadwal_availability JA, kbk_dosen KD, dosen D
+                WHERE KD.NIP = JA.NIP
+                AND KD.NIP = D.NIP
+                AND KD.ID_KBK = '$id_kbk'
+                AND JA.SIDANGTA = '$id_sidangTA'
+                AND JA.ID_SLOT = '$treeid'
+                AND JA.STATUS = '0'
+                AND D.STATUS_DOSEN = 2 
+                AND (
+                KD.NIP <> '$nip1'
+                AND KD.NIP <> '$nip2'
+                )
+                ORDER BY JA.ID_SLOT, KD.NIP) d left outer join (
+                    SELECT NIP1, count(id_jdw_mhs) as jumlah FROM `jadwal_mhs` where sidangTA = $id_sidangTA group by NIP1 union
+                    SELECT NIP2, count(id_jdw_mhs) as jumlah FROM `jadwal_mhs` where sidangTA = $id_sidangTA group by NIP2 ) sum
+                    on sum.NIP1 = d.nip group by d.nip) d left outer join (
+                    SELECT NIP3, count(id_jdw_mhs) as jumlah FROM `jadwal_mhs` where sidangTA = $id_sidangTA group by NIP3 union
+                    SELECT NIP4, count(id_jdw_mhs) as jumlah FROM `jadwal_mhs` where sidangTA = $id_sidangTA group by NIP4 ) sum
+                    on sum.NIP3 = d.nip group by d.nip";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
     
     function listAvailableDosenNew($id_sidangTA, $treeid, $id_kbk) 
     {

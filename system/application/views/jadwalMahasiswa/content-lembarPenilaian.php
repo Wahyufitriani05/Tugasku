@@ -195,7 +195,8 @@
                 <input type="submit" value="Simpan" class="btn btn-primary" id="simpan" onclick="document.forms["form-penilaian"].submit();">
                         <?php }?>
                 <!-- <button type="button" class="btn btn-primary" onclick="document.forms["form-penilaian"].submit();">Simpan</button> -->
-                <button type="button" class="btn btn-default" onclick="printDiv();">Cetak</button>
+                <button type="button" class="btn btn-default" onclick="printDiv();">Cetak</button>                
+                 
                 
                 
             </div>

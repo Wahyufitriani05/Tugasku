@@ -12,7 +12,7 @@
     <?php
     foreach ($list_dosen_free as $dosen) {
         ?>
-        <input type=checkbox class="pengujiselect" name=nipx_<?php echo $dosen->ID_JDW_AVAIL?>_<?php echo $dosen->NIP?>> &nbsp; <?php echo $dosen->NAMA_DOSEN?>&nbsp;(<?php echo $dosen->NIP?>)<BR>
+        <input type=checkbox class="pengujiselect" name=nipx_<?php echo $dosen->ID_JDW_AVAIL?>_<?php echo $dosen->NIP?>> &nbsp; <?php echo $dosen->NAMA_DOSEN?>&nbsp;(<?php echo $dosen->NIP?>) <?php echo " (".$dosen->jumlahBimbingan."/".$dosen->jumlahPenguji.")"; ?><BR/>
         <?php
     }
     ?>

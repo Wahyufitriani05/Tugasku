@@ -317,7 +317,57 @@ class jadwalMahasiswa extends Controller
 
         $this->load->view('jadwalMahasiswa/content-lembarPenilaian', $data);
     }
+    
+    function revisiTugasAkhir($id_proposal, $nip)
+    {
+        $this->lib_user->cek_admin_dosen_kbk();
+        
+        $data['title'] = "Revisi Tugas Akhir";
 
+        $id_sidangTA = $this->msidang->getIDSidangTAAktif();
+
+        $proposal = $this->mjadwalmahasiswa->listProposalMajuSidang2($id_sidangTA,'-1','-1',$id_proposal);
+        
+        $data['proposal'] = $proposal[0];
+        
+        if($proposal[0]->NIP3 == $nip)
+        {
+            $data['revisi'] = $proposal[0]->Revisi1;
+            $data['nip'] = $nip;
+        }
+        else if($proposal[0]->NIP4 == $nip)
+        {
+            $data['revisi'] = $proposal[0]->Revisi2;
+            $data['nip'] = $nip;
+        }
+        
+        $this->load->view('jadwalMahasiswa/entryRevisiTA',$data);
+        
+    }
+
+    function updateRevisiTA()
+    {
+        
+        $revisi = $this->input->post('revisi');
+        
+        $jadwalmahasiswa = $this->mjadwalmahasiswa->getJadwalMahasiswa($this->input->post('id_jdw_mhs'));
+        
+        $nip = $this->input->post('nip');
+        
+        if($jadwalmahasiswa->NIP3 == $nip)
+        {
+            $tipe = 1;
+        }
+        else if($jadwalmahasiswa->NIP4 == $nip)
+        {
+            $tipe = 2;
+        }
+        
+        $this->mjadwalmahasiswa->update_jadwal_mhs($this->input->post('id_jdw_mhs'),$revisi, $tipe);
+        
+        redirect(base_url().'index.php/jadwalMahasiswa/revisiTugasAkhir/'.$this->input->post('id_proposal').'/'.$nip);
+    }
+    
     function masukkanNilai() {
         $id_proposal = $this->input->post('id_proposal');
         $nilai1 = $this->input->post('nilai1');
@@ -524,7 +574,8 @@ class jadwalMahasiswa extends Controller
 
         $id_kbk = $this->filterKBK();
 
-        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalBelumMajuSidang($id_kbk);
+        //echo $id_kbk;
+        $data['list_proposal'] = $this->mjadwalmahasiswa->listProposalBelumMajuSidangNew($id_kbk);
 
         $data['list_status'] = $this->lib_tugas_akhir->list_status();
 
@@ -1176,7 +1227,7 @@ class jadwalMahasiswa extends Controller
 
 
 
-        $this->mjadwalmahasiswa->backup($id_jdw_mhs);
+        //$this->mjadwalmahasiswa->backup($id_jdw_mhs);
 
 
 
@@ -2072,6 +2123,7 @@ class jadwalMahasiswa extends Controller
             $avail_nip2 = $this->mjadwalmahasiswa->idJadwalAvailDosen($id_sidangTA, $treeid, $id_kbk, $nip_pemb2);
 
             $list_dosen_free = $this->mjadwalmahasiswa->listAvailableDosenPenguji($id_sidangTA, $treeid, $id_kbk, $nip_pemb1, $nip_pemb2);
+
 
 
 
