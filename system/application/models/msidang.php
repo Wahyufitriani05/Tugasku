@@ -275,6 +275,29 @@ class msidang extends Model
         return $query->result();
     }
     
+    function getListProposalMajuSidangTA($id_kbk, $id_sid_prop="", $offset="", $jumlah_per_page="") 
+    {
+        $mdosen = $this->model_load_model('mdosen');
+        $sql = "SELECT pr.ID_PROPOSAL , pr.SPROP, pr.JUDUL_TA, pr.NRP, mhs.NAMA_LENGKAP_MAHASISWA, pr.STATUS, ds1.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds2.NAMA_LENGKAP_DOSEN as PEMBIMBING2
+                FROM proposal pr, mahasiswa mhs, dosen ds1, dosen ds2
+                WHERE  mhs.NRP = pr.NRP
+                AND ds1.NIP = pr.PEMBIMBING1
+                AND ds2.NIP = pr.PEMBIMBING2
+                AND pr.ID_KBK = '".$this->db->escape_like_str($id_kbk)."'
+                AND (pr.STATUS = '0' OR pr.STATUS = '1' OR pr.STATUS = '11' OR pr.STATUS = '12')";
+        if(! empty ($id_sid_prop))
+            $sql .= " AND pr.SPROP = '".$this->db->escape_like_str($id_sid_prop)."'";
+        else
+            $sql .= " AND (pr.SPROP IS NULL OR pr.SPROP = '')"; 
+        $sql .= " ORDER BY pr.ID_PROPOSAL asc, pr.STATUS desc";
+//        if($jumlah_per_page!="") {
+//            $end_row = $offset + $jumlah_per_page - 1;
+//            $sql = $sql." LIMIT $offset, $jumlah_per_page";
+//        }
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
     function getListProposalMajuSidangProp_Darurat($id_kbk, $id_sid_prop="", $offset="", $jumlah_per_page="", $tgl_sidprop="") 
     {
         $mdosen = $this->model_load_model('mdosen');

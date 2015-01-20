@@ -12,6 +12,7 @@ class Sidang extends MY_Controller
         $this->load->model('msidang');
         $this->load->model('mproposal');
         $this->load->model('mslot');        
+        $this->load->model('mjadwalmahasiswa');        
     }
 
     function index() 
@@ -153,6 +154,51 @@ class Sidang extends MY_Controller
         $this->load->view('template', $data);
     }
 
+    function pendaftaranSidangTA() 
+    {
+        if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true) 
+        {}
+        else
+        {
+            $this->lib_alert->error("Halaman ini hanya bisa dilihat oleh Administrator atau Administrator KBK");
+            redirect ("error/index");
+        }
+        
+        $data['title'] = "Pendaftaran Maju Sidang TA";
+        $data['js_menu'] = $this->lib_user->get_javascript_menu();
+        $data['header'] = $this->lib_user->get_header();
+        $data['content'] = "sidang/content-pendaftaranSidangTA";
+        
+        $arr_kbk['KBJ'] = 1;
+        $arr_kbk['KCV'] = 2;
+        $arr_kbk['RPL'] = 3;
+        $arr_kbk['AJK'] = 4;
+        $arr_kbk['MI'] = 5;
+        $arr_kbk['DTK'] = 6;
+        $arr_kbk['AP'] = 7;
+        $arr_kbk['IGS'] = 8;
+
+        if($this->lib_user->is_admin_kbk() == true) 
+        {
+            $id_kbk = $arr_kbk[$this->session->userdata('type')];
+            $daftar_kbk = $this->mdosen->listKBK("", $id_kbk);
+            $this->session->set_userdata('kbk', $id_kbk);
+        } 
+        else 
+        {
+            $id_kbk = $this->filterKBK();
+            $daftar_kbk = $this->mdosen->listKBK();
+            //array_pop($daftar_kbk); // hapus array urutan pertama
+        }
+        
+        // list TA yang akan maju sidang proposal
+        $data['listTA'] = $this->mjadwalmahasiswa->listProposalBelumMajuSidangNew($id_kbk);
+        $data['status'] = $this->lib_tugas_akhir->list_status(array('13'));
+        $data['kbk'] = $daftar_kbk;
+        $data['list_sidangTA'] = $this->msidang->jadwalSidangTA();
+        $this->load->view('template', $data);
+    }
+    
     function daftarSidangProposal($id_proposal="", $id_sidprop='') 
     {
         if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true)
@@ -166,6 +212,42 @@ class Sidang extends MY_Controller
                         'SPROP' => $id_sidprop
                     );
                     $this->mproposal->update($data, $id_proposal);
+                    // tampilkan icon penanda update sukses
+                    echo " &nbsp; <img src='".base_url()."assets/images/updated.png'>";
+                } 
+                else 
+                {
+                    echo " &nbsp; <img src='".base_url()."assets/images/failed.png'>";
+                }
+            } 
+            else 
+            {
+                echo " &nbsp; <img src='".base_url()."assets/images/failed.png'>";
+            }
+        } 
+        else 
+        {
+            echo " &nbsp; <img src='".base_url()."assets/images/failed.png'>";
+        }
+    }
+    
+    function daftarSidangTA($id_proposal="", $id_sidta='') 
+    {
+        if($this->lib_user->is_admin() == true || $this->lib_user->is_admin_kbk() == true)
+        {
+            if($this->mproposal->cek($id_proposal)) 
+            {
+                if($this->msidang->cekSidangTA($id_sidta)) 
+                {
+                    
+                    $data = array(
+                        'STATUS' => '3',
+                        'STA' => $id_sidta
+                    );
+                      
+                     
+                    $this->mproposal->update($data, $id_proposal);
+                    
                     // tampilkan icon penanda update sukses
                     echo " &nbsp; <img src='".base_url()."assets/images/updated.png'>";
                 } 

@@ -69,6 +69,18 @@ var global_navigation_data = [
 
           {
 
+            "link": site_url+"sidang/pendaftaranSidangProposal",
+
+            "image": "events",
+
+            "title": "Pendaftaran Sidang Proposal",
+
+            "desc": "Pendaftaran Sidang Proposal"
+
+          },
+          
+          {
+
             "link": site_url+"sidang/sidangProposal",
 
             "image": "events",
@@ -76,6 +88,18 @@ var global_navigation_data = [
             "title": "Sidang Proposal",
 
             "desc": "Melihat Jadwal Sidang Proposal"
+
+          },
+          
+          {
+
+            "link": site_url+"sidang/pendaftaranSidangTA",
+
+            "image": "events",
+
+            "title": "Pendaftaran Sidang TA",
+
+            "desc": "Pendaftaran Sidang TA"
 
           },
 
@@ -89,19 +113,11 @@ var global_navigation_data = [
 
             "desc": "Melihat Jadwal Sidang TA"
 
-          },
-
-          {
-
-            "link": site_url+"sidang/pendaftaranSidangProposal",
-
-            "image": "events",
-
-            "title": "Pendaftaran Sidang Proposal",
-
-            "desc": "Pendaftaran Sidang Proposal"
-
           }
+
+          
+          
+          
 
         ]
 
