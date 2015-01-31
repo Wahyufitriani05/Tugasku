@@ -189,6 +189,11 @@ class mproposal extends Model
                 $smstr = substr($tahun, 5, 1);                    
                 $year = substr($tahun, 0, 4);       
             }
+            else
+            {
+                $smstr = "";
+            }
+            
             $sql = "
                 SELECT pr.ID_PROPOSAL, pr.JUDUL_TA, pr.STATUS, kbk.NAMA_KBK, mhs.NRP, mhs.NAMA_LENGKAP_MAHASISWA, ds1.NAMA_LENGKAP_DOSEN as PEMBIMBING1, ds2.NAMA_LENGKAP_DOSEN as PEMBIMBING2
                 FROM proposal pr 
@@ -201,9 +206,9 @@ class mproposal extends Model
                 $sql .= " and year(sp.WAKTU) = '$year' ";
             }
             
-            if($smstr==2)
+            if($smstr==2 && $smstr != "")
                 $sql .= " and month(sp.WAKTU) < 9 ";
-            else
+            else if($smstr!="")
                 $sql .= " and month(sp.WAKTU) >= 9 ";
       
             

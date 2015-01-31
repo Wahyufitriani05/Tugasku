@@ -46,7 +46,7 @@
                 echo "<option value='".$sidangTA->ID_SIDANG_TA."' $tanda2>".$sidangTA->KET_SIDANG_TA."</option>";
             }
             echo "</select>";
-            echo "</td>";
+            echo "<span id='flag_$row->ID_PROPOSAL'></span></td>";
             echo "</tr>";
             $i++;
         }

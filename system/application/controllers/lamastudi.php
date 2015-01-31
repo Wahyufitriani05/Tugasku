@@ -304,6 +304,10 @@ class Lamastudi extends Controller
         $data['header'] = $this->lib_user->get_header();
         $data['content'] = "lamastudi/content-detailMahasiswa";
         $data['listTA'] = $this->mproposal->getListTANew($nip, $tahun, $tipe, $rmk);
+        $data['tahun'] = $tahun;
+        
+        $data['rmk'] = $rmk;
+        $data['nama'] = $nama;
         //var_dump($data['listTA']);
         $this->load->view('template', $data);
         
