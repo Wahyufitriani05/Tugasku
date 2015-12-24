@@ -85,8 +85,9 @@ class Ruang extends Controller
         $A = 0;
         $ruang = array
               (                  
-                  "Laboratorium AJK",
+                  
                   "Laboratorium AP",
+                  "Laboratorium AJK",
                   "Laboratorium DTK",
                   "Laboratorium IGS",
                   "Laboratorium KBJ",
@@ -103,14 +104,16 @@ class Ruang extends Controller
             //if($j==9)break;
 
             $data_entry_ruangsidang = array(
-                'ID_JDW_RUANG' => $id_jdw_ruang++,
+                'ID_JDW_RUANG' => $id_jdw_ruang,
                 'DESKRIPSI' => $ruang[$i],
                 'SIDANGTA' => $this->db->escape_like_str($id_sidangTA)
             );
             $this->mruang->add($data_entry_ruangsidang);
+            
             $this->setSemuaSlotAvailable($id_sidangTA, $id_jdw_ruang);
             $this->setDefaultRuangKBKAssignment($id_sidangTA, $id_jdw_ruang, "0");
             $j++;
+            $id_jdw_ruang++;
         }
         $this->lib_alert->success("Penambahan ruangan berhasil");
         //redirect("ruang/ruangSidangAjaxRequest/$id_sidangTA/");
@@ -184,7 +187,7 @@ class Ruang extends Controller
             {
                 $this->setSemuaSlotAvailable($id_sidangTA, $id_jdw_ruang);
                 $this->setDefaultRuangKBKAssignment($id_sidangTA, $id_jdw_ruang, "0");
-                $nama_ruang = $this->mruang->field("DESKRIPSI");
+                $nama_ruang = $this->mruang->field("DESKRIPSI", $id_jdw_ruang);
                 echo "<div class='success'>Update ruang dan slot <strong>'$nama_ruang'</strong> berhasil</div>";
             } 
             else 
