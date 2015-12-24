@@ -85,9 +85,8 @@ class Ruang extends Controller
         $A = 0;
         $ruang = array
               (                  
-                  
-                  "Laboratorium AP",
                   "Laboratorium AJK",
+                  "Laboratorium AP",                  
                   "Laboratorium DTK",
                   "Laboratorium IGS",
                   "Laboratorium KBJ",
